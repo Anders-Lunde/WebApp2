@@ -1,29 +1,23 @@
 <template>
   <div class="question-area">
-    <div class="left-area">
-      <div
-        class="character-area"
-        v-bind:class="{ selectedCharacter: items[ii].userAnswer==='left' }"
-      >
+    <div class="left-area" :class="{run_animation: animateLeft===true}">
+      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
         <div class="char-img left" @click="recordAnswer('left')">
-          <img v-bind:src="imgLeft" />
+          <img :src="imgLeft" />
         </div>
       </div>
     </div>
 
     <div class="middle-area">
       <div class="middle-img">
-        <img v-bind:src="items[ii].img" />
+        <img :src="items[ii].img" />
       </div>
     </div>
 
-    <div class="right-area">
-      <div
-        class="character-area"
-        v-bind:class="{ selectedCharacter: items[ii].userAnswer==='right' }"
-      >
+    <div class="right-area" :class="{run_animation: animateRight===true}">
+      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
         <div class="char-img right" @click="recordAnswer('right')">
-          <img v-bind:src="imgRight" />
+          <img :src="imgRight" />
         </div>
       </div>
     </div>
@@ -70,6 +64,8 @@ export default Vue.extend({
   props: {},
   data() {
     return {
+      animateRight: false,
+      animateLeft: false,
       imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
       imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png")
     };
@@ -82,26 +78,52 @@ export default Vue.extend({
     decrementII: function() {
       this.$store.commit("decrementII");
     },
-    //setII: function () {
-    //  this.$store.commit("setII", payload)
-    //}
     recordAnswer: function(userAnswer: object) {
       this.$store.commit("recordAnswer", { userAnswer: userAnswer });
     },
     playAudio: function(fileName: object) {
-      //const a = this.items[this.ii].audioRight;
-      //const myTrack = new Audio(
-      //  require("@/assets/morfologi/epi_inflectional/1r.mp3")
-      //);
-      //myTrack.play;
-      console.log("asd2", fileName);
-      //this.$store.dispatch("playAudio", { fileName: fileName });
+      /*
+      Plays left first, then play right. Animate character while playing.
+      */
+      const audioLeft = new Audio(this.items[this.ii].audioLeft);
+      const audioRight = new Audio(this.items[this.ii].audioRight);
+      //Setup to animate start/stop during playback
+      audioLeft.addEventListener("ended", () => {
+        this.animateLeft = false;
+      });
+      audioRight.addEventListener("ended", () => {
+        this.animateRight = false;
+      });
+      audioLeft.addEventListener("play", () => {
+        this.animateLeft = true;
+      });
+      audioRight.addEventListener("play", () => {
+        this.animateRight = true;
+      });
+      //Setup playback order
+      audioLeft.addEventListener("ended", () => {
+        audioRight.play();
+      });
+      audioLeft.play();
     }
   }
 });
 </script>
 
 <style scoped>
+.run_animation {
+  animation: action 0.1s infinite alternate;
+}
+
+@keyframes action {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
 .char-img > * {
   height: 100%;
   width: 100%;
