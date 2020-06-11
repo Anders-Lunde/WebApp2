@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <Header />
-
     <Screen1 v-if="items[ii].type === 'Screen1'" />
     <Screen2 v-if="items[ii].type === 'Screen2'" />
     <Screen3 v-if="items[ii].type === 'Screen3'" />
