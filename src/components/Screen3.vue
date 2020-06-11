@@ -48,16 +48,7 @@
 
     <div class="button audio-button" @click="playAudio('1r.mp3')"></div>
 
-    <div
-      v-if="items[ii].userAnswer!==null"
-      class="button goto-next-button"
-      @click="recordAnswer('right')"
-    ></div>
-
-    <audio id="audio"></audio>
-    <audio controls>
-      <source v-bind:src="audioTest" type="audio/mpeg" />Your browser does not support the audio element.
-    </audio>
+    <div v-if="items[ii].userAnswer!==null" class="button goto-next-button" @click="incrementII"></div>
   </div>
 </template>
 
@@ -80,8 +71,7 @@ export default Vue.extend({
   data() {
     return {
       imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
-      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
-      audioTest: require("@/assets/morfologi/epi_inflectional/1r.mp3")
+      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png")
     };
   },
 
@@ -100,11 +90,11 @@ export default Vue.extend({
     },
     playAudio: function(fileName: object) {
       //const a = this.items[this.ii].audioRight;
-      const myTrack = new Audio(
-        require("@/assets/morfologi/epi_inflectional/1r.mp3")
-      );
-      myTrack.play;
-      console.log("asd2");
+      //const myTrack = new Audio(
+      //  require("@/assets/morfologi/epi_inflectional/1r.mp3")
+      //);
+      //myTrack.play;
+      console.log("asd2", fileName);
       //this.$store.dispatch("playAudio", { fileName: fileName });
     }
   }

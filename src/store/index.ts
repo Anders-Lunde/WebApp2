@@ -31,6 +31,15 @@ export default new Vuex.Store({
         userAnswer: null,
       },
       {
+        id: 0,
+        type: "Screen1",
+        question: "Hvem er president Randy?",
+        answer: "Venstre",
+        imgLeft: require("@/assets/left.jpg"),
+        imgRight: require("@/assets/right.jpg"),
+        userAnswer: null,
+      },
+      {
         id: 1,
         type: "Screen1",
         question: "Hvem er president i USA?",
@@ -53,15 +62,6 @@ export default new Vuex.Store({
         type: "Screen2",
         imgLeft: require("@/assets/3l.png"),
         imgRight: require("@/assets/3r.png"),
-        userAnswer: null,
-      },
-      {
-        id: 4,
-        type: "Screen1",
-        question: "Hvem er statsminister i Norge?",
-        answer: "Erna Solberg",
-        imgLeft: require("@/assets/0l.png"),
-        imgRight: require("@/assets/0r.png"),
         userAnswer: null,
       },
     ],
@@ -90,7 +90,7 @@ export default new Vuex.Store({
   },
   actions: {
     playAudio: ({ commit, state }, payload) => {
-      console.log("asd");
+      console.log(commit, state, payload); //To supress linting warnings of unused variables
     },
   },
   modules: {},
