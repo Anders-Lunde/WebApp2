@@ -2,7 +2,7 @@
   <div class="question-area">
     <div class="left-area" :class="{run_animation: animateLeft===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
-        <div class="char-img left" @click="recordAnswer('left')">
+        <div class="char-img left" @click="characterSelected('left')">
           <img :src="imgLeft" />
         </div>
       </div>
@@ -16,7 +16,7 @@
 
     <div class="right-area" :class="{run_animation: animateRight===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
-        <div class="char-img right" @click="recordAnswer('right')">
+        <div class="char-img right" @click="characterSelected('right')">
           <img :src="imgRight" />
         </div>
       </div>
@@ -40,7 +40,16 @@
       <div class="wrong" v-else>FEIL!</div>
     </div>
 
-    <div class="button audio-button" @click="playAudio('1r.mp3')"></div>
+    <div class="narrator-container" v-if="editMode===false">
+      <div class="narrator-img still" v-if="animateNarrator===false">
+        <img :src="narratorImageStill" />
+      </div>
+      <div class="narrator-img animated" v-if="animateNarrator===true">
+        <img :src="narratorImageAnimated" />
+      </div>
+    </div>
+
+    <div class="button audio-button" @click="playAudio()"></div>
 
     <div v-if="items[ii].userAnswer!==null" class="button goto-next-button" @click="incrementII"></div>
   </div>
@@ -52,22 +61,17 @@ import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "Screen3",
-  computed: mapGetters([
-    "ii",
-    "items",
-    "editMode",
-    "sentenceRight",
-    "sentenceLeft",
-    "answerKey"
-  ]),
-
+  computed: mapGetters(["ii", "items", "editMode"]),
   props: {},
   data() {
     return {
       animateRight: false,
       animateLeft: false,
+      animateNarrator: false,
       imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
-      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png")
+      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
+      narratorImageStill: require("@/assets/narratorImageStill.png"),
+      narratorImageAnimated: require("@/assets/narratorImageAnimated.gif")
     };
   },
 
@@ -78,16 +82,67 @@ export default Vue.extend({
     decrementII: function() {
       this.$store.commit("decrementII");
     },
-    recordAnswer: function(userAnswer: object) {
+    characterSelected: function(userAnswer: object) {
+      //Save answer to store ("left" or "right")
       this.$store.commit("recordAnswer", { userAnswer: userAnswer });
+      //If practice screen, play audio feedback based on answer
+      if (this.items[this.ii].isPractice === true) {
+        //TODO: make cleaner. start/stop is repeated elsewher
+        if (this.items[this.ii].answerKey === userAnswer) {
+          const audio = new Audio(this.items[this.ii].feedbackCorrect);
+          audio.addEventListener("ended", () => {
+            this.animateNarrator = false;
+          });
+          audio.addEventListener("play", () => {
+            this.animateNarrator = true;
+          });
+          audio.play();
+        } else {
+          const audio = new Audio(this.items[this.ii].feedbackWrong);
+
+          audio.addEventListener("ended", () => {
+            this.animateNarrator = false;
+          });
+          audio.addEventListener("play", () => {
+            this.animateNarrator = true;
+          });
+          audio.play();
+        }
+      }
     },
-    playAudio: function(fileName: object) {
+    playAudio: function() {
+      //Inactivate button during audio playback.
+      if (this.animateLeft || this.animateRight) {
+        return;
+      }
+      //Max 2 replays, except during edit mode.
+      if (this.editMode === false) {
+        if (this.items[this.ii].nPlaybackTimes >= 5) {
+          return;
+        }
+        this.items[this.ii].nPlaybackTimes++;
+      }
+
       /*
-      Plays left first, then play right. Animate character while playing.
+      Narrator audio and animation. Animate character during playback.
+      Only runs if isInstruction === true.
+      */
+      const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
+      //Setup animation start/stop during playback
+      instructionAudio.addEventListener("ended", () => {
+        this.animateNarrator = false;
+      });
+      instructionAudio.addEventListener("play", () => {
+        this.animateNarrator = true;
+      });
+
+      /*
+      Characters audio and animation. 
+      Plays left first, then right. Animate character during playback.
       */
       const audioLeft = new Audio(this.items[this.ii].audioLeft);
       const audioRight = new Audio(this.items[this.ii].audioRight);
-      //Setup to animate start/stop during playback
+      //Setup animation start/stop during playback
       audioLeft.addEventListener("ended", () => {
         this.animateLeft = false;
       });
@@ -102,31 +157,27 @@ export default Vue.extend({
       });
       //Setup playback order
       audioLeft.addEventListener("ended", () => {
-        audioRight.play();
+        audioRight.play(); //Start right character sound/animation after left ended
       });
-      audioLeft.play();
+      instructionAudio.addEventListener("ended", () => {
+        audioLeft.play(); //Start left character sound/animation after narrator ended
+      });
+      //Excecute playback
+      if (this.items[this.ii].isInstruction === true) {
+        instructionAudio.play();
+      } else {
+        audioLeft.play();
+      }
     }
   }
 });
 </script>
 
 <style scoped>
-.run_animation {
-  animation: action 0.1s infinite alternate;
-}
-
-@keyframes action {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
-}
-
 .char-img > * {
   height: 100%;
   width: 100%;
+  cursor: pointer;
 }
 
 .question-area {
@@ -161,6 +212,18 @@ export default Vue.extend({
 .middle-img > img {
   height: 100%;
   width: 100%;
+}
+
+.narrator-img > * {
+  height: 100%;
+  width: 100%;
+}
+
+.narrator-container {
+  margin: 1%;
+  align-self: start;
+  grid-row: 1/1;
+  grid-column: 3/4;
 }
 
 .character-area.selectedCharacter {
@@ -225,5 +288,18 @@ export default Vue.extend({
   background: url("~@/assets/arrow-right.png") no-repeat center;
   background-size: cover;
   justify-self: end;
+}
+
+.run_animation {
+  animation: character-animation 0.1s infinite alternate;
+}
+
+@keyframes character-animation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
 }
 </style>
