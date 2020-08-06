@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
+      <router-link to="/morfologi">Morfologi</router-link>|
+      <router-link to="/ordforraad">Ordforraad</router-link>
     </div>
     <router-view />
   </div>
@@ -17,7 +18,7 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 0.1rem;
   text-align: center;
 }
 

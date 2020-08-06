@@ -1,16 +1,19 @@
 <template>
-  <div class="home">
-    <h1>Home :)</h1>
+  <div class="ordforraad">
+    <WrapperOrdforraad />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Vue from "vue";
+import WrapperOrdforraad from "@/components/Ordforraad/WrapperOrdforraad.vue";
 
 export default Vue.extend({
-  name: "Home",
-  components: {},
+  name: "Ordforraad",
+  components: {
+    WrapperOrdforraad
+  },
   computed: {},
   props: {},
   data() {

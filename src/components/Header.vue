@@ -1,48 +1,39 @@
 <template>
   <div class="container">
-    <div class="heading">
-      <h3>Screen type: {{items[ii].type}}</h3>
-      <div>ii = {{ii }}, editMode = {{editMode}}, item = {{items[ii]}}</div>
+    <h3>Screen type: {{moduleState.items[moduleState.ii].type}}</h3>
+    <div>
+      <ul>
+        <li>ii = {{moduleState.ii}}</li>
+        <li>editMode = {{moduleState.editMode}}</li>
+      </ul>
+      <h4>Item content:</h4>
+      <ul>
+        <li v-for="(value, name) in moduleState.items[moduleState.ii]" v-bind:key="name">
+          <b>{{ name }}:</b>
+          {{ value }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "Header",
-  computed: mapGetters(["ii", "items", "editMode"]),
+  computed: {},
 
-  props: {},
+  props: ["moduleState"],
   data() {
     return {};
   },
-
-  methods: {
-    incrementII: function() {
-      this.$store.commit("incrementII");
-    },
-    decrementII: function() {
-      this.$store.commit("decrementII");
-    },
-    //setII: function () {
-    //  this.$store.commit("setII", payload)
-    //}
-    recordAnswer: function(userAnswer: object) {
-      this.$store.commit("recordAnswer", { userAnswer: userAnswer });
-    }
-  }
+  methods: {}
 });
 </script>
 
 <style scoped>
 .container {
   background-color: pink;
-}
-
-.heading {
-  text-align: center;
 }
 </style>

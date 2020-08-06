@@ -11,32 +11,25 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapGetters } from "vuex";
 
 export default Vue.extend({
   name: "Footer",
-  computed: mapGetters(["ii", "items"]),
+  computed: {},
 
-  props: {},
+  props: ["moduleState"],
   data() {
     return {};
   },
 
   methods: {
     incrementII: function() {
-      this.$store.commit("incrementII");
+      this.moduleState.ii++;
     },
     decrementII: function() {
-      this.$store.commit("decrementII");
+      this.moduleState.ii--;
     },
     toggleEditMode: function() {
-      this.$store.commit("toggleEditMode");
-    },
-    //setII: function () {
-    //  this.$store.commit("setII", payload)
-    //}
-    recordAnswer: function(userAnswer: object) {
-      this.$store.commit("recordAnswer", { userAnswer: userAnswer });
+      this.moduleState.editMode = !this.moduleState.editMode;
     }
   }
 });

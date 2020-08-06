@@ -41,8 +41,8 @@ export default Vue.extend({
     //}
     recordAnswer: function(userAnswer: object) {
       this.$store.commit("recordAnswer", { userAnswer: userAnswer });
-    },
-  },
+    }
+  }
 });
 </script>
 
