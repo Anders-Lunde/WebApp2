@@ -2,7 +2,6 @@
   <div>
     <!-- Set module namespace here-->
     <Header v-bind:moduleState="this.$store.state.morfologi" />
-
     <Screen1 v-if="items[ii].type === 'Screen1'" />
     <Screen2 v-if="items[ii].type === 'Screen2'" />
     <EpiInflectional v-if="items[ii].type === 'EpiInflectional'" />

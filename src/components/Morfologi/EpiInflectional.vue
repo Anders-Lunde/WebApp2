@@ -49,20 +49,32 @@
       </div>
     </div>
 
-    <div class="button audio-button" @click="playAudio()"></div>
+    <div class="button audio-button" @click="playAudio()">
+      <BtnAudio />
+    </div>
 
-    <div v-if="items[ii].userAnswer!==null" class="button goto-next-button" @click="gotoNextButton"></div>
+    <div v-if="items[ii].userAnswer!==null" class="button goto-next-button">
+      <div @click="gotoNextButton">
+        <BtnGotoNext />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { createNamespacedHelpers } from "vuex";
+import BtnAudio from "@/components/BtnAudio.vue";
+import BtnGotoNext from "@/components/BtnGotoNext.vue";
 
 const { mapGetters, mapMutations } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
   name: "EpiInflectional",
+  components: {
+    BtnAudio,
+    BtnGotoNext
+  },
   computed: mapGetters(["ii", "items", "editMode"]),
   props: {},
   data() {
@@ -317,25 +329,15 @@ export default Vue.extend({
 }
 
 .button {
-  height: 2.5rem;
-  width: 2.5rem;
-  cursor: pointer;
-  padding: 0.6rem 0.6rem;
   grid-row: 3;
   grid-column: 2/3;
 }
 
 .button.audio-button {
-  background: url("~@/assets/speaker.png") no-repeat center;
-  background-size: cover;
   justify-self: center;
-  border-radius: 1rem;
-  border: 0.1rem solid black;
 }
 
 .button.goto-next-button {
-  background: url("~@/assets/arrow-right.png") no-repeat center;
-  background-size: cover;
   justify-self: end;
 }
 
