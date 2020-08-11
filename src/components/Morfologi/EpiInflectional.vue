@@ -22,16 +22,22 @@
       </div>
     </div>
 
-    <div class="answer-key left" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='left'" style="color:#00FF00">RIKTIG SVAR:</div>
-      <div v-else style="color:#FF0000">FEIL SVAR:</div>
-      <div>{{items[ii].sentenceLeft}}</div>
+    <div class="option-label-left" v-if="editMode===true">
+      <div v-if="items[ii].answerKey==='left'">
+        <EditModeOptionLabelCorrect :label-text="items[ii].sentenceLeft" />
+      </div>
+      <div v-else>
+        <EditModeOptionLabelWrong :label-text="items[ii].sentenceLeft" />
+      </div>
     </div>
 
-    <div class="answer-key right" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='right'" style="color:#00FF00">RIKTIG SVAR:</div>
-      <div v-else style="color:#FF0000">FEIL SVAR:</div>
-      <div>{{items[ii].sentenceRight}}</div>
+    <div class="option-label-right" v-if="editMode===true">
+      <div v-if="items[ii].answerKey==='right'">
+        <EditModeOptionLabelCorrect :label-text="items[ii].sentenceRight" />
+      </div>
+      <div v-else>
+        <EditModeOptionLabelWrong :label-text="items[ii].sentenceRight" />
+      </div>
     </div>
 
     <div class="score-indicator" v-if="editMode===true">
@@ -40,22 +46,22 @@
       <div class="wrong" v-else>FEIL!</div>
     </div>
 
-    <div class="narrator-container" v-if="editMode===false && items[ii].isPractice===true">
-      <div class="narrator-img still" v-if="animateNarrator===false">
-        <img :src="narratorImageStill" />
+    <div class="narrator" v-if="editMode===false && items[ii].isPractice===true">
+      <div v-show="animateNarrator===false">
+        <Narrator1Static />
       </div>
-      <div class="narrator-img animated" v-if="animateNarrator===true">
-        <img :src="narratorImageAnimated" />
+      <div v-show="animateNarrator===true">
+        <Narrator1Animated />
       </div>
     </div>
 
     <div class="button audio-button" @click="playAudio()">
-      <BtnAudio />
+      <ButtonAudioPlay />
     </div>
 
-    <div v-if="items[ii].userAnswer!==null" class="button goto-next-button">
+    <div v-show="items[ii].userAnswer!==null" class="button goto-next-button">
       <div @click="gotoNextButton">
-        <BtnGotoNext />
+        <ButtonGotoNext />
       </div>
     </div>
   </div>
@@ -64,16 +70,24 @@
 <script lang="ts">
 import Vue from "vue";
 import { createNamespacedHelpers } from "vuex";
-import BtnAudio from "@/components/BtnAudio.vue";
-import BtnGotoNext from "@/components/BtnGotoNext.vue";
+import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
+import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
+import Narrator1Static from "@/components/Narrator1Static.vue";
+import Narrator1Animated from "@/components/Narrator1Animated.vue";
+import EditModeOptionLabelCorrect from "@/components/EditModeOptionLabelCorrect.vue";
+import EditModeOptionLabelWrong from "@/components/EditModeOptionLabelWrong.vue";
 
 const { mapGetters, mapMutations } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
   name: "EpiInflectional",
   components: {
-    BtnAudio,
-    BtnGotoNext
+    ButtonAudioPlay,
+    ButtonGotoNext,
+    Narrator1Static,
+    Narrator1Animated,
+    EditModeOptionLabelCorrect,
+    EditModeOptionLabelWrong
   },
   computed: mapGetters(["ii", "items", "editMode"]),
   props: {},
@@ -84,9 +98,7 @@ export default Vue.extend({
       animateLeft: false,
       animateNarrator: false,
       imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
-      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
-      narratorImageStill: require("@/assets/narratorImageStill.png"),
-      narratorImageAnimated: require("@/assets/narratorImageAnimated.gif")
+      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png")
     };
   },
 
@@ -174,7 +186,7 @@ export default Vue.extend({
       /*
       If "isInstruction === true" for this item, start by playing 
       narrator audio w/animation.
-      Regardless, always play left/right characters audio.
+      Regardless, always play left/right characters audio min succession.
       Characters are animated during playback.
       */
       const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
@@ -273,12 +285,7 @@ export default Vue.extend({
   width: 100%;
 }
 
-.narrator-img > * {
-  height: 100%;
-  width: 100%;
-}
-
-.narrator-container {
+.narrator {
   margin: 1%;
   align-self: start;
   grid-row: 1/1;
@@ -310,19 +317,15 @@ export default Vue.extend({
   background-color: lawngreen;
 }
 
-.answer-key {
-  font-size: 1.5rem;
-  border: 0.1rem solid black;
+.option-label-left {
   align-self: end;
-}
-
-.answer-key.left {
   grid-row: 1/1;
   grid-column: 1/2;
   margin: 5%;
 }
 
-.answer-key.right {
+.option-label-right {
+  align-self: end;
   grid-row: 1/1;
   grid-column: 3/4;
   margin: 5%;

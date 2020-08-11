@@ -21,7 +21,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "Header",
+  name: "DebugHeader",
   computed: {},
 
   props: ["moduleState"],

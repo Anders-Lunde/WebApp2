@@ -10,5 +10,5 @@ export default new Vuex.Store({
     morfologi,
     ordforraad,
   },
-  state: {},
+  state: { showDebugHeader: true, showDebugFooter: true, showNavBar: true },
 });

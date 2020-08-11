@@ -1,20 +1,27 @@
 <template>
   <div>
-    <!-- Set module namespace here-->
-    <Header v-bind:moduleState="this.$store.state.ordforraad" />
+    <!-- Show relevant state by setting :moduleState= to the relevant module namespace here-->
+    <DebugHeader
+      v-if="$store.state.showDebugHeader === true"
+      v-bind:module-state="this.$store.state.ordforraad"
+    />
 
+    <!-- Cycle through the tests:-->
     <TestScreen v-if="items[ii].type === 'TestScreen'" />
 
-    <!-- Set module namespace here-->
-    <Footer v-bind:moduleState="this.$store.state.ordforraad" />
+    <!-- Show relevant state by setting :moduleState= to the relevant module namespace here-->
+    <DebugFooter
+      v-if="$store.state.showDebugFooter === true"
+      v-bind:module-state="this.$store.state.ordforraad"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import TestScreen from "@/components/Ordforraad/TestScreen.vue";
-import Footer from "@/components/Footer.vue";
-import Header from "@/components/Header.vue";
+import DebugFooter from "@/components/DebugFooter.vue";
+import DebugHeader from "@/components/DebugHeader.vue";
 import { createNamespacedHelpers } from "vuex";
 
 const { mapGetters } = createNamespacedHelpers("ordforraad"); //Set module namespace here
@@ -22,8 +29,8 @@ const { mapGetters } = createNamespacedHelpers("ordforraad"); //Set module names
 export default Vue.extend({
   name: "WrapperOrdforraad",
   components: {
-    Header,
-    Footer,
+    DebugHeader,
+    DebugFooter,
     TestScreen
   },
   computed: mapGetters(["ii", "items", "editMode"]),

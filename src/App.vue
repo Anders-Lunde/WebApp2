@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div v-if="$store.state.showNavBar === true" id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/morfologi">Morfologi</router-link>|
       <router-link to="/ordforraad">Ordforraad</router-link>

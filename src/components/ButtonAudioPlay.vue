@@ -8,7 +8,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "BtnAudio",
+  name: "ButtonAudioPlay",
   computed: {},
   props: {},
   data() {
