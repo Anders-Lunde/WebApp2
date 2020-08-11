@@ -22,30 +22,6 @@
       </div>
     </div>
 
-    <div class="option-label-left" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='left'">
-        <EditModeOptionLabelCorrect :label-text="items[ii].sentenceLeft" />
-      </div>
-      <div v-else>
-        <EditModeOptionLabelWrong :label-text="items[ii].sentenceLeft" />
-      </div>
-    </div>
-
-    <div class="option-label-right" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='right'">
-        <EditModeOptionLabelCorrect :label-text="items[ii].sentenceRight" />
-      </div>
-      <div v-else>
-        <EditModeOptionLabelWrong :label-text="items[ii].sentenceRight" />
-      </div>
-    </div>
-
-    <div class="score-indicator" v-if="editMode===true">
-      <div class="unanswered" v-if="items[ii].userAnswer===null">UBESVART!</div>
-      <div class="correct" v-else-if="items[ii].answerKey===items[ii].userAnswer">RIKTIG!</div>
-      <div class="wrong" v-else>FEIL!</div>
-    </div>
-
     <div class="narrator" v-if="editMode===false && items[ii].isPractice===true">
       <div v-show="animateNarrator===false">
         <Narrator1Static />
@@ -64,6 +40,37 @@
         <ButtonGotoNext />
       </div>
     </div>
+
+    <!-- Edit mode stuff: -->
+    <div v-if="editMode===true" class="option-label-left">
+      <div v-if="items[ii].answerKey==='left'">
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" :font-size="1.5" />
+      </div>
+      <div v-else>
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" :font-size="1.5" />
+      </div>
+    </div>
+
+    <div v-if="editMode===true" class="option-label-right">
+      <div v-if="items[ii].answerKey==='right'">
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" :font-size="1.5" />
+      </div>
+      <div v-else>
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" :font-size="1.5" />
+      </div>
+    </div>
+
+    <div v-if="editMode===true" class="score-indicator">
+      <div v-if="items[ii].userAnswer===null">
+        <EditModeItemResultIndicator result="unanswered" :font-size="1.5" />
+      </div>
+      <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
+        <EditModeItemResultIndicator result="correct" :font-size="1.5" />
+      </div>
+      <div v-else>
+        <EditModeItemResultIndicator result="wrong" :font-size="1.5" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -74,8 +81,9 @@ import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
 import Narrator1Static from "@/components/Narrator1Static.vue";
 import Narrator1Animated from "@/components/Narrator1Animated.vue";
-import EditModeOptionLabelCorrect from "@/components/EditModeOptionLabelCorrect.vue";
-import EditModeOptionLabelWrong from "@/components/EditModeOptionLabelWrong.vue";
+import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabelCorrect.vue";
+import EditModeItemOptionLabelWrong from "@/components/EditModeItemOptionLabelWrong.vue";
+import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
 
 const { mapGetters, mapMutations } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -86,8 +94,9 @@ export default Vue.extend({
     ButtonGotoNext,
     Narrator1Static,
     Narrator1Animated,
-    EditModeOptionLabelCorrect,
-    EditModeOptionLabelWrong
+    EditModeItemOptionLabelCorrect,
+    EditModeItemOptionLabelWrong,
+    EditModeItemResultIndicator
   },
   computed: mapGetters(["ii", "items", "editMode"]),
   props: {},
@@ -245,12 +254,6 @@ export default Vue.extend({
 
 
 <style scoped>
-.char-img > * {
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-}
-
 .question-area {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
@@ -280,11 +283,6 @@ export default Vue.extend({
   border: 0.25rem solid black;
 }
 
-.middle-img > img {
-  height: 100%;
-  width: 100%;
-}
-
 .narrator {
   margin: 1%;
   align-self: start;
@@ -292,29 +290,11 @@ export default Vue.extend({
   grid-column: 3/4;
 }
 
-.character-area.selectedCharacter {
-  border: 0.35rem dotted blue;
-  border-radius: 1.5rem;
-  padding: 0.15rem;
-}
-
 .score-indicator {
   grid-row: 1/1;
   grid-column: 3/4;
   margin: 5%;
-  font-size: 1.5rem;
-  border: 1px solid black;
   align-self: start;
-}
-
-.score-indicator > .unanswered {
-  background-color: rgb(218, 218, 218);
-}
-.score-indicator > .wrong {
-  background-color: rgb(233, 29, 63);
-}
-.score-indicator > .correct {
-  background-color: lawngreen;
 }
 
 .option-label-left {
@@ -334,6 +314,23 @@ export default Vue.extend({
 .button {
   grid-row: 3;
   grid-column: 2/3;
+}
+
+.middle-img > img {
+  height: 100%;
+  width: 100%;
+}
+
+.char-img > * {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.character-area.selectedCharacter {
+  border: 0.35rem dotted blue;
+  border-radius: 1.5rem;
+  padding: 0.15rem;
 }
 
 .button.audio-button {

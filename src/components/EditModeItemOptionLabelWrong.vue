@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :style="userStyle" class="container">
     <div class="heading">FEIL SVAR:</div>
     <div>{{labelText}}</div>
   </div>
@@ -9,9 +9,24 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeOptionLabelWrong",
-  computed: {},
-  props: ["labelText"],
+  name: "EditModeItemOptionLabelWrong",
+  computed: {
+    userStyle() {
+      return {
+        fontSize: this.fontSize + "rem"
+      };
+    }
+  },
+  props: {
+    labelText: {
+      type: String,
+      required: false
+    },
+    fontSize: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {};
   },
@@ -28,7 +43,5 @@ export default Vue.extend({
 
 .container {
   border: 0.1rem solid black;
-
-  font-size: 1.5rem;
 }
 </style>

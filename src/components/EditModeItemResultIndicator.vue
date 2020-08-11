@@ -1,0 +1,57 @@
+<template>
+  <div :style="userStyle" class="container">
+    <div class="unanswered" v-if="result === 'unanswered' ">UBESVART!</div>
+    <div class="correct" v-else-if="result==='correct' ">RIKTIG!</div>
+    <div class="wrong" v-else>FEIL!</div>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({
+  name: "EditModeItemResultIndicator",
+  computed: {
+    userStyle() {
+      return {
+        fontSize: this.fontSize + "rem"
+      };
+    }
+  },
+  props: {
+    result: {
+      type: String,
+      required: true,
+      validator: function(value) {
+        // The value must match one of these strings
+        return ["correct", "wrong", "unanswered"].indexOf(value) !== -1;
+      }
+    },
+    fontSize: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {};
+  },
+
+  methods: {}
+});
+</script>
+
+<style scoped>
+.container {
+  border: 0.05rem solid black;
+}
+
+.unanswered {
+  background-color: rgb(218, 218, 218);
+}
+.wrong {
+  background-color: rgb(233, 29, 63);
+}
+.correct {
+  background-color: lawngreen;
+}
+</style>
