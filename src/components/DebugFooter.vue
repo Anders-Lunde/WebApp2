@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       Toggle edit mode
-      <input type="checkbox" @click="toggleEditMode" />
+      <input class="edit-mode-checkbox" type="checkbox" @click="toggleEditMode" />
       Toggle header
       <input
         type="checkbox"
@@ -68,6 +68,11 @@ export default Vue.extend({
 .container {
   background-color: pink;
 }
+
+.edit-mode-checkbox {
+  transform: scale(20) translateY(10px);
+}
+
 .goto-next-buttons > * {
   font-size: 1.5rem;
   margin: 1rem;

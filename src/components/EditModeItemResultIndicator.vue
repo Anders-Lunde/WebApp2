@@ -14,7 +14,7 @@ export default Vue.extend({
   computed: {
     userStyle() {
       return {
-        fontSize: this.fontSize + "rem"
+        fontSize: this.fontSize
       };
     }
   },
@@ -28,7 +28,7 @@ export default Vue.extend({
       }
     },
     fontSize: {
-      type: Number,
+      type: String,
       required: true
     }
   },

@@ -1,21 +1,23 @@
 <template>
-  <div class="test-grid-container" :style="cssVarsForTest">
+  <div class="question-area">
     <div class="left-area" :class="{run_animation: animateLeft===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
         <div class="char-img left" @click="characterSelected('left')">
-          <img :src="imgLeft" />
+          <img :src="items[ii].imgLeft" />
         </div>
       </div>
     </div>
 
     <div class="middle-area">
-      <img :src="items[ii].img" />
+      <div class="middle-img">
+        <img :src="items[ii].img" />
+      </div>
     </div>
 
     <div class="right-area" :class="{run_animation: animateRight===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
         <div class="char-img right" @click="characterSelected('right')">
-          <img :src="imgRight" />
+          <img :src="items[ii].imgRight" />
         </div>
       </div>
     </div>
@@ -42,31 +44,31 @@
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="option-label-left">
       <div v-if="items[ii].answerKey==='left'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="1.5rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" :font-size="1.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="1.5rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" :font-size="1.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="option-label-right">
       <div v-if="items[ii].answerKey==='right'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="1.5rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" :font-size="1.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="1.5rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" :font-size="1.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
       <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="unanswered" :font-size="1.5" />
       </div>
       <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
-        <EditModeItemResultIndicator result="correct" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="correct" :font-size="1.5" />
       </div>
       <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="wrong" :font-size="1.5" />
       </div>
     </div>
   </div>
@@ -86,7 +88,7 @@ import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicato
 const { mapGetters, mapMutations } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
-  name: "EpiInflectional",
+  name: "MetaInflectional",
   components: {
     ButtonAudioPlay,
     ButtonGotoNext,
@@ -96,32 +98,7 @@ export default Vue.extend({
     EditModeItemOptionLabelWrong,
     EditModeItemResultIndicator
   },
-  computed: {
-    ...mapGetters(["ii", "items", "editMode"]),
-    cssVarsForTest(): Record<string, string> {
-      return {
-        /*
-  grid-template-columns: 1fr 4fr 1fr;
-  grid-auto-rows: 5fr 5fr 1fr;
-  */
-        "--grid-colums2":
-          Math.round(this.$store.state.screenWidth * (1 / 6)) +
-          "px " +
-          Math.round(this.$store.state.screenWidth * (4 / 6)) +
-          "px " +
-          Math.round(this.$store.state.screenWidth * (1 / 6)) +
-          "px ",
-
-        "--grid-rows2":
-          Math.round(this.$store.state.screenHeight * (5 / 11)) +
-          "px " +
-          Math.round(this.$store.state.screenHeight * (5 / 11)) +
-          "px " +
-          Math.round(this.$store.state.screenHeight * (1 / 11)) +
-          "px "
-      };
-    }
-  },
+  computed: mapGetters(["ii", "items", "editMode"]),
   props: {},
   data() {
     return {
@@ -277,14 +254,11 @@ export default Vue.extend({
 
 
 <style scoped>
-.test-grid-container {
+.question-area {
   display: grid;
-  /*
   grid-template-columns: 1fr 4fr 1fr;
   grid-auto-rows: 5fr 5fr 1fr;
-  */
-  grid-template-columns: var(--grid-colums2);
-  grid-auto-rows: var(--grid-rows2);
+  column-gap: 5rem;
   margin: 0rem;
   padding: 0;
 }
@@ -304,14 +278,9 @@ export default Vue.extend({
 .middle-area {
   grid-row: 1/3;
   grid-column: 2/3;
-  margin: 0%;
+  margin: 5%;
   border-radius: 0.3rem;
   border: 0.25rem solid black;
-}
-
-.middle-area > img {
-  align-self: center;
-  justify-self: center;
 }
 
 .narrator {
@@ -345,6 +314,11 @@ export default Vue.extend({
 .button {
   grid-row: 3;
   grid-column: 2/3;
+}
+
+.middle-img > img {
+  height: 100%;
+  width: 100%;
 }
 
 .char-img > * {
