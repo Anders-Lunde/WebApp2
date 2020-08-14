@@ -1,8 +1,10 @@
 export default {
   namespaced: true,
   state: {
-    ii: 10, // items array index
-    editMode: true,
+    ii: 0, // items array index
+    editMode: false,
+    epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
+    epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
     items: [
       {
         id: 0,
@@ -706,11 +708,7 @@ export default {
       },
     ],
   },
-  getters: {
-    items: (state) => state.items,
-    ii: (state) => state.ii,
-    editMode: (state) => state.editMode,
-  },
+  getters: {},
   mutations: {
     incrementII(state) {
       state.ii++;

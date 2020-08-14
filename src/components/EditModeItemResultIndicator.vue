@@ -43,13 +43,14 @@ export default Vue.extend({
 <style scoped>
 .container {
   border: 0.05rem solid black;
+  font-weight: bold;
 }
 
 .unanswered {
   background-color: rgb(218, 218, 218);
 }
 .wrong {
-  background-color: rgb(233, 29, 63);
+  background-color: rgb(223, 58, 58);
 }
 .correct {
   background-color: lawngreen;

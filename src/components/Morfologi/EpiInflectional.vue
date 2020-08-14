@@ -1,9 +1,10 @@
 <template>
-  <div class="test-grid-container" :style="cssVarsForTest">
+  <div class="grid-container-test" :style="cssVarsForTest">
+    <!-- Test stuff: -->
     <div class="left-area" :class="{run_animation: animateLeft===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
         <div class="char-img left" @click="characterSelected('left')">
-          <img :src="imgLeft" />
+          <img :src="epiInflectionalCharImgLeft" />
         </div>
       </div>
     </div>
@@ -15,7 +16,7 @@
     <div class="right-area" :class="{run_animation: animateRight===true}">
       <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
         <div class="char-img right" @click="characterSelected('right')">
-          <img :src="imgRight" />
+          <img :src="epiInflectionalCharImgRight" />
         </div>
       </div>
     </div>
@@ -42,31 +43,31 @@
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="option-label-left">
       <div v-if="items[ii].answerKey==='left'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="1.5rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="3rem" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="1.5rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="3rem" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="option-label-right">
       <div v-if="items[ii].answerKey==='right'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="1.5rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="3rem" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="1.5rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="3rem" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
       <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="unanswered" font-size="3rem" />
       </div>
       <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
-        <EditModeItemResultIndicator result="correct" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="correct" font-size="3rem" />
       </div>
       <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="1.5rem" />
+        <EditModeItemResultIndicator result="wrong" font-size="3rem" />
       </div>
     </div>
   </div>
@@ -83,7 +84,7 @@ import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabel
 import EditModeItemOptionLabelWrong from "@/components/EditModeItemOptionLabelWrong.vue";
 import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
 
-const { mapGetters, mapMutations } = createNamespacedHelpers("morfologi"); //Set module namespace here
+const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
   name: "EpiInflectional",
@@ -97,7 +98,13 @@ export default Vue.extend({
     EditModeItemResultIndicator
   },
   computed: {
-    ...mapGetters(["ii", "items", "editMode"]),
+    ...mapState([
+      "ii",
+      "items",
+      "editMode",
+      "epiInflectionalCharImgRight",
+      "epiInflectionalCharImgLeft"
+    ]),
     cssVarsForTest(): Record<string, string> {
       return {
         /*
@@ -128,9 +135,7 @@ export default Vue.extend({
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
-      animateNarrator: false,
-      imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
-      imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png")
+      animateNarrator: false
     };
   },
 
@@ -277,7 +282,7 @@ export default Vue.extend({
 
 
 <style scoped>
-.test-grid-container {
+.grid-container-test {
   display: grid;
   /*
   grid-template-columns: 1fr 4fr 1fr;
@@ -289,42 +294,69 @@ export default Vue.extend({
   padding: 0;
 }
 
-.left-area {
-  grid-row: 2/2;
-  grid-column: 1/2;
-  margin: 5%;
-}
-
 .right-area {
   grid-row: 2/2;
   grid-column: 3/4;
-  margin: 5%;
+  margin: 0%;
+  align-self: end;
+  position: relative;
+  bottom: 10%;
+}
+
+.left-area {
+  grid-row: 2/2;
+  grid-column: 1/2;
+  margin: 0%;
+  align-self: end;
+  position: relative;
+  bottom: 10%;
+}
+
+.char-img > * {
+  cursor: pointer;
+  width: 100%;
+}
+
+.character-area.selectedCharacter {
+  border: 0.75rem dotted blue;
+  border-radius: 1.5rem;
+  padding: 0.15rem;
 }
 
 .middle-area {
   grid-row: 1/3;
   grid-column: 2/3;
-  margin: 0%;
+  margin-top: 25%;
+  margin-bottom: 0%;
+  margin-right: 3%;
+  margin-left: 3%;
   border-radius: 0.3rem;
   border: 0.25rem solid black;
 }
 
 .middle-area > img {
-  align-self: center;
-  justify-self: center;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
 }
 
 .narrator {
-  margin: 1%;
-  align-self: start;
   grid-row: 1/1;
   grid-column: 3/4;
+  width: 100%;
+  height: 100%;
+}
+
+.narrator > div > img {
+  width: 100%;
+  transform: scale(1.1);
+  transform-origin: right top;
 }
 
 .score-indicator {
   grid-row: 1/1;
   grid-column: 3/4;
-  margin: 5%;
+  margin: 2%;
   align-self: start;
 }
 
@@ -332,14 +364,14 @@ export default Vue.extend({
   align-self: end;
   grid-row: 1/1;
   grid-column: 1/2;
-  margin: 5%;
+  margin: 2%;
 }
 
 .option-label-right {
   align-self: end;
   grid-row: 1/1;
   grid-column: 3/4;
-  margin: 5%;
+  margin: 2%;
 }
 
 .button {
@@ -347,28 +379,18 @@ export default Vue.extend({
   grid-column: 2/3;
 }
 
-.char-img > * {
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-}
-
-.character-area.selectedCharacter {
-  border: 0.35rem dotted blue;
-  border-radius: 1.5rem;
-  padding: 0.15rem;
-}
-
 .button.audio-button {
   justify-self: center;
+  align-self: end;
 }
 
 .button.goto-next-button {
   justify-self: end;
+  align-self: end;
 }
 
 .run_animation {
-  animation: character-animation 0.1s infinite alternate;
+  animation: character-animation 0.15s infinite alternate;
 }
 
 @keyframes character-animation {
@@ -376,7 +398,7 @@ export default Vue.extend({
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-0.8rem);
+    transform: translateY(-1.6rem);
   }
 }
 </style>

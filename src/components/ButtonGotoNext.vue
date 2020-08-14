@@ -21,8 +21,8 @@ export default Vue.extend({
 
 <style scoped>
 .button {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 5rem;
+  width: 5rem;
   cursor: pointer;
   background: url("~@/assets/speaker.png") no-repeat center;
   background-size: cover;

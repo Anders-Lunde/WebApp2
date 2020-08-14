@@ -3,28 +3,29 @@
     <DebugHeader v-if="$store.state.showDebugHeader === true" :module-state="currentTestState" />
 
     <!-- Grid layout if editMode, to make room for edit menu-->
-    <div :class="{wrapper_grid_container: editMode===true}" :style="cssVarsForWrapper">
-      <!-- Test area. Scaled and moved with CSS if editMode, to make room for edit menu-->
-      <div :class="{test_area_edit_mode: editMode===true}">
-        <EpiInflectional v-if="items[ii].type === 'EpiInflectional'" />
-        <MetaInflectional v-if="items[ii].type === 'MetaInflectional' " />
+    <div class="viewport-area" :style="cssVarsForWrapper">
+      <div class="app-area" :class="{wrapper_grid_container: editMode===true}">
+        <!-- Test area. Scaled and moved with CSS if editMode, to make room for edit menu-->
+        <div :class="{test_area_edit_mode: editMode===true}">
+          <EpiInflectional v-if="items[ii].type === 'EpiInflectional'" />
+          <MetaInflectional v-if="items[ii].type === 'MetaInflectional' " />
+        </div>
+
+        <!-- Edit menu. Shown if editMode-->
+        <div
+          v-if="editMode"
+          class="edit-menu right"
+        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
+        <div
+          v-if="editMode"
+          class="edit-menu bottom"
+        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
+        <div
+          v-if="editMode"
+          class="edit-menu corner"
+        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
       </div>
-
-      <!-- Edit menu. Shown if editMode-->
-      <div
-        v-if="editMode"
-        class="edit-menu right"
-      >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
-      <div
-        v-if="editMode"
-        class="edit-menu bottom"
-      >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
-      <div
-        v-if="editMode"
-        class="edit-menu corner"
-      >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
     </div>
-
     <DebugFooter v-if="$store.state.showDebugFooter === true" :module-state="currentTestState" />
   </div>
 </template>
@@ -37,7 +38,7 @@ import DebugFooter from "@/components/DebugFooter.vue";
 import DebugHeader from "@/components/DebugHeader.vue";
 import { createNamespacedHelpers } from "vuex";
 
-const { mapGetters } = createNamespacedHelpers("morfologi"); //When repurposing test: Set module namespace here
+const { mapState } = createNamespacedHelpers("morfologi"); //When repurposing test: Set module namespace here
 
 export default Vue.extend({
   name: "WrapperMorfologi",
@@ -55,7 +56,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapGetters(["ii", "items", "editMode"]),
+    ...mapState(["ii", "items", "editMode"]),
     cssVarsForWrapper(): Record<string, string> {
       return {
         //The following 3 css variables sets up proper
@@ -80,7 +81,9 @@ export default Vue.extend({
           (1 - this.editMenuWidth) +
           "," +
           (1 - this.editMenuHeight) +
-          ")"
+          ")",
+        "--screenWidth": this.$store.state.screenWidth + "px",
+        "--screenHeight": this.$store.state.screenHeight + "px"
       };
     }
   },
@@ -91,6 +94,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.viewport-area {
+  background: rgb(238, 238, 238);
+  width: var(--screenWidth);
+  height: var(--screenHeight);
+}
+.app-area {
+  background: white;
+  transform: scale(0.99); /*this gives some border around the viewport*/
+}
+
 /*Enabled only in editMode*/
 .wrapper_grid_container {
   display: grid;

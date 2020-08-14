@@ -16,6 +16,6 @@ export default new Vuex.Store({
     showDebugFooter: true,
     showNavBar: false,
     screenHeight: 1536, //1536 iPad Air 2
-    screenWidth: 5048, //2048 iPad Air 2
+    screenWidth: 2048, //2048 iPad Air 2
   },
 });

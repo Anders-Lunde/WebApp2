@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <img :src="narratorImageAnimated" />
-  </div>
+  <img :src="narratorImageAnimated" />
 </template>
 
 <script lang="ts">

@@ -1,7 +1,5 @@
 <template>
-  <div>
     <img :src="narratorImageStill" />
-  </div>
 </template>
 
 <script lang="ts">
@@ -23,7 +21,5 @@ export default Vue.extend({
 
 <style scoped>
 img {
-  height: 100%;
-  width: 100%;
 }
 </style>
