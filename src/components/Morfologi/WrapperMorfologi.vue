@@ -63,17 +63,19 @@ export default Vue.extend({
         //division of the screen into a 2x2 grid,
         //to make space for the edit menu.
         "--grid-column-setup":
-          Math.round(this.$store.state.screenWidth * (1 - this.editMenuWidth)) +
+          Math.round(
+            this.$store.getters.canvasWidth * (1 - this.editMenuWidth)
+          ) +
           "px " +
-          Math.round(this.$store.state.screenWidth * this.editMenuWidth) +
+          Math.round(this.$store.getters.canvasWidth * this.editMenuWidth) +
           "px",
 
         "--grid-row-setup":
           Math.round(
-            this.$store.state.screenHeight * (1 - this.editMenuHeight)
+            this.$store.getters.canvasHeight * (1 - this.editMenuHeight)
           ) +
           "px " +
-          Math.round(this.$store.state.screenHeight * this.editMenuHeight) +
+          Math.round(this.$store.getters.canvasHeight * this.editMenuHeight) +
           "px",
 
         "--edit-menu-size":
@@ -81,9 +83,7 @@ export default Vue.extend({
           (1 - this.editMenuWidth) +
           "," +
           (1 - this.editMenuHeight) +
-          ")",
-        "--screenWidth": this.$store.state.screenWidth + "px",
-        "--screenHeight": this.$store.state.screenHeight + "px"
+          ")"
       };
     }
   },
@@ -96,8 +96,9 @@ export default Vue.extend({
 <style scoped>
 .viewport-area {
   background: rgb(238, 238, 238);
-  width: var(--screenWidth);
-  height: var(--screenHeight);
+  width: var(--canvasWidth);
+  height: var(--canvasHeight);
+  margin: auto;
 }
 .app-area {
   background: white;

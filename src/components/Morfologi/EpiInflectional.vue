@@ -112,19 +112,19 @@ export default Vue.extend({
   grid-auto-rows: 5fr 5fr 1fr;
   */
         "--grid-colums2":
-          Math.round(this.$store.state.screenWidth * (1 / 6)) +
+          Math.round(this.$store.getters.canvasWidth * (1 / 6)) +
           "px " +
-          Math.round(this.$store.state.screenWidth * (4 / 6)) +
+          Math.round(this.$store.getters.canvasWidth * (4 / 6)) +
           "px " +
-          Math.round(this.$store.state.screenWidth * (1 / 6)) +
+          Math.round(this.$store.getters.canvasWidth * (1 / 6)) +
           "px ",
 
         "--grid-rows2":
-          Math.round(this.$store.state.screenHeight * (5 / 11)) +
+          Math.round(this.$store.getters.canvasHeight * (5 / 11)) +
           "px " +
-          Math.round(this.$store.state.screenHeight * (5 / 11)) +
+          Math.round(this.$store.getters.canvasHeight * (5 / 11)) +
           "px " +
-          Math.round(this.$store.state.screenHeight * (1 / 11)) +
+          Math.round(this.$store.getters.canvasHeight * (1 / 11)) +
           "px "
       };
     }
