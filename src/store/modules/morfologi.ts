@@ -8,6 +8,7 @@ export default {
     items: [
       {
         id: 0,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: true,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp3"),
@@ -25,6 +26,7 @@ export default {
       },
       {
         id: 1,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: true,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback2_correct.mp3"),
@@ -42,6 +44,7 @@ export default {
       },
       {
         id: 2,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: true,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback3_correct.mp3"),
@@ -59,6 +62,7 @@ export default {
       },
       {
         id: 3,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: true,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback4_correct.mp3"),
@@ -76,6 +80,7 @@ export default {
       },
       {
         id: 4,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -93,6 +98,7 @@ export default {
       },
       {
         id: 5,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -110,6 +116,7 @@ export default {
       },
       {
         id: 6,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -127,6 +134,7 @@ export default {
       },
       {
         id: 7,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -144,6 +152,7 @@ export default {
       },
       {
         id: 8,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -161,6 +170,7 @@ export default {
       },
       {
         id: 9,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -178,6 +188,7 @@ export default {
       },
       {
         id: 10,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -195,6 +206,7 @@ export default {
       },
       {
         id: 11,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -212,6 +224,7 @@ export default {
       },
       {
         id: 12,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -229,6 +242,7 @@ export default {
       },
       {
         id: 13,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -246,6 +260,7 @@ export default {
       },
       {
         id: 14,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -263,6 +278,7 @@ export default {
       },
       {
         id: 15,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -280,6 +296,7 @@ export default {
       },
       {
         id: 16,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -297,6 +314,7 @@ export default {
       },
       {
         id: 17,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -314,6 +332,7 @@ export default {
       },
       {
         id: 18,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -331,6 +350,7 @@ export default {
       },
       {
         id: 19,
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         feedbackCorrect: null,
@@ -348,6 +368,7 @@ export default {
       },
       {
         id: 20,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: true,
         instructionAudio: require("@/assets/morfologi/meta_inflectional/instructionAudio.mp3"),
@@ -366,6 +387,7 @@ export default {
       },
       {
         id: 21,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -384,6 +406,7 @@ export default {
       },
       {
         id: 22,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -402,6 +425,7 @@ export default {
       },
       {
         id: 23,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -420,6 +444,7 @@ export default {
       },
       {
         id: 24,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -438,6 +463,7 @@ export default {
       },
       {
         id: 25,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -456,6 +482,7 @@ export default {
       },
       {
         id: 26,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -474,6 +501,7 @@ export default {
       },
       {
         id: 27,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -492,6 +520,7 @@ export default {
       },
       {
         id: 28,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -510,6 +539,7 @@ export default {
       },
       {
         id: 29,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -528,6 +558,7 @@ export default {
       },
       {
         id: 30,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -546,6 +577,7 @@ export default {
       },
       {
         id: 31,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -564,6 +596,7 @@ export default {
       },
       {
         id: 32,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -582,6 +615,7 @@ export default {
       },
       {
         id: 33,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -600,6 +634,7 @@ export default {
       },
       {
         id: 34,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -618,6 +653,7 @@ export default {
       },
       {
         id: 35,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -636,6 +672,7 @@ export default {
       },
       {
         id: 36,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -654,6 +691,7 @@ export default {
       },
       {
         id: 37,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -672,6 +710,7 @@ export default {
       },
       {
         id: 38,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,
@@ -690,6 +729,7 @@ export default {
       },
       {
         id: 39,
+        orientation: "landscape",
         type: "MetaInflectional",
         isInstruction: false,
         instructionAudio: null,

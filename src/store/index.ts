@@ -17,8 +17,9 @@ export default new Vuex.Store({
     showNavBar: false,
     //screenHeight: 150, //1536 iPad Air 2
     //screenWidth: 200, //2048 iPad Air 2
-    orientation: "landscape", //portraint | landscape
+    orientation: null, //portraint | landscape
     //orientation: "portrait", //portraint | landscape
+    //currentDevice: "PC",
   },
   getters: {
     //We force a 4:3 aspect ratio regardless of device, since that will fit on most/all devices,
@@ -27,6 +28,12 @@ export default new Vuex.Store({
     canvasHeight: (state) => {
       let shortSide = Math.min(window.innerHeight, window.innerWidth);
       let longSide = Math.max(window.innerHeight, window.innerWidth);
+      /*
+      if (state.currentDevice === "PC") {
+        //No screen rotation on PC, so we shrink according to height
+        return shortSide;
+      }
+      */
       const aspect = longSide / shortSide;
       if (aspect > 4 / 3) {
         longSide = Math.floor(shortSide * 1.333333);
@@ -43,6 +50,16 @@ export default new Vuex.Store({
     canvasWidth: (state) => {
       let shortSide = Math.min(window.innerHeight, window.innerWidth);
       let longSide = Math.max(window.innerHeight, window.innerWidth);
+      /*
+      if (state.currentDevice === "PC") {
+        //No screen rotation on PC, so we shrink according to height
+        if (state.orientation === "portrait") {
+          return shortSide / 1.333333;
+        } else {
+          return longSide;
+        }
+      }
+      */
       const aspect = longSide / shortSide;
       if (aspect > 4 / 3) {
         longSide = Math.floor(shortSide * 1.333333);
@@ -50,6 +67,7 @@ export default new Vuex.Store({
       if (aspect < 4 / 3) {
         shortSide = Math.floor(longSide / 1.333333);
       }
+
       if (state.orientation === "portrait") {
         return shortSide;
       } else if (state.orientation === "landscape") {

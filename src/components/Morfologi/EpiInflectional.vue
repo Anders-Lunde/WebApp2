@@ -34,7 +34,10 @@
       <ButtonAudioPlay />
     </div>
 
-    <div v-show="items[ii].userAnswer!==null" class="button goto-next-button">
+    <div
+      v-show="items[ii].userAnswer!==null && deactivateAllButtons===false"
+      class="button goto-next-button"
+    >
       <div @click="gotoNextButton">
         <ButtonGotoNext />
       </div>
@@ -43,31 +46,31 @@
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="option-label-left">
       <div v-if="items[ii].answerKey==='left'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="3rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="3rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="2.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="option-label-right">
       <div v-if="items[ii].answerKey==='right'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="3rem" />
+        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="3rem" />
+        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="2.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
       <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="3rem" />
+        <EditModeItemResultIndicator result="unanswered" font-size="2.5" />
       </div>
       <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
-        <EditModeItemResultIndicator result="correct" font-size="3rem" />
+        <EditModeItemResultIndicator result="correct" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="3rem" />
+        <EditModeItemResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
   </div>
@@ -96,6 +99,14 @@ export default Vue.extend({
     EditModeItemOptionLabelCorrect,
     EditModeItemOptionLabelWrong,
     EditModeItemResultIndicator
+  },
+  data() {
+    return {
+      deactivateAllButtons: false,
+      animateRight: false,
+      animateLeft: false,
+      animateNarrator: false
+    };
   },
   computed: {
     ...mapState([
@@ -130,14 +141,6 @@ export default Vue.extend({
     }
   },
   props: {},
-  data() {
-    return {
-      deactivateAllButtons: false,
-      animateRight: false,
-      animateLeft: false,
-      animateNarrator: false
-    };
-  },
 
   methods: {
     /*
@@ -290,14 +293,14 @@ export default Vue.extend({
   */
   grid-template-columns: var(--grid-colums2);
   grid-auto-rows: var(--grid-rows2);
-  margin: 0rem;
+  margin: 0;
   padding: 0;
 }
 
 .right-area {
   grid-row: 2/2;
   grid-column: 3/4;
-  margin: 0%;
+  margin: 1%;
   align-self: end;
   position: relative;
   bottom: 10%;
@@ -306,7 +309,7 @@ export default Vue.extend({
 .left-area {
   grid-row: 2/2;
   grid-column: 1/2;
-  margin: 0%;
+  margin: 1%;
   align-self: end;
   position: relative;
   bottom: 10%;
@@ -318,20 +321,20 @@ export default Vue.extend({
 }
 
 .character-area.selectedCharacter {
-  border: 0.75rem dotted blue;
-  border-radius: 1.5rem;
-  padding: 0.15rem;
+  border: calc(var(--vw) * 0.7) dotted blue;
+  border-radius: calc(var(--vw) * 1.4);
+  padding: calc(var(--vw) * 0.1);
 }
 
 .middle-area {
   grid-row: 1/3;
   grid-column: 2/3;
-  margin-top: 25%;
-  margin-bottom: 0%;
-  margin-right: 3%;
-  margin-left: 3%;
-  border-radius: 0.3rem;
-  border: 0.25rem solid black;
+  margin-top: 15%;
+  margin-bottom: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
+  border-radius: calc(var(--vw) * 2);
+  border: calc(var(--vw) * 0.3) solid black;
 }
 
 .middle-area > img {
@@ -377,6 +380,7 @@ export default Vue.extend({
 .button {
   grid-row: 3;
   grid-column: 2/3;
+  margin: calc(var(--vw) * 0.3);
 }
 
 .button.audio-button {
@@ -398,7 +402,7 @@ export default Vue.extend({
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-1.6rem);
+    transform: translateY(calc(var(--vw) * -2.2));
   }
 }
 </style>

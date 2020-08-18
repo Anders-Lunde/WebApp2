@@ -21,13 +21,12 @@ export default Vue.extend({
 
 <style scoped>
 .button {
-  height: 5rem;
-  width: 5rem;
+  height: calc(var(--vw) * 7.5);
+  width: calc(var(--vw) * 7.5);
   cursor: pointer;
-  padding: 0.6rem 0.6rem;
   background: url("~@/assets/speaker.png") no-repeat center;
   background-size: cover;
-  border-radius: 1rem;
-  border: 0.1rem solid black;
+  border-radius: calc(var(--vw) * 2);
+  border: calc(var(--vw) * 0.25) solid black;
 }
 </style>

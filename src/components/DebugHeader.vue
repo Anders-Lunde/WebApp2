@@ -5,6 +5,7 @@
       <ul>
         <li>ii = {{moduleState.ii}}</li>
         <li>editMode = {{moduleState.editMode}}</li>
+        <li>orientation = {{$store.state.orientation}}</li>
       </ul>
       <h4>Item content:</h4>
       <ul>

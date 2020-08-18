@@ -12,18 +12,9 @@
         </div>
 
         <!-- Edit menu. Shown if editMode-->
-        <div
-          v-if="editMode"
-          class="edit-menu right"
-        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
-        <div
-          v-if="editMode"
-          class="edit-menu bottom"
-        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
-        <div
-          v-if="editMode"
-          class="edit-menu corner"
-        >AAAAAAAAAAAAAAAAAA AAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA</div>
+        <div v-if="editMode" class="edit-menu right"></div>
+        <div v-if="editMode" class="edit-menu bottom"></div>
+        <div v-if="editMode" class="edit-menu corner"></div>
       </div>
     </div>
     <DebugFooter v-if="$store.state.showDebugFooter === true" :module-state="currentTestState" />
@@ -51,8 +42,8 @@ export default Vue.extend({
   data() {
     return {
       currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
-      editMenuWidth: 0.1, //Set width of edit-menu. 0 to 1
-      editMenuHeight: 0.1 //Set height of edit-menu. 0 to 1
+      editMenuWidth: 0.12, //Set width of edit-menu. 0 to 1
+      editMenuHeight: 0.12 //Set height of edit-menu. 0 to 1
     };
   },
   computed: {
@@ -87,6 +78,18 @@ export default Vue.extend({
       };
     }
   },
+  watch: {
+    //Update global store value of 'orientation' according to test item preference  upon ii change.
+    ii: function() {
+      this.$store.state.orientation = this.items[this.ii].orientation;
+      //TODO: Lock device screen orientation
+    }
+  },
+  mounted() {
+    //Update global store value of 'orientation' according to test item preference  upon ii change.
+    this.$store.state.orientation = this.items[this.ii].orientation;
+    //TODO: Lock device screen orientation
+  },
   props: {},
 
   methods: {}
@@ -120,10 +123,11 @@ export default Vue.extend({
   grid-column: 1/2;
   transform: var(--edit-menu-size); /*transform: scale(x, y); */
   transform-origin: top left;
+  transition: transform 0.4s;
 }
 
 .edit-menu {
   background: pink;
-  border: 1px solid black;
+  border: calc(var(--vw) * 0.1) solid black;
 }
 </style>

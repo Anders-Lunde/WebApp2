@@ -1,8 +1,5 @@
 <template>
   <div id="app" :style="cssVarsForApp">
-    GETTERS:
-    {{this.$store.getters.canvasHeight}}
-    {{this.$store.getters.canvasWidth}}
     <div v-if="$store.state.showNavBar === true" id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/morfologi">Morfologi</router-link>|
@@ -28,6 +25,8 @@ export default Vue.extend({
       return {
         "--canvasWidth": this.$store.getters.canvasWidth + "px",
         "--canvasHeight": this.$store.getters.canvasHeight + "px",
+        "--vw": this.$store.getters.canvasWidth / 100 + "px",
+        "--vh": this.$store.getters.canvasHeight / 100 + "px",
         "--testvar": "10px"
       };
     }
@@ -40,10 +39,6 @@ export default Vue.extend({
 
 
 <style>
-html {
-  font-size: 16px;
-}
-
 html,
 body {
   margin: 0px !important;

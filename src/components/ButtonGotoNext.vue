@@ -21,12 +21,10 @@ export default Vue.extend({
 
 <style scoped>
 .button {
-  height: 5rem;
-  width: 5rem;
+  height: calc(var(--vw) * 7.5);
+  width: calc(var(--vw) * 7.5);
   cursor: pointer;
-  background: url("~@/assets/speaker.png") no-repeat center;
-  background-size: cover;
-  padding: 0.6rem 0.6rem;
+  border-radius: calc(var(--vw) * 100);
   background: url("~@/assets/arrow-right.png") no-repeat center;
   background-size: cover;
 }

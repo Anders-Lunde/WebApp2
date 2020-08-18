@@ -13,7 +13,7 @@ export default Vue.extend({
   computed: {
     userStyle() {
       return {
-        fontSize: this.fontSize
+        fontSize: "calc(var(--vw) * " + this.fontSize + ")"
       };
     }
   },
@@ -42,6 +42,6 @@ export default Vue.extend({
 }
 
 .container {
-  border: 0.1rem solid black;
+  border: calc(var(--vw) * 0.15) solid black;
 }
 </style>
