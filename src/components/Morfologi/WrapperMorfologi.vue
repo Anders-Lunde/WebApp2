@@ -37,13 +37,13 @@ export default Vue.extend({
     DebugHeader,
     DebugFooter,
     EpiInflectional,
-    MetaInflectional
+    MetaInflectional,
   },
   data() {
     return {
       currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       editMenuWidth: 0.12, //Set width of edit-menu. 0 to 1
-      editMenuHeight: 0.12 //Set height of edit-menu. 0 to 1
+      editMenuHeight: 0.12, //Set height of edit-menu. 0 to 1
     };
   },
   computed: {
@@ -74,25 +74,52 @@ export default Vue.extend({
           (1 - this.editMenuWidth) +
           "," +
           (1 - this.editMenuHeight) +
-          ")"
+          ")",
       };
-    }
+    },
   },
   watch: {
     //Update global store value of 'orientation' according to test item preference  upon ii change.
-    ii: function() {
+    ii: function () {
       this.$store.state.orientation = this.items[this.ii].orientation;
       //TODO: Lock device screen orientation
-    }
+    },
   },
   mounted() {
     //Update global store value of 'orientation' according to test item preference  upon ii change.
     this.$store.state.orientation = this.items[this.ii].orientation;
     //TODO: Lock device screen orientation
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "e") {
+        this.currentTestState.editMode = !this.currentTestState.editMode;
+      }
+      if (e.key === "ArrowLeft") {
+        this.currentTestState.ii--;
+      }
+      if (e.key === "ArrowRight") {
+        this.currentTestState.ii++;
+      }
+      if (e.key === "ArrowUp") {
+        this.$store.state.showDebugHeader = !this.$store.state.showDebugHeader;
+      }
+      if (e.key === "ArrowDown") {
+        this.$store.state.showDebugFooter = !this.$store.state.showDebugFooter;
+      }
+      if (e.key === "n") {
+        //switch to next test type
+        const currentType = this.currentTestState.items[this.ii].type;
+        for (let i = this.ii; i < this.currentTestState.items.length; i++) {
+          if (this.currentTestState.items[i].type !== currentType) {
+            this.currentTestState.ii = i;
+            break;
+          }
+        }
+      }
+    });
   },
   props: {},
 
-  methods: {}
+  methods: {},
 });
 </script>
 
