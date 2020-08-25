@@ -749,28 +749,7 @@ export default {
     ],
   },
   getters: {},
-  mutations: {
-    incrementII(state) {
-      state.ii++;
-    },
-    decrementII(state) {
-      state.ii--;
-    },
-    setII(state, n: number) {
-      state.ii = n;
-    },
-    recordAnswer(state, payload) {
-      state.items[state.ii].userAnswer = payload.userAnswer;
-    },
-    toggleEditMode(state) {
-      state.editMode = !state.editMode;
-    },
-  },
-  actions: {
-    playAudio: ({ commit, state }, payload) => {
-      //Currently not used
-      console.log(commit, state, payload); //To supress linting warnings of unused variables
-    },
-  },
+  mutations: {},
+  actions: {},
   modules: {},
 };

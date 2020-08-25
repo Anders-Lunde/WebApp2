@@ -108,6 +108,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
@@ -152,7 +153,7 @@ export default Vue.extend({
     /*
      *METHOD START: Map mutations:
      */
-    ...mapMutations(["recordAnswer", "incrementII"]),
+    ...mapMutations([""]),
 
     /*
      *METHOD START: gotoNextButton:
@@ -161,26 +162,26 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.incrementII();
+      this.currentTestState.ii++;
     },
 
     /*
      *METHOD START: characterSelected:
      */
     characterSelected: function (userAnswer: object) {
-      //Abort if something else is playing/animating
-      if (this.deactivateAllButtons) {
+      //Abort if something else is playing/animating, except in editMode
+      if (this.deactivateAllButtons && this.editMode === false) {
         return;
       }
-      //Abort if instruction audio has not yet played
-      if (this.items[this.ii].nPlaybackTimes === 0) {
+      //Abort if instruction audio has not yet played, except in editMode
+      if (this.items[this.ii].nPlaybackTimes === 0 && this.editMode === false) {
         return;
       }
       //Temporarily deactivate buttons during playback
       this.deactivateAllButtons = true;
 
       //Save answer to store ("left" or "right")
-      this.recordAnswer({ userAnswer: userAnswer });
+      this.items[this.ii].userAnswer = userAnswer;
 
       if (this.items[this.ii].isPractice === false) {
         this.deactivateAllButtons = false;

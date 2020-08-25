@@ -43,7 +43,7 @@
 
     <!-- Feedback button wrong: -->
     <div
-      v-show="showFeedbackButtons === true && items[ii].isPractice===true"
+      v-show="(showFeedbackButtons === true && items[ii].isPractice===true) || editMode===true"
       class="feedback-button wrong"
       @click="feedbackAudio('wrong')"
     >
@@ -51,7 +51,7 @@
     </div>
     <!-- Feedback button correct: -->
     <div
-      v-show="showFeedbackButtons === true && items[ii].isPractice===true"
+      v-show="(showFeedbackButtons === true && items[ii].isPractice===true) || editMode===true"
       class="feedback-button correct"
       @click="feedbackAudio('correct')"
     >
@@ -91,83 +91,6 @@
         <EditModeItemResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
-
-    <!-- 
-    <div class="left-area" :class="{run_animation: animateLeft===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
-        <div class="char-img left" @click="characterSelected('left')">
-          <img :src="epiInflectionalCharImgLeft" />
-        </div>
-      </div>
-    </div>
-
-    <div class="middle-area">
-      <img :src="items[ii].img" />
-    </div>
-
-    <div class="right-area" :class="{run_animation: animateRight===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
-        <div class="char-img right" @click="characterSelected('right')">
-          <img :src="epiInflectionalCharImgRight" />
-        </div>
-      </div>
-    </div>
-
-    <div class="narrator" v-if="editMode===false && items[ii].isPractice===true">
-      <div v-show="animateNarrator===false">
-        <Narrator1Static />
-      </div>
-      <div v-show="animateNarrator===true">
-        <Narrator1Animated />
-      </div>
-    </div>
-
-    <div class="button audio-button" @click="playAudio()">
-      <ButtonAudioPlay />
-    </div>
-
-    <div
-      v-show="items[ii].userAnswer!==null && deactivateAllButtons===false"
-      class="button goto-next-button"
-    >
-      <div @click="gotoNextButton">
-        <ButtonGotoNext />
-      </div>
-    </div>
-    -->
-
-    <!-- Edit mode stuff: -->
-    <!--
-    <div v-if="editMode===true" class="option-label-left">
-      <div v-if="items[ii].answerKey==='left'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="2.5" />
-      </div>
-      <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="2.5" />
-      </div>
-    </div>
-
-    <div v-if="editMode===true" class="option-label-right">
-      <div v-if="items[ii].answerKey==='right'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="2.5" />
-      </div>
-      <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="2.5" />
-      </div>
-    </div>
-
-    <div v-if="editMode===true" class="score-indicator">
-      <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="2.5" />
-      </div>
-      <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
-        <EditModeItemResultIndicator result="correct" font-size="2.5" />
-      </div>
-      <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="2.5" />
-      </div>
-    </div>
-    -->
   </div>
 </template>
 
@@ -201,6 +124,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
@@ -230,7 +154,7 @@ export default Vue.extend({
     /*
      *METHOD START: Map mutations:
      */
-    ...mapMutations(["recordAnswer", "incrementII"]),
+    ...mapMutations([""]),
 
     /*
      *METHOD START: gotoNextButton:
@@ -239,7 +163,7 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.incrementII();
+      this.currentTestState.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.narratorPosition = "narratorPosMiddle";
       this.leftWasPlayed = false;
       this.showRightAudioButton = false;
@@ -280,6 +204,13 @@ export default Vue.extend({
       }
       this.deactivateAllButtons = true;
       if (input === "wrong") {
+        this.items[this.ii].userAnswer = "wrong";
+        //Return if in editMode. Dont play audio (there is none)
+        if (this.editMode === true) {
+          this.deactivateAllButtons = false;
+          return;
+        }
+
         const audio = new Audio(this.items[this.ii].feedbackWrong);
         //Setup animation start/stop during playback
         audio.addEventListener("ended", () => {
@@ -293,6 +224,12 @@ export default Vue.extend({
         audio.play();
       }
       if (input === "correct") {
+        this.items[this.ii].userAnswer = "correct";
+        //Return if in editMode. Dont play audio (there is none)
+        if (this.editMode === true) {
+          this.deactivateAllButtons = false;
+          return;
+        }
         const audio = new Audio(this.items[this.ii].feedbackCorrect);
         audio.play();
         //Setup animation start/stop during playback
@@ -417,54 +354,6 @@ export default Vue.extend({
       }
 
       this.items[this.ii].nPlaybackTimes++;
-    },
-
-    /*
-     *METHOD START: characterSelected:
-     */
-    characterSelected: function (userAnswer: object) {
-      //Abort if something else is playing/animating
-      if (this.deactivateAllButtons) {
-        return;
-      }
-      //Abort if instruction audio has not yet played
-      if (this.items[this.ii].nPlaybackTimes === 0) {
-        return;
-      }
-      //Temporarily deactivate buttons during playback
-      this.deactivateAllButtons = true;
-
-      //Save answer to store ("left" or "right")
-      this.recordAnswer({ userAnswer: userAnswer });
-
-      if (this.items[this.ii].isPractice === false) {
-        this.deactivateAllButtons = false;
-      } else {
-        //Practice screen: Audio feedback - correct answer:
-        if (this.items[this.ii].answerKey === userAnswer) {
-          const audio = new Audio(this.items[this.ii].feedbackCorrect);
-          audio.addEventListener("ended", () => {
-            this.animateNarrator = false;
-            this.deactivateAllButtons = false;
-          });
-          audio.addEventListener("play", () => {
-            this.animateNarrator = true;
-          });
-          audio.play();
-        }
-        //Practice screen: Audio feedback - wrong answer:
-        else {
-          const audio = new Audio(this.items[this.ii].feedbackWrong);
-          audio.addEventListener("ended", () => {
-            this.animateNarrator = false;
-            this.deactivateAllButtons = false;
-          });
-          audio.addEventListener("play", () => {
-            this.animateNarrator = true;
-          });
-          audio.play();
-        }
-      }
     },
   },
 });
@@ -633,7 +522,7 @@ export default Vue.extend({
 
 .ispractise-indicator {
   grid-row: 1/1;
-  grid-column: 1/-1;
+  grid-column: 2/4;
   margin: 2%;
   align-self: start;
   justify-self: center;
@@ -648,76 +537,9 @@ export default Vue.extend({
 }
 
 .score-indicator {
-  grid-row: 1/1;
-  grid-column: 1/2;
-  margin: 2%;
-  justify-self: end;
-}
-
-.right-area {
-  grid-row: 2/2;
-  grid-column: 3/4;
-  margin: 1%;
-  align-self: end;
-  position: relative;
-  bottom: 10%;
-}
-
-.left-area {
-  grid-row: 2/2;
-  grid-column: 1/2;
-  margin: 1%;
-  align-self: end;
-  position: relative;
-  bottom: 10%;
-}
-
-.char-img > * {
-  cursor: pointer;
-  width: 100%;
-}
-
-.character-area.selectedCharacter {
-  border: calc(var(--vw) * 0.7) dotted blue;
-  border-radius: calc(var(--vw) * 1.4);
-  padding: calc(var(--vw) * 0.1);
-}
-
-.middle-area {
-  grid-row: 1/3;
-  grid-column: 2/3;
-  margin-top: 15%;
-  margin-bottom: 5%;
-  margin-right: 5%;
-  margin-left: 5%;
-  border-radius: calc(var(--vw) * 2);
-  border: calc(var(--vw) * 0.3) solid black;
-}
-
-.middle-area > img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-}
-
-.score-indicator {
-  grid-row: 1/1;
-  grid-column: 3/4;
+  grid-row: 1;
+  grid-column: 4/5;
   margin: 2%;
   align-self: start;
-}
-
-.option-label-left {
-  align-self: end;
-  grid-row: 1/1;
-  grid-column: 1/2;
-  margin: 2%;
-}
-
-.option-label-right {
-  align-self: end;
-  grid-row: 1/1;
-  grid-column: 3/4;
-  margin: 2%;
 }
 </style>

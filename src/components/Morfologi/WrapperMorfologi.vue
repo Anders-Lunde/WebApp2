@@ -13,7 +13,10 @@
 
         <!-- Edit menu. Shown if editMode-->
         <div v-if="editMode" class="edit-menu right"></div>
-        <div v-if="editMode" class="edit-menu bottom"></div>
+        <div v-if="editMode" class="edit-menu bottom">
+          <div style="font-size:30px">{{currentTestState.items[ii].type}}</div>
+          <div class="reset-user" @click="resetUserAnswer()">RESET</div>
+        </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
     </div>
@@ -119,7 +122,14 @@ export default Vue.extend({
   },
   props: {},
 
-  methods: {},
+  methods: {
+    /*
+     *METHOD START: resetUserAnswer:
+     */
+    resetUserAnswer: function () {
+      this.items[this.ii].userAnswer = null;
+    },
+  },
 });
 </script>
 
@@ -156,5 +166,11 @@ export default Vue.extend({
 .edit-menu {
   background: pink;
   border: calc(var(--vw) * 0.1) solid black;
+}
+
+.reset-user {
+  border: calc(var(--vw) * 0.1) solid black;
+  cursor: pointer;
+  font-size: 60px;
 }
 </style>
