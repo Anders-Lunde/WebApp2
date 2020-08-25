@@ -73,6 +73,10 @@
         <EditModeItemResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
+
+    <div v-if="editMode===true && items[ii].isPractice===true" class="ispractise-indicator">
+      <EditModeItemIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="4" />
+    </div>
   </div>
 </template>
 
@@ -86,6 +90,7 @@ import Narrator1Animated from "@/components/Narrator1Animated.vue";
 import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabelCorrect.vue";
 import EditModeItemOptionLabelWrong from "@/components/EditModeItemOptionLabelWrong.vue";
 import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
+import EditModeItemIsPracticeIndicator from "@/components/EditModeItemIsPracticeIndicator.vue";
 
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -99,6 +104,7 @@ export default Vue.extend({
     EditModeItemOptionLabelCorrect,
     EditModeItemOptionLabelWrong,
     EditModeItemResultIndicator,
+    EditModeItemIsPracticeIndicator,
   },
   data() {
     return {
@@ -350,6 +356,14 @@ export default Vue.extend({
   width: 100%;
   transform: scale(1.1);
   transform-origin: right top;
+}
+
+.ispractise-indicator {
+  grid-row: 1/1;
+  grid-column: 1/-1;
+  margin: 2%;
+  align-self: start;
+  justify-self: center;
 }
 
 .score-indicator {

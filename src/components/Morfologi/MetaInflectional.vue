@@ -2,11 +2,7 @@
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
 
-    <div
-      class="narrator"
-      :class="narratorPosition"
-      v-if="editMode===false && items[ii].isPractice===true"
-    >
+    <div class="narrator" :class="narratorPosition" v-if="editMode===false">
       <div v-show="animateNarrator===false">
         <Narrator1Static />
       </div>
@@ -29,6 +25,7 @@
     >
       <ButtonAudioPlay />
     </div>
+
     <div
       v-show="showRightAudioButton === true"
       class="button audio-button right"
@@ -37,23 +34,36 @@
       <ButtonAudioPlay />
     </div>
 
+    <!-- Button that hides feedback buttons: -->
+    <div
+      v-show="showFeedbackButtons === false && items[ii].isPractice===true"
+      class="button-show-feedback"
+      @click="buttonShowFeedback()"
+    />
+
+    <!-- Feedback button wrong: -->
     <div
       v-show="showFeedbackButtons === true && items[ii].isPractice===true"
       class="feedback-button wrong"
+      @click="feedbackAudio('wrong')"
     >
-      <div @click="feedbackAudio('wrong')">
-        <ButtonFeedbackWrongGentle />
-      </div>
+      <ButtonFeedbackWrongGentle />
     </div>
-
+    <!-- Feedback button correct: -->
     <div
       v-show="showFeedbackButtons === true && items[ii].isPractice===true"
       class="feedback-button correct"
+      @click="feedbackAudio('correct')"
     >
-      <div @click="feedbackAudio('correct')">
-        <ButtonFeedbackCorrectGentle />
-      </div>
+      <ButtonFeedbackCorrectGentle />
     </div>
+
+    <!-- Button that hides Goto next button in non-practice items: -->
+    <div
+      v-show="showGotoNext === false && items[ii].isPractice===false"
+      class="button-show-goto-next"
+      @click="buttonShowGotoNext()"
+    />
 
     <div v-show="showGotoNext===true" class="goto-next-button">
       <div @click="gotoNextButton">
@@ -62,10 +72,23 @@
     </div>
 
     <!-- Edit mode stuff: -->
-    <div class="answer-key">
-      <div v-if="editMode===true">
-        Rikitig svar =
-        <strong>{{items[ii].answerKey}}</strong>
+    <div v-if="editMode===true" class="answer-key">
+      <EditModeItemOptionLabelCorrect :label-text="items[ii].answerKey" font-size="2.5" />
+    </div>
+
+    <div v-if="editMode===true && items[ii].isPractice===true" class="ispractise-indicator">
+      <EditModeItemIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="5" />
+    </div>
+
+    <div v-if="editMode===true" class="score-indicator">
+      <div v-if="items[ii].userAnswer===null">
+        <EditModeItemResultIndicator result="unanswered" font-size="2.5" />
+      </div>
+      <div v-else-if="items[ii].userAnswer==='correct'">
+        <EditModeItemResultIndicator result="correct" font-size="2.5" />
+      </div>
+      <div v-else>
+        <EditModeItemResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
 
@@ -158,8 +181,8 @@ import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
 import Narrator1Static from "@/components/Narrator1Static.vue";
 import Narrator1Animated from "@/components/Narrator1Animated.vue";
 import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabelCorrect.vue";
-import EditModeItemOptionLabelWrong from "@/components/EditModeItemOptionLabelWrong.vue";
 import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
+import EditModeItemIsPracticeIndicator from "@/components/EditModeItemIsPracticeIndicator.vue";
 
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -172,9 +195,9 @@ export default Vue.extend({
     ButtonGotoNext,
     Narrator1Static,
     Narrator1Animated,
-    //EditModeItemOptionLabelCorrect,
-    //EditModeItemOptionLabelWrong,
-    //EditModeItemResultIndicator,
+    EditModeItemIsPracticeIndicator,
+    EditModeItemOptionLabelCorrect,
+    EditModeItemResultIndicator,
   },
   data() {
     return {
@@ -182,8 +205,8 @@ export default Vue.extend({
       animateRight: false,
       animateLeft: false,
       animateNarrator: false,
-      showGotoNext: true,
-      showFeedbackButtons: true,
+      showGotoNext: false,
+      showFeedbackButtons: false,
       narratorPosition: "narratorPosMiddle",
       leftWasPlayed: false,
       showRightAudioButton: false,
@@ -220,16 +243,49 @@ export default Vue.extend({
       this.narratorPosition = "narratorPosMiddle";
       this.leftWasPlayed = false;
       this.showRightAudioButton = false;
+      this.showGotoNext = false;
+      this.showFeedbackButtons = false;
     },
     /*
-     *METHOD START: feedbackCorrect:
+     *METHOD START: buttonShowFeedback:
+     */
+    buttonShowFeedback: function () {
+      if (
+        this.deactivateAllButtons === true ||
+        this.items[this.ii].nPlaybackTimes < 1
+      ) {
+        return;
+      }
+      this.showFeedbackButtons = true;
+    },
+    /*
+     *METHOD START: buttonShowGotoNext:
+     */
+    buttonShowGotoNext: function () {
+      if (
+        this.deactivateAllButtons === true ||
+        this.items[this.ii].nPlaybackTimes < 1
+      ) {
+        return;
+      }
+      this.showGotoNext = true;
+    },
+
+    /*
+     *METHOD START: feedbackAudio:
      */
     feedbackAudio: function (input: string) {
+      if (this.deactivateAllButtons) {
+        return;
+      }
+      this.deactivateAllButtons = true;
       if (input === "wrong") {
         const audio = new Audio(this.items[this.ii].feedbackWrong);
         //Setup animation start/stop during playback
         audio.addEventListener("ended", () => {
           this.animateNarrator = false;
+          this.showGotoNext = true;
+          this.deactivateAllButtons = false;
         });
         audio.addEventListener("play", () => {
           this.animateNarrator = true;
@@ -242,6 +298,8 @@ export default Vue.extend({
         //Setup animation start/stop during playback
         audio.addEventListener("ended", () => {
           this.animateNarrator = false;
+          this.showGotoNext = true;
+          this.deactivateAllButtons = false;
         });
         audio.addEventListener("play", () => {
           this.animateNarrator = true;
@@ -516,6 +574,18 @@ export default Vue.extend({
 .audio-button.right {
   grid-column: 3/5;
 }
+.button-show-goto-next {
+  grid-row: 3;
+  grid-column: 4/5;
+  background: white;
+  border: calc(var(--vw) * 0.3) solid white;
+  border-radius: calc(var(--vw) * 2);
+  width: calc(var(--vw) * 10);
+  height: calc(var(--vw) * 10);
+  cursor: pointer;
+  justify-self: end;
+  align-self: end;
+}
 
 .goto-next-button {
   grid-row: 3;
@@ -525,18 +595,62 @@ export default Vue.extend({
   margin: calc(var(--vw) * 0.3);
 }
 
+.button-show-feedback {
+  grid-row: 3;
+  grid-column: 1/2;
+  background: white;
+  border: calc(var(--vw) * 0.3) solid white;
+  border-radius: calc(var(--vw) * 2);
+  width: calc(var(--vw) * 10);
+  height: calc(var(--vw) * 10);
+  cursor: pointer;
+  justify-self: start;
+  align-self: end;
+}
+
 .feedback-button {
   grid-row: 3;
   align-self: end;
   margin: calc(var(--vw) * 0.3);
+  opacity: 0.3;
+  width: calc(var(--vw) * 5);
+  height: calc(var(--vw) * 5);
 }
+
+.feedback-button > div {
+  width: 100%;
+  height: 100%;
+}
+
 .feedback-button.correct {
-  grid-column: 3/4;
-  justify-self: start;
+  grid-column: 1/2;
+  transform: translate(calc(var(--vw) * 13));
 }
 
 .feedback-button.wrong {
-  grid-column: 2/3;
+  grid-column: 1/2;
+}
+
+.ispractise-indicator {
+  grid-row: 1/1;
+  grid-column: 1/-1;
+  margin: 2%;
+  align-self: start;
+  justify-self: center;
+}
+
+.answer-key {
+  grid-row: 1/1;
+  grid-column: 1/2;
+  margin: 2%;
+  align-self: start;
+  justify-self: start;
+}
+
+.score-indicator {
+  grid-row: 1/1;
+  grid-column: 1/2;
+  margin: 2%;
   justify-self: end;
 }
 
