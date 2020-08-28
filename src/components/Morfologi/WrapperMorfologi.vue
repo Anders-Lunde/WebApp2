@@ -14,8 +14,8 @@
         <!-- Edit menu. Shown if editMode-->
         <div v-if="editMode" class="edit-menu right"></div>
         <div v-if="editMode" class="edit-menu bottom">
-          <div style="font-size:30px">{{currentTestState.items[ii].type}}</div>
-          <div class="reset-user" @click="resetUserAnswer()">RESET</div>
+          <EditModeMenuNavigation :module-state="currentTestState" />
+          <EditModeMenuNavigation :module-state="currentTestState" />
         </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
@@ -30,6 +30,8 @@ import EpiInflectional from "@/components/Morfologi/EpiInflectional.vue";
 import MetaInflectional from "@/components/Morfologi/MetaInflectional.vue";
 import DebugFooter from "@/components/DebugFooter.vue";
 import DebugHeader from "@/components/DebugHeader.vue";
+import EditModeMenuNavigation from "@/components/EditModeMenuNavigation.vue";
+
 import { createNamespacedHelpers } from "vuex";
 
 const { mapState } = createNamespacedHelpers("morfologi"); //When repurposing test: Set module namespace here
@@ -41,6 +43,7 @@ export default Vue.extend({
     DebugFooter,
     EpiInflectional,
     MetaInflectional,
+    EditModeMenuNavigation,
   },
   data() {
     return {
@@ -122,19 +125,13 @@ export default Vue.extend({
   },
   props: {},
 
-  methods: {
-    /*
-     *METHOD START: resetUserAnswer:
-     */
-    resetUserAnswer: function () {
-      this.items[this.ii].userAnswer = null;
-    },
-  },
+  methods: {},
 });
 </script>
 
 <style scoped>
 .viewport-area {
+  /*this will be visible as a thin border around the app-area*/
   background: rgb(238, 238, 238);
   width: var(--canvasWidth);
   height: var(--canvasHeight);
@@ -145,8 +142,8 @@ export default Vue.extend({
   transform: scale(0.99); /*this gives some border around the viewport*/
 }
 
-/*Enabled only in editMode*/
 .wrapper_grid_container {
+  /*Enabled only in editMode*/
   display: grid;
   grid-template-columns: var(--grid-column-setup);
   grid-auto-rows: var(--grid-row-setup);
@@ -154,23 +151,22 @@ export default Vue.extend({
   row-gap: 0;
 }
 
-/*Enabled only in editMode*/
 .test_area_edit_mode {
+  /*Enabled only in editMode*/
   grid-row: 1/2;
   grid-column: 1/2;
-  transform: var(--edit-menu-size); /*transform: scale(x, y); */
+  transform: var(--edit-menu-size);
   transform-origin: top left;
   transition: transform 0.4s;
 }
 
 .edit-menu {
-  background: pink;
+  background: rgb(221, 221, 221);
   border: calc(var(--vw) * 0.1) solid black;
-}
-
-.reset-user {
-  border: calc(var(--vw) * 0.1) solid black;
-  cursor: pointer;
-  font-size: 60px;
+  border-bottom: none;
+  border-right: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>

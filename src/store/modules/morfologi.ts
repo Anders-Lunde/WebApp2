@@ -2,7 +2,7 @@ export default {
   namespaced: true,
   state: {
     ii: 20, // items array index
-    editMode: false,
+    editMode: true,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
     items: [

@@ -29,7 +29,7 @@ export default Vue.extend({
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 });
 </script>
 
