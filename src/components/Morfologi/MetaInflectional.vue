@@ -500,10 +500,11 @@ export default Vue.extend({
 .feedback-button {
   grid-row: 3;
   align-self: end;
-  margin: calc(var(--vw) * 0.3);
+  margin: calc(var(--vw) * 1.3);
+  margin-bottom: calc(var(--vw) * 3);
   opacity: 0.3;
-  width: calc(var(--vw) * 5);
-  height: calc(var(--vw) * 5);
+  width: calc(var(--vw) * 6);
+  height: calc(var(--vw) * 6);
 }
 
 .feedback-button > div {
@@ -513,7 +514,7 @@ export default Vue.extend({
 
 .feedback-button.correct {
   grid-column: 1/2;
-  transform: translate(calc(var(--vw) * 13));
+  transform: translate(calc(var(--vw) * 11));
 }
 
 .feedback-button.wrong {

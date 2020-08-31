@@ -48,8 +48,8 @@ export default Vue.extend({
   data() {
     return {
       currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
-      editMenuWidth: 0.12, //Set width of edit-menu. 0 to 1
-      editMenuHeight: 0.12, //Set height of edit-menu. 0 to 1
+      editMenuWidth: 0.135, //Set width of edit-menu. 0 to 1
+      editMenuHeight: 0.135, //Set height of edit-menu. 0 to 1
     };
   },
   computed: {
