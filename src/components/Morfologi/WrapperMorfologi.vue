@@ -15,7 +15,8 @@
         <div v-if="editMode" class="edit-menu right"></div>
         <div v-if="editMode" class="edit-menu bottom">
           <EditModeMenuNavigation :module-state="currentTestState" />
-          <EditModeMenuNavigation :module-state="currentTestState" />
+          <EditModeMenuResetAnswer :module-state="currentTestState" />
+          <EditModeMenuNullAnswersNavigator :module-state="currentTestState" />
         </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
@@ -31,6 +32,8 @@ import MetaInflectional from "@/components/Morfologi/MetaInflectional.vue";
 import DebugFooter from "@/components/DebugFooter.vue";
 import DebugHeader from "@/components/DebugHeader.vue";
 import EditModeMenuNavigation from "@/components/EditModeMenuNavigation.vue";
+import EditModeMenuResetAnswer from "@/components/EditModeMenuResetAnswer.vue";
+import EditModeMenuNullAnswersNavigator from "@/components/EditModeMenuNullAnswersNavigator.vue";
 
 import { createNamespacedHelpers } from "vuex";
 
@@ -44,6 +47,8 @@ export default Vue.extend({
     EpiInflectional,
     MetaInflectional,
     EditModeMenuNavigation,
+    EditModeMenuResetAnswer,
+    EditModeMenuNullAnswersNavigator,
   },
   data() {
     return {

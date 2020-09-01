@@ -6,7 +6,7 @@
     <div @click="gotoNextSubtest()" class="round-button goto-next-subtest"></div>
     <div @click="setII()" class="round-button set-ii"></div>
 
-    <div class="test-type-label">{{itemType()}}</div>
+    <div class="test-type-label">{{getFormatedItemType()}}</div>
     <div class="screen-index-label">{{getScreenIndexString()}}</div>
   </div>
 </template>
@@ -15,14 +15,22 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "ButtonAudioPlay",
+  name: "EditModeMenuNavigation",
   computed: {},
-  props: ["moduleState"],
+  props: {
+    moduleState: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {};
   },
 
   methods: {
+    /*
+     *METHOD START: getScreenIndexString:
+     */
     getScreenIndexString: function () {
       const currentType = this.moduleState.items[this.moduleState.ii].type;
       const itemArray = this.moduleState.items;
@@ -61,35 +69,73 @@ export default Vue.extend({
       return displayString;
     },
 
-    ii: function () {
-      return this.moduleState.ii;
-    },
-    itemsLength: function () {
-      return this.moduleState.items.length;
-    },
-    itemType: function () {
-      const type = this.moduleState.items[this.ii()].type;
+    /*
+     *METHOD START: getFormatedItemType:
+     */
+    getFormatedItemType: function () {
+      const type = this.moduleState.items[this.moduleState.ii].type;
       // 1) insert a space before all caps
       // 2) uppercase the first character
       return type.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
         return str.toUpperCase();
       });
     },
+    /*
+     *METHOD START: incrementII:
+     */
     incrementII: function () {
-      this.moduleState.ii++;
+      //Avoid overflowing item array
+      this.moduleState.ii = Math.min(
+        this.moduleState.ii + 1,
+        this.moduleState.items.length - 1
+      );
     },
+    /*
+     *METHOD START: decrementII:
+     */
     decrementII: function () {
-      this.moduleState.ii--;
+      //Avoid undeflowing item array
+      this.moduleState.ii = Math.max(this.moduleState.ii - 1, 0);
     },
+    /*
+     *METHOD START: setII:
+     */
     setII: function () {
       //TODO: popup
-      this.moduleState.ii++;
+      console.log("Not implemented yet");
     },
+    /*
+     *METHOD START: gotoPrevSubtest:
+     */
     gotoPrevSubtest: function () {
-      this.moduleState.ii = 20;
+      const typeOrPracticeChangeIndexes = this.$store.getters[
+        "utils/getTypeOrPracticeChangeIndexes"
+      ](this.moduleState);
+      //Looping backwards, set new global ii to the first change point with a lower index than
+      //the current global ii (i.e. the previous screen change)
+      for (let i = typeOrPracticeChangeIndexes.length - 1; i >= 0; i--) {
+        const changeIndex = typeOrPracticeChangeIndexes[i];
+        if (changeIndex < this.moduleState.ii) {
+          this.moduleState.ii = changeIndex;
+          break;
+        }
+      }
     },
+    /*
+     *METHOD START: gotoNextSubtest:
+     */
     gotoNextSubtest: function () {
-      this.moduleState.ii = 0;
+      const typeOrPracticeChangeIndexes = this.$store.getters[
+        "utils/getTypeOrPracticeChangeIndexes"
+      ](this.moduleState);
+      //Set new global ii to the first change point with a higher index than
+      //the current global ii (i.e. the next screen change)
+      for (let i = 0; i < typeOrPracticeChangeIndexes.length; i++) {
+        if (typeOrPracticeChangeIndexes[i] > this.moduleState.ii) {
+          this.moduleState.ii = typeOrPracticeChangeIndexes[i];
+          break;
+        }
+      }
     },
   },
 });
@@ -102,6 +148,7 @@ export default Vue.extend({
   flex-wrap: wrap;
   width: calc(var(--vw) * 35);
   max-height: 100%;
+  border: calc(var(--vw) * 0.2) solid black;
 }
 
 .screen-index-label {
