@@ -1,10 +1,12 @@
 <template>
   <div class="flex-container">
-    <div class="heading">Ubesvarte: {{getNNullAnswersSubtest()}} ({{getNNullAnswersTotal()}} totalt)</div>
-    <div class="next-label">Neste ubesvarte i:</div>
+    <div
+      class="heading"
+    >Blanke her: {{getNNullAnswersSubtest()}} ({{getNNullAnswersTotal()}} totalt)</div>
+    <div class="next-label">Neste blanke i:</div>
 
-    <div class="button goto-next-null-subtest" @click="gotoNextNullSubtest()">Deltest</div>
-    <div class="button goto-next-null-total" @click="gotoNextNullTotal()">Totalt</div>
+    <div class="button goto-next-null-subtest" @click="gotoNextNullAnswerSubtest()">Deltest</div>
+    <div class="button goto-next-null-total" @click="gotoNextNullAnswerTotal()">Totalt</div>
   </div>
 </template>
 
@@ -28,13 +30,39 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextNullSubtest:
      */
-    gotoNextNullSubtest: function () {
+    gotoNextNullAnswerSubtest: function () {
       const currentType = this.moduleState.items[this.moduleState.ii].type;
-      let n = 0;
-      for (const item of this.moduleState.items) {
-        if (item.type === currentType) {
-          if (item.userAnswer === null && item.isPractice == false) {
-            n++;
+      const itemArray = this.moduleState.items;
+      //Check if there is at least 1 null answer
+      let hasNull = false;
+      for (let i = 0; i < itemArray.length; i++) {
+        if (
+          itemArray[i].userAnswer === null &&
+          itemArray[i].isPractice === false &&
+          itemArray[i].type === currentType
+        ) {
+          hasNull = true;
+          break;
+        }
+      }
+      let i = this.moduleState.ii; //start in the current item
+      if (hasNull === true) {
+        /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
+        while (true) {
+          i++;
+          //Start from beginning when end is reached
+          if (i > itemArray.length - 1) {
+            i = 0;
+          }
+
+          if (
+            itemArray[i].userAnswer === null &&
+            itemArray[i].isPractice === false &&
+            itemArray[i].type === currentType
+          ) {
+            //We found the next null item
+            this.moduleState.ii = i;
+            break;
           }
         }
       }
@@ -42,13 +70,36 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextNullTotal:
      */
-    gotoNextNullTotal: function () {
-      const currentType = this.moduleState.items[this.moduleState.ii].type;
-      let n = 0;
-      for (const item of this.moduleState.items) {
-        if (item.type === currentType) {
-          if (item.userAnswer === null && item.isPractice == false) {
-            n++;
+    gotoNextNullAnswerTotal: function () {
+      const itemArray = this.moduleState.items;
+      //Check if there is at least 1 null answer
+      let hasNull = false;
+      for (let i = 0; i < itemArray.length; i++) {
+        if (
+          itemArray[i].userAnswer === null &&
+          itemArray[i].isPractice === false
+        ) {
+          hasNull = true;
+          break;
+        }
+      }
+      let i = this.moduleState.ii; //start in the current item
+      if (hasNull === true) {
+        /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
+        while (true) {
+          i++;
+          //Start from beginning when end is reached
+          if (i > itemArray.length - 1) {
+            i = 0;
+          }
+
+          if (
+            itemArray[i].userAnswer === null &&
+            itemArray[i].isPractice === false
+          ) {
+            //We found the next null item
+            this.moduleState.ii = i;
+            break;
           }
         }
       }
