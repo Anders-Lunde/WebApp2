@@ -10,7 +10,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeScreenResultIndicator",
+  name: "EditModeLabelBinaryScore",
   computed: {
     userStyle() {
       return {

@@ -1,15 +1,12 @@
 <template>
-  <div :style="userStyle" class="container">
-    <div class="heading">RIKTIG SVAR:</div>
-    <div>{{labelText}}</div>
-  </div>
+  <div :style="userStyle" class="container">{{labelText}}</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeScreenOptionLabelCorrect",
+  name: "EditModeLabelIsPractice",
   computed: {
     userStyle() {
       return {
@@ -36,12 +33,9 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.heading {
-  color: #00ff00;
-  font-weight: bold;
-}
-
 .container {
+  color: #ff9d00;
+  font-weight: bold;
   border: calc(var(--vw) * 0.15) solid black;
 }
 </style>

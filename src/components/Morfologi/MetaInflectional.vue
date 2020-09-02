@@ -73,22 +73,22 @@
 
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="answer-key">
-      <EditModeScreenOptionLabelCorrect :label-text="screens[ii].answerKey" font-size="2.5" />
+      <EditModeLabelCorrectAnswer :label-text="screens[ii].answerKey" font-size="2.5" />
     </div>
 
     <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
-      <EditModeScreenIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="5" />
+      <EditModeLabelIsPractice label-text="ØVELSES-SKJERM" font-size="5" />
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
       <div v-if="screens[ii].userAnswer===null">
-        <EditModeScreenResultIndicator result="unanswered" font-size="2.5" />
+        <EditModeLabelBinaryScore result="unanswered" font-size="2.5" />
       </div>
       <div v-else-if="screens[ii].userAnswer==='correct'">
-        <EditModeScreenResultIndicator result="correct" font-size="2.5" />
+        <EditModeLabelBinaryScore result="correct" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeScreenResultIndicator result="wrong" font-size="2.5" />
+        <EditModeLabelBinaryScore result="wrong" font-size="2.5" />
       </div>
     </div>
   </div>
@@ -103,9 +103,9 @@ import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
 import Narrator1Static from "@/components/Narrator1Static.vue";
 import Narrator1Animated from "@/components/Narrator1Animated.vue";
-import EditModeScreenOptionLabelCorrect from "@/components/EditModeScreenOptionLabelCorrect.vue";
-import EditModeScreenResultIndicator from "@/components/EditModeScreenResultIndicator.vue";
-import EditModeScreenIsPracticeIndicator from "@/components/EditModeScreenIsPracticeIndicator.vue";
+import EditModeLabelCorrectAnswer from "@/components/EditModeLabelCorrectAnswer.vue";
+import EditModeLabelBinaryScore from "@/components/EditModeLabelBinaryScore.vue";
+import EditModeLabelIsPractice from "@/components/EditModeLabelIsPractice.vue";
 
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -118,9 +118,9 @@ export default Vue.extend({
     ButtonGotoNext,
     Narrator1Static,
     Narrator1Animated,
-    EditModeScreenIsPracticeIndicator,
-    EditModeScreenOptionLabelCorrect,
-    EditModeScreenResultIndicator,
+    EditModeLabelIsPractice,
+    EditModeLabelCorrectAnswer,
+    EditModeLabelBinaryScore,
   },
   data() {
     return {
