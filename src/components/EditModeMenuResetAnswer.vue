@@ -12,7 +12,7 @@ export default Vue.extend({
   name: "EditModeMenuResetAnswer",
   computed: {},
   props: {
-    moduleState: {
+    currentModuleStoreState: {
       type: Object,
       required: true,
     },
@@ -26,7 +26,9 @@ export default Vue.extend({
      *METHOD START: resetAnswer:
      */
     resetAnswer: function () {
-      this.moduleState.screens[this.moduleState.ii].userAnswer = null;
+      this.currentModuleStoreState.screens[
+        this.currentModuleStoreState.ii
+      ].userAnswer = null;
     },
   },
 });

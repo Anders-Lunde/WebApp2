@@ -1,6 +1,9 @@
 <template>
   <div>
-    <DebugHeader v-if="$store.state.showDebugHeader === true" :module-state="currentTestState" />
+    <DebugHeader
+      v-if="$store.state.showDebugHeader === true"
+      :current-module-store-state="currentModuleStoreState"
+    />
 
     <!-- Grid layout if editMode, to make room for edit menu-->
     <div class="viewport-area" :style="cssVarsForWrapper">
@@ -14,14 +17,17 @@
         <!-- Edit menu. Shown if editMode-->
         <div v-if="editMode" class="edit-menu right"></div>
         <div v-if="editMode" class="edit-menu bottom">
-          <EditModeMenuNavigation :module-state="currentTestState" />
-          <EditModeMenuResetAnswer :module-state="currentTestState" />
-          <EditModeMenuNullAnswersNavigator :module-state="currentTestState" />
+          <EditModeMenuNavigation :current-module-store-state="currentModuleStoreState" />
+          <EditModeMenuResetAnswer :current-module-store-state="currentModuleStoreState" />
+          <EditModeMenuNullAnswersNavigator :current-module-store-state="currentModuleStoreState" />
         </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
     </div>
-    <DebugFooter v-if="$store.state.showDebugFooter === true" :module-state="currentTestState" />
+    <DebugFooter
+      v-if="$store.state.showDebugFooter === true"
+      :current-module-store-state="currentModuleStoreState"
+    />
   </div>
 </template>
 
@@ -52,7 +58,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       editMenuWidth: 0.135, //Set width of edit-menu. 0 to 1
       editMenuHeight: 0.135, //Set height of edit-menu. 0 to 1
     };
@@ -102,13 +108,14 @@ export default Vue.extend({
     //TODO: Lock device screen orientation
     window.addEventListener("keydown", (e) => {
       if (e.key === "e") {
-        this.currentTestState.editMode = !this.currentTestState.editMode;
+        this.currentModuleStoreState.editMode = !this.currentModuleStoreState
+          .editMode;
       }
       if (e.key === "ArrowLeft") {
-        this.currentTestState.ii--;
+        this.currentModuleStoreState.ii--;
       }
       if (e.key === "ArrowRight") {
-        this.currentTestState.ii++;
+        this.currentModuleStoreState.ii++;
       }
       if (e.key === "ArrowUp") {
         this.$store.state.showDebugHeader = !this.$store.state.showDebugHeader;
@@ -118,10 +125,14 @@ export default Vue.extend({
       }
       if (e.key === "n") {
         //switch to next test type
-        const currentType = this.currentTestState.screens[this.ii].type;
-        for (let i = this.ii; i < this.currentTestState.screens.length; i++) {
-          if (this.currentTestState.screens[i].type !== currentType) {
-            this.currentTestState.ii = i;
+        const currentType = this.currentModuleStoreState.screens[this.ii].type;
+        for (
+          let i = this.ii;
+          i < this.currentModuleStoreState.screens.length;
+          i++
+        ) {
+          if (this.currentModuleStoreState.screens[i].type !== currentType) {
+            this.currentModuleStoreState.ii = i;
             break;
           }
         }

@@ -124,7 +124,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
@@ -163,7 +163,7 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentTestState.ii++; //Not sure why this.ii++ from mapState doesnt work
+      this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.narratorPosition = "narratorPosMiddle";
       this.leftWasPlayed = false;
       this.showRightAudioButton = false;

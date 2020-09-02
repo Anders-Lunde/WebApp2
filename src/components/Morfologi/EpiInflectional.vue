@@ -108,7 +108,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentTestState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
@@ -125,10 +125,6 @@ export default Vue.extend({
     ]),
     cssVarsForTest(): Record<string, string> {
       return {
-        /*
-  grid-template-columns: 1fr 4fr 1fr;
-  grid-auto-rows: 5fr 5fr 1fr;
-  */
         "--grid-colums2":
           Math.round(this.$store.getters.canvasWidth * (1 / 6)) +
           "px " +
@@ -162,7 +158,7 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentTestState.ii++;
+      this.currentModuleStoreState.ii++;
     },
 
     /*

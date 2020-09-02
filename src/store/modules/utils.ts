@@ -9,27 +9,27 @@ export default {
      *E.g. [0,4,16,24,40]
      *Useful for navigating between test type changes.
      */
-    getScreenChangeIndexes: () => (moduleState) => {
-      const screenArray = moduleState.screens;
+    getScreenChangeIndexes: () => (currentModuleStoreState) => {
+      const screenArray = currentModuleStoreState.screens;
       const screenChangeIndexes: number[] = [];
       //Always include the first screen
       screenChangeIndexes.push(0);
       //Initialize:
       let previousState =
-        String(moduleState.screens[0].isPractice) +
-        String(moduleState.screens[0].type);
+        String(currentModuleStoreState.screens[0].isPractice) +
+        String(currentModuleStoreState.screens[0].type);
       //Find indexes where test type, or practice/non-practice, changes.
       //Push this info to the typeChangeIndexes array.
       for (let i = 1; i < screenArray.length; i++) {
         const thisState =
-          String(moduleState.screens[i].isPractice) +
-          String(moduleState.screens[i].type);
+          String(currentModuleStoreState.screens[i].isPractice) +
+          String(currentModuleStoreState.screens[i].type);
         if (thisState !== previousState) {
           screenChangeIndexes.push(i);
         }
         previousState =
-          String(moduleState.screens[i].isPractice) +
-          String(moduleState.screens[i].type);
+          String(currentModuleStoreState.screens[i].isPractice) +
+          String(currentModuleStoreState.screens[i].type);
       }
       //Always include the last screen
       screenChangeIndexes.push(screenArray.length - 1);
@@ -39,10 +39,11 @@ export default {
     /*
      *METHOD START: getNNullAnswersSubtest:
      */
-    getNNullAnswersSubtest: () => (moduleState) => {
-      const currentType = moduleState.screens[moduleState.ii].type;
+    getNNullAnswersSubtest: () => (currentModuleStoreState) => {
+      const currentType =
+        currentModuleStoreState.screens[currentModuleStoreState.ii].type;
       let n = 0;
-      for (const screen of moduleState.screens) {
+      for (const screen of currentModuleStoreState.screens) {
         if (screen.type === currentType) {
           if (screen.userAnswer === null && screen.isScored === true) {
             n++;
@@ -55,9 +56,9 @@ export default {
     /*
      *METHOD START: getNNullAnswersTotal:
      */
-    getNNullAnswersTotal: () => (moduleState) => {
+    getNNullAnswersTotal: () => (currentModuleStoreState) => {
       let n = 0;
-      for (const screen of moduleState.screens) {
+      for (const screen of currentModuleStoreState.screens) {
         if (screen.userAnswer === null && screen.isScored === true) {
           n++;
         }

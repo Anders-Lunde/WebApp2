@@ -39,28 +39,29 @@ export default Vue.extend({
   name: "DebugFooter",
   computed: {},
 
-  props: ["moduleState"],
+  props: ["currentModuleStoreState"],
   data() {
     return {};
   },
 
   methods: {
-    incrementII: function() {
-      this.moduleState.ii++;
+    incrementII: function () {
+      this.currentModuleStoreState.ii++;
     },
-    decrementII: function() {
-      this.moduleState.ii--;
+    decrementII: function () {
+      this.currentModuleStoreState.ii--;
     },
-    toggleEditMode: function() {
-      this.moduleState.editMode = !this.moduleState.editMode;
+    toggleEditMode: function () {
+      this.currentModuleStoreState.editMode = !this.currentModuleStoreState
+        .editMode;
     },
-    productionView: function() {
-      this.moduleState.editMode = false;
+    productionView: function () {
+      this.currentModuleStoreState.editMode = false;
       this.$store.state.showDebugHeader = false;
       this.$store.state.showDebugFooter = false;
       this.$store.state.showNavBar = false;
-    }
-  }
+    },
+  },
 });
 </script>
 

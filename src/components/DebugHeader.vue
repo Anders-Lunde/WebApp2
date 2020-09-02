@@ -1,15 +1,18 @@
 <template>
   <div class="container">
-    <h3>Screen type: {{moduleState.screens[moduleState.ii].type}}</h3>
+    <h3>Screen type: {{currentModuleStoreState.screens[currentModuleStoreState.ii].type}}</h3>
     <div>
       <ul>
-        <li>ii = {{moduleState.ii}}</li>
-        <li>editMode = {{moduleState.editMode}}</li>
+        <li>ii = {{currentModuleStoreState.ii}}</li>
+        <li>editMode = {{currentModuleStoreState.editMode}}</li>
         <li>orientation = {{$store.state.orientation}}</li>
       </ul>
       <h4>Screen content:</h4>
       <ul>
-        <li v-for="(value, name) in moduleState.screens[moduleState.ii]" v-bind:key="name">
+        <li
+          v-for="(value, name) in currentModuleStoreState.screens[currentModuleStoreState.ii]"
+          v-bind:key="name"
+        >
           <b>{{ name }}:</b>
           {{ value }}
         </li>
@@ -25,7 +28,7 @@ export default Vue.extend({
   name: "DebugHeader",
   computed: {},
 
-  props: ["moduleState"],
+  props: ["currentModuleStoreState"],
   data() {
     return {};
   },

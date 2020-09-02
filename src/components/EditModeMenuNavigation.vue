@@ -18,7 +18,7 @@ export default Vue.extend({
   name: "EditModeMenuNavigation",
   computed: {},
   props: {
-    moduleState: {
+    currentModuleStoreState: {
       type: Object,
       required: true,
     },
@@ -34,8 +34,10 @@ export default Vue.extend({
      *or "Test 14 / 16"
      */
     getScreenIndexString: function () {
-      const currentType = this.moduleState.screens[this.moduleState.ii].type;
-      const screenArray = this.moduleState.screens;
+      const currentType = this.currentModuleStoreState.screens[
+        this.currentModuleStoreState.ii
+      ].type;
+      const screenArray = this.currentModuleStoreState.screens;
       let nTestScreens = 0;
       let nPracticeScreens = 0;
       let displayString = "";
@@ -44,9 +46,9 @@ export default Vue.extend({
       let screenIndex = -1;
       //Count n practice screens and test screens, for current test.
       //In the middle of the loop, take note of which screen we currently are in:
-      //(if (this.moduleState.ii == i)
+      //(if (this.currentModuleStoreState.ii == i)
       for (let i = 0; i < screenArray.length; i++) {
-        const screen = this.moduleState.screens[i];
+        const screen = this.currentModuleStoreState.screens[i];
         if (screen.type === currentType) {
           if (screen.isPractice === true) {
             nPracticeScreens++;
@@ -57,7 +59,7 @@ export default Vue.extend({
         //Find out what the current screen is.
         //nPracticeScreens and nTestScreens will at this point in the loop
         //reflect which screenIndex we are on
-        if (this.moduleState.ii == i) {
+        if (this.currentModuleStoreState.ii == i) {
           if (screen.isPractice === true) {
             currectScreenIsPractice = true;
             screenIndex = nPracticeScreens;
@@ -83,7 +85,9 @@ export default Vue.extend({
      *METHOD START: getFormatedScreenType:
      */
     getFormatedScreenType: function () {
-      const type = this.moduleState.screens[this.moduleState.ii].type;
+      const type = this.currentModuleStoreState.screens[
+        this.currentModuleStoreState.ii
+      ].type;
       // 1) insert a space before all caps
       // 2) uppercase the first character
       return type.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
@@ -95,9 +99,9 @@ export default Vue.extend({
      */
     incrementII: function () {
       //Avoid overflowing screen array
-      this.moduleState.ii = Math.min(
-        this.moduleState.ii + 1,
-        this.moduleState.screens.length - 1
+      this.currentModuleStoreState.ii = Math.min(
+        this.currentModuleStoreState.ii + 1,
+        this.currentModuleStoreState.screens.length - 1
       );
     },
     /*
@@ -105,7 +109,10 @@ export default Vue.extend({
      */
     decrementII: function () {
       //Avoid undeflowing screen array
-      this.moduleState.ii = Math.max(this.moduleState.ii - 1, 0);
+      this.currentModuleStoreState.ii = Math.max(
+        this.currentModuleStoreState.ii - 1,
+        0
+      );
     },
     /*
      *METHOD START: setII:
@@ -120,13 +127,13 @@ export default Vue.extend({
     gotoPrevSubtest: function () {
       const screenChangeIndexes = this.$store.getters[
         "utils/getScreenChangeIndexes"
-      ](this.moduleState);
+      ](this.currentModuleStoreState);
       //Looping backwards, set new global ii to the first change point with a lower index than
       //the current global ii (i.e. the previous screen change)
       for (let i = screenChangeIndexes.length - 1; i >= 0; i--) {
         const changeIndex = screenChangeIndexes[i];
-        if (changeIndex < this.moduleState.ii) {
-          this.moduleState.ii = changeIndex;
+        if (changeIndex < this.currentModuleStoreState.ii) {
+          this.currentModuleStoreState.ii = changeIndex;
           break;
         }
       }
@@ -137,12 +144,12 @@ export default Vue.extend({
     gotoNextSubtest: function () {
       const screenChangeIndexes = this.$store.getters[
         "utils/getScreenChangeIndexes"
-      ](this.moduleState);
+      ](this.currentModuleStoreState);
       //Set new global ii to the first change point with a higher index than
       //the current global ii (i.e. the next screen change)
       for (let i = 0; i < screenChangeIndexes.length; i++) {
-        if (screenChangeIndexes[i] > this.moduleState.ii) {
-          this.moduleState.ii = screenChangeIndexes[i];
+        if (screenChangeIndexes[i] > this.currentModuleStoreState.ii) {
+          this.currentModuleStoreState.ii = screenChangeIndexes[i];
           break;
         }
       }
