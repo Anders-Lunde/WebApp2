@@ -231,7 +231,7 @@ export default Vue.extend({
       this.deactivateAllButtons = true;
 
       /*
-      If "isInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this item, start by playing 
       narrator audio w/animation.
       Regardless, always play left/right characters audio min succession.
       Characters are animated during playback.
@@ -248,7 +248,7 @@ export default Vue.extend({
       /*
       Characters audio and animation. 
       Animate character during playback.
-      Narrator first (if isInstruction === true).
+      Narrator first (if isNarratorInstruction === true).
       Then left.
       Then right.
       */
@@ -277,7 +277,7 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isInstruction === true &&
+        this.items[this.ii].isNarratorInstruction === true &&
         this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();

@@ -30,6 +30,8 @@ export default Vue.extend({
   methods: {
     /*
      *METHOD START: getScreenIndexString:
+     *Returns e.g. "Øvelse 1 / 4"
+     *or "Test 14 / 16"
      */
     getScreenIndexString: function () {
       const currentType = this.moduleState.items[this.moduleState.ii].type;
@@ -38,33 +40,41 @@ export default Vue.extend({
       let nPracticeItems = 0;
       let displayString = "";
       let currectScreenIsPractice = false;
+      let currectScreenIsTest = false;
       let screenIndex = -1;
+      //Count n practice items and test items, for current test.
+      //In the middle of the loop, take note of which screen we currently are in:
+      //(if (this.moduleState.ii == i)
       for (let i = 0; i < itemArray.length; i++) {
         const item = this.moduleState.items[i];
-        //Count n practice items and test items, for current test
         if (item.type === currentType) {
           if (item.isPractice === true) {
             nPracticeItems++;
-          } else {
+          } else if (item.isScored === true) {
             nTestItems++;
           }
         }
+        //Find out what the current screen is.
+        //nPracticeItems and nTestItems will at this point in the loop
+        //reflect which screenIndex we are on
         if (this.moduleState.ii == i) {
-          //Find out what the current screen is.
-          //nPracticeItems and nTestItems will at this point in the loop
-          //reflect which screenIndex we are on
           if (item.isPractice === true) {
             currectScreenIsPractice = true;
             screenIndex = nPracticeItems;
-          } else {
+          } else if (item.isScored === true) {
+            currectScreenIsTest = true;
             screenIndex = nTestItems;
           }
         }
       }
+      //Construct info-string
       if (currectScreenIsPractice) {
         displayString = "Øvelse " + screenIndex + " / " + nPracticeItems;
-      } else {
+      } else if (currectScreenIsTest) {
         displayString = "Test " + screenIndex + " / " + nTestItems;
+      } else {
+        //It's neither practice nor test
+        displayString = "";
       }
       return displayString;
     },
@@ -108,13 +118,13 @@ export default Vue.extend({
      *METHOD START: gotoPrevSubtest:
      */
     gotoPrevSubtest: function () {
-      const typeOrPracticeChangeIndexes = this.$store.getters[
-        "utils/getTypeOrPracticeChangeIndexes"
+      const screenChangeIndexes = this.$store.getters[
+        "utils/getScreenChangeIndexes"
       ](this.moduleState);
       //Looping backwards, set new global ii to the first change point with a lower index than
       //the current global ii (i.e. the previous screen change)
-      for (let i = typeOrPracticeChangeIndexes.length - 1; i >= 0; i--) {
-        const changeIndex = typeOrPracticeChangeIndexes[i];
+      for (let i = screenChangeIndexes.length - 1; i >= 0; i--) {
+        const changeIndex = screenChangeIndexes[i];
         if (changeIndex < this.moduleState.ii) {
           this.moduleState.ii = changeIndex;
           break;
@@ -125,14 +135,14 @@ export default Vue.extend({
      *METHOD START: gotoNextSubtest:
      */
     gotoNextSubtest: function () {
-      const typeOrPracticeChangeIndexes = this.$store.getters[
-        "utils/getTypeOrPracticeChangeIndexes"
+      const screenChangeIndexes = this.$store.getters[
+        "utils/getScreenChangeIndexes"
       ](this.moduleState);
       //Set new global ii to the first change point with a higher index than
       //the current global ii (i.e. the next screen change)
-      for (let i = 0; i < typeOrPracticeChangeIndexes.length; i++) {
-        if (typeOrPracticeChangeIndexes[i] > this.moduleState.ii) {
-          this.moduleState.ii = typeOrPracticeChangeIndexes[i];
+      for (let i = 0; i < screenChangeIndexes.length; i++) {
+        if (screenChangeIndexes[i] > this.moduleState.ii) {
+          this.moduleState.ii = screenChangeIndexes[i];
           break;
         }
       }

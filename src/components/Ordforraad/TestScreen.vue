@@ -75,19 +75,19 @@ export default Vue.extend({
       imgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
       imgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
       narratorImageStill: require("@/assets/narratorImageStill.png"),
-      narratorImageAnimated: require("@/assets/narratorImageAnimated.gif")
+      narratorImageAnimated: require("@/assets/narratorImageAnimated.gif"),
     };
   },
 
   methods: {
-    gotoNextButton: function() {
+    gotoNextButton: function () {
       if (this.deactivateAllButtons) {
         return;
       }
       this.$store.commit("incrementII");
     },
 
-    characterSelected: function(userAnswer: object) {
+    characterSelected: function (userAnswer: object) {
       //Abort if something else is playing/animating
       if (this.deactivateAllButtons) {
         return;
@@ -130,7 +130,7 @@ export default Vue.extend({
         }
       }
     },
-    playAudio: function() {
+    playAudio: function () {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.items[this.ii].nPlaybackTimes >= 3) {
@@ -145,7 +145,7 @@ export default Vue.extend({
       this.deactivateAllButtons = true;
 
       /*
-      If "isInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this item, start by playing 
       narrator audio w/animation.
       Regardless, always play left/right characters audio.
       Characters are animated during playback.
@@ -162,7 +162,7 @@ export default Vue.extend({
       /*
       Characters audio and animation. 
       Animate character during playback.
-      Narrator first (if isInstruction === true).
+      Narrator first (if isNarratorInstruction === true).
       Then left.
       Then right.
       */
@@ -191,7 +191,7 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isInstruction === true &&
+        this.items[this.ii].isNarratorInstruction === true &&
         this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();
@@ -199,8 +199,8 @@ export default Vue.extend({
         audioLeft.play();
       }
       this.items[this.ii].nPlaybackTimes++;
-    }
-  }
+    },
+  },
 });
 </script>
 

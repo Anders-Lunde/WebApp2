@@ -263,7 +263,7 @@ export default Vue.extend({
       }
 
       /*
-      If "isInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this item, start by playing 
       narrator audio w/animation.
       */
       const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
@@ -294,7 +294,7 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isInstruction === true &&
+        this.items[this.ii].isNarratorInstruction === true &&
         this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();

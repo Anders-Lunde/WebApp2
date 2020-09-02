@@ -3,32 +3,37 @@ export default {
   state: {},
   getters: {
     /*
-     *METHOD START: getTypeOrPracticeChangeIndexes:
-     *Returns an array of indexes that indicates where tests starts/stops,
-     *including when going from practice item to normal item.
-     *Usefule for navigating quickly between tests.
+     *METHOD START: getScreenChangeIndexes:
+     *Returns an array of indexes that indicates where screen type changes,
+     *currently sensitive to changes of .isPractice and .type.
+     *E.g. [0,4,16,24,40]
+     *Useful for navigating between test type changes.
      */
-    getTypeOrPracticeChangeIndexes: () => (moduleState) => {
+    getScreenChangeIndexes: () => (moduleState) => {
       const itemArray = moduleState.items;
-      const typeOrPracticeChangeIndexes: number[] = [];
-      typeOrPracticeChangeIndexes.push(0);
+      const screenChangeIndexes: number[] = [];
+      //Always include the first screen
+      screenChangeIndexes.push(0);
       //Initialize:
-      let previousPractiseState = moduleState.items[0].isPractice;
-      let previousType = moduleState.items[0].type;
+      let previousState =
+        String(moduleState.items[0].isPractice) +
+        String(moduleState.items[0].type);
       //Find indexes where test type, or practice/non-practice, changes.
       //Push this info to the typeChangeIndexes array.
       for (let i = 1; i < itemArray.length; i++) {
-        const type = moduleState.items[i].type;
-        const isPractice = moduleState.items[i].isPractice;
-        if (previousPractiseState !== isPractice || previousType !== type) {
-          typeOrPracticeChangeIndexes.push(i);
+        const thisState =
+          String(moduleState.items[i].isPractice) +
+          String(moduleState.items[i].type);
+        if (thisState !== previousState) {
+          screenChangeIndexes.push(i);
         }
-        previousPractiseState = moduleState.items[i].isPractice;
-        previousType = moduleState.items[i].type;
+        previousState =
+          String(moduleState.items[i].isPractice) +
+          String(moduleState.items[i].type);
       }
-      //Add the last screen so we can jump to that also
-      typeOrPracticeChangeIndexes.push(itemArray.length - 1);
-      return typeOrPracticeChangeIndexes;
+      //Always include the last screen
+      screenChangeIndexes.push(itemArray.length - 1);
+      return screenChangeIndexes;
     },
 
     /*
@@ -39,7 +44,7 @@ export default {
       let n = 0;
       for (const item of moduleState.items) {
         if (item.type === currentType) {
-          if (item.userAnswer === null && item.isPractice == false) {
+          if (item.userAnswer === null && item.isScored === true) {
             n++;
           }
         }
@@ -53,7 +58,7 @@ export default {
     getNNullAnswersTotal: () => (moduleState) => {
       let n = 0;
       for (const item of moduleState.items) {
-        if (item.userAnswer === null && item.isPractice == false) {
+        if (item.userAnswer === null && item.isScored === true) {
           n++;
         }
       }

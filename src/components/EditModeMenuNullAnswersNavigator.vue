@@ -1,9 +1,7 @@
 <template>
   <div class="flex-container">
-    <div
-      class="heading"
-    >Blanke her: {{getNNullAnswersSubtest()}} ({{getNNullAnswersTotal()}} totalt)</div>
-    <div class="next-label">Neste blanke i:</div>
+    <div class="heading">Ubesv her: {{getNNullAnswersSubtest()}} ({{getNNullAnswersTotal()}} totalt)</div>
+    <div class="next-label">Neste ubesv i:</div>
 
     <div class="button goto-next-null-subtest" @click="gotoNextNullAnswerSubtest()">Deltest</div>
     <div class="button goto-next-null-total" @click="gotoNextNullAnswerTotal()">Totalt</div>
@@ -38,13 +36,14 @@ export default Vue.extend({
       for (let i = 0; i < itemArray.length; i++) {
         if (
           itemArray[i].userAnswer === null &&
-          itemArray[i].isPractice === false &&
+          itemArray[i].isScored === true &&
           itemArray[i].type === currentType
         ) {
           hasNull = true;
           break;
         }
       }
+      //Go to next null (set this.moduleState.ii to next null)
       let i = this.moduleState.ii; //start in the current item
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
@@ -57,7 +56,7 @@ export default Vue.extend({
 
           if (
             itemArray[i].userAnswer === null &&
-            itemArray[i].isPractice === false &&
+            itemArray[i].isScored === true &&
             itemArray[i].type === currentType
           ) {
             //We found the next null item
@@ -77,12 +76,13 @@ export default Vue.extend({
       for (let i = 0; i < itemArray.length; i++) {
         if (
           itemArray[i].userAnswer === null &&
-          itemArray[i].isPractice === false
+          itemArray[i].isScored === true
         ) {
           hasNull = true;
           break;
         }
       }
+      //Go to next null (set this.moduleState.ii to next null)
       let i = this.moduleState.ii; //start in the current item
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
@@ -95,7 +95,7 @@ export default Vue.extend({
 
           if (
             itemArray[i].userAnswer === null &&
-            itemArray[i].isPractice === false
+            itemArray[i].isScored === true
           ) {
             //We found the next null item
             this.moduleState.ii = i;
