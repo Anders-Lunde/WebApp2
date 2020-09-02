@@ -1,9 +1,9 @@
 export default {
   namespaced: true,
   state: {
-    ii: 0, // items array index
+    ii: 0, // screens array index
     editMode: true,
-    items: [
+    screens: [
       {
         id: 0,
         type: "TestScreen",
@@ -347,7 +347,7 @@ export default {
     ],
   },
   getters: {
-    items: (state) => state.items,
+    screens: (state) => state.screens,
     ii: (state) => state.ii,
     editMode: (state) => state.editMode,
   },
@@ -362,7 +362,7 @@ export default {
       state.ii = n;
     },
     recordAnswer(state, payload) {
-      state.items[state.ii].userAnswer = payload.userAnswer;
+      state.screens[state.ii].userAnswer = payload.userAnswer;
     },
     toggleEditMode(state) {
       state.editMode = !state.editMode;

@@ -2,7 +2,7 @@
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
     <div class="left-area" :class="{run_animation: animateLeft===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
+      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='left' }">
         <div class="char-img left" @click="characterSelected('left')">
           <img :src="epiInflectionalCharImgLeft" />
         </div>
@@ -10,18 +10,18 @@
     </div>
 
     <div class="middle-area">
-      <img :src="items[ii].img" />
+      <img :src="screens[ii].img" />
     </div>
 
     <div class="right-area" :class="{run_animation: animateRight===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
+      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='right' }">
         <div class="char-img right" @click="characterSelected('right')">
           <img :src="epiInflectionalCharImgRight" />
         </div>
       </div>
     </div>
 
-    <div class="narrator" v-if="editMode===false && items[ii].isPractice===true">
+    <div class="narrator" v-if="editMode===false && screens[ii].isPractice===true">
       <div v-show="animateNarrator===false">
         <Narrator1Static />
       </div>
@@ -35,7 +35,7 @@
     </div>
 
     <div
-      v-show="items[ii].userAnswer!==null && deactivateAllButtons===false"
+      v-show="screens[ii].userAnswer!==null && deactivateAllButtons===false"
       class="button goto-next-button"
     >
       <div @click="gotoNextButton">
@@ -45,37 +45,37 @@
 
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="option-label-left">
-      <div v-if="items[ii].answerKey==='left'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceLeft" font-size="2.5" />
+      <div v-if="screens[ii].answerKey==='left'">
+        <EditModeScreenOptionLabelCorrect :label-text="screens[ii].sentenceLeft" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceLeft" font-size="2.5" />
+        <EditModeScreenOptionLabelWrong :label-text="screens[ii].sentenceLeft" font-size="2.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="option-label-right">
-      <div v-if="items[ii].answerKey==='right'">
-        <EditModeItemOptionLabelCorrect :label-text="items[ii].sentenceRight" font-size="2.5" />
+      <div v-if="screens[ii].answerKey==='right'">
+        <EditModeScreenOptionLabelCorrect :label-text="screens[ii].sentenceRight" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemOptionLabelWrong :label-text="items[ii].sentenceRight" font-size="2.5" />
+        <EditModeScreenOptionLabelWrong :label-text="screens[ii].sentenceRight" font-size="2.5" />
       </div>
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
-      <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="2.5" />
+      <div v-if="screens[ii].userAnswer===null">
+        <EditModeScreenResultIndicator result="unanswered" font-size="2.5" />
       </div>
-      <div v-else-if="items[ii].userAnswer===items[ii].answerKey">
-        <EditModeItemResultIndicator result="correct" font-size="2.5" />
+      <div v-else-if="screens[ii].userAnswer===screens[ii].answerKey">
+        <EditModeScreenResultIndicator result="correct" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="2.5" />
+        <EditModeScreenResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
 
-    <div v-if="editMode===true && items[ii].isPractice===true" class="ispractise-indicator">
-      <EditModeItemIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="4" />
+    <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
+      <EditModeScreenIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="4" />
     </div>
   </div>
 </template>
@@ -87,10 +87,10 @@ import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
 import Narrator1Static from "@/components/Narrator1Static.vue";
 import Narrator1Animated from "@/components/Narrator1Animated.vue";
-import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabelCorrect.vue";
-import EditModeItemOptionLabelWrong from "@/components/EditModeItemOptionLabelWrong.vue";
-import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
-import EditModeItemIsPracticeIndicator from "@/components/EditModeItemIsPracticeIndicator.vue";
+import EditModeScreenOptionLabelCorrect from "@/components/EditModeScreenOptionLabelCorrect.vue";
+import EditModeScreenOptionLabelWrong from "@/components/EditModeScreenOptionLabelWrong.vue";
+import EditModeScreenResultIndicator from "@/components/EditModeScreenResultIndicator.vue";
+import EditModeScreenIsPracticeIndicator from "@/components/EditModeScreenIsPracticeIndicator.vue";
 
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -101,10 +101,10 @@ export default Vue.extend({
     ButtonGotoNext,
     Narrator1Static,
     Narrator1Animated,
-    EditModeItemOptionLabelCorrect,
-    EditModeItemOptionLabelWrong,
-    EditModeItemResultIndicator,
-    EditModeItemIsPracticeIndicator,
+    EditModeScreenOptionLabelCorrect,
+    EditModeScreenOptionLabelWrong,
+    EditModeScreenResultIndicator,
+    EditModeScreenIsPracticeIndicator,
   },
   data() {
     return {
@@ -118,7 +118,7 @@ export default Vue.extend({
   computed: {
     ...mapState([
       "ii",
-      "items",
+      "screens",
       "editMode",
       "epiInflectionalCharImgRight",
       "epiInflectionalCharImgLeft",
@@ -174,21 +174,24 @@ export default Vue.extend({
         return;
       }
       //Abort if instruction audio has not yet played, except in editMode
-      if (this.items[this.ii].nPlaybackTimes === 0 && this.editMode === false) {
+      if (
+        this.screens[this.ii].nPlaybackTimes === 0 &&
+        this.editMode === false
+      ) {
         return;
       }
       //Temporarily deactivate buttons during playback
       this.deactivateAllButtons = true;
 
       //Save answer to store ("left" or "right")
-      this.items[this.ii].userAnswer = userAnswer;
+      this.screens[this.ii].userAnswer = userAnswer;
 
-      if (this.items[this.ii].isPractice === false) {
+      if (this.screens[this.ii].isPractice === false) {
         this.deactivateAllButtons = false;
       } else {
         //Practice screen: Audio feedback - correct answer:
-        if (this.items[this.ii].answerKey === userAnswer) {
-          const audio = new Audio(this.items[this.ii].feedbackCorrect);
+        if (this.screens[this.ii].answerKey === userAnswer) {
+          const audio = new Audio(this.screens[this.ii].feedbackCorrect);
           audio.addEventListener("ended", () => {
             this.animateNarrator = false;
             this.deactivateAllButtons = false;
@@ -200,7 +203,7 @@ export default Vue.extend({
         }
         //Practice screen: Audio feedback - wrong answer:
         else {
-          const audio = new Audio(this.items[this.ii].feedbackWrong);
+          const audio = new Audio(this.screens[this.ii].feedbackWrong);
           audio.addEventListener("ended", () => {
             this.animateNarrator = false;
             this.deactivateAllButtons = false;
@@ -219,7 +222,7 @@ export default Vue.extend({
     playAudio: function () {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
-        if (this.items[this.ii].nPlaybackTimes >= 3) {
+        if (this.screens[this.ii].nPlaybackTimes >= 3) {
           return;
         }
       }
@@ -231,12 +234,14 @@ export default Vue.extend({
       this.deactivateAllButtons = true;
 
       /*
-      If "isNarratorInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this screen, start by playing 
       narrator audio w/animation.
       Regardless, always play left/right characters audio min succession.
       Characters are animated during playback.
       */
-      const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
+      const instructionAudio = new Audio(
+        this.screens[this.ii].instructionAudio
+      );
       //Setup animation start/stop during playback
       instructionAudio.addEventListener("ended", () => {
         this.animateNarrator = false;
@@ -252,8 +257,8 @@ export default Vue.extend({
       Then left.
       Then right.
       */
-      const audioLeft = new Audio(this.items[this.ii].audioLeft);
-      const audioRight = new Audio(this.items[this.ii].audioRight);
+      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
+      const audioRight = new Audio(this.screens[this.ii].audioRight);
       //Setup animation start/stop during playback
       audioLeft.addEventListener("ended", () => {
         this.animateLeft = false;
@@ -277,14 +282,14 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isNarratorInstruction === true &&
-        this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
+        this.screens[this.ii].isNarratorInstruction === true &&
+        this.screens[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();
       } else {
         audioLeft.play();
       }
-      this.items[this.ii].nPlaybackTimes++;
+      this.screens[this.ii].nPlaybackTimes++;
     },
   },
 });

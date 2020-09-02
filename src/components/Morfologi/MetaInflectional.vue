@@ -12,10 +12,10 @@
     </div>
 
     <div class="left-img">
-      <img :src="items[ii].imgLeft" />
+      <img :src="screens[ii].imgLeft" />
     </div>
     <div class="right-img">
-      <img :src="items[ii].imgRight" />
+      <img :src="screens[ii].imgRight" />
     </div>
 
     <div
@@ -36,14 +36,14 @@
 
     <!-- Button that hides feedback buttons: -->
     <div
-      v-show="showFeedbackButtons === false && items[ii].isPractice===true"
+      v-show="showFeedbackButtons === false && screens[ii].isPractice===true"
       class="button-show-feedback"
       @click="buttonShowFeedback()"
     />
 
     <!-- Feedback button wrong: -->
     <div
-      v-show="(showFeedbackButtons === true && items[ii].isPractice===true) || editMode===true"
+      v-show="(showFeedbackButtons === true && screens[ii].isPractice===true) || editMode===true"
       class="feedback-button wrong"
       @click="feedbackAudio('wrong')"
     >
@@ -51,16 +51,16 @@
     </div>
     <!-- Feedback button correct: -->
     <div
-      v-show="(showFeedbackButtons === true && items[ii].isPractice===true) || editMode===true"
+      v-show="(showFeedbackButtons === true && screens[ii].isPractice===true) || editMode===true"
       class="feedback-button correct"
       @click="feedbackAudio('correct')"
     >
       <ButtonFeedbackCorrectGentle />
     </div>
 
-    <!-- Button that hides Goto next button in non-practice items: -->
+    <!-- Button that hides Goto next button in non-practice screens: -->
     <div
-      v-show="showGotoNext === false && items[ii].isPractice===false"
+      v-show="showGotoNext === false && screens[ii].isPractice===false"
       class="button-show-goto-next"
       @click="buttonShowGotoNext()"
     />
@@ -73,22 +73,22 @@
 
     <!-- Edit mode stuff: -->
     <div v-if="editMode===true" class="answer-key">
-      <EditModeItemOptionLabelCorrect :label-text="items[ii].answerKey" font-size="2.5" />
+      <EditModeScreenOptionLabelCorrect :label-text="screens[ii].answerKey" font-size="2.5" />
     </div>
 
-    <div v-if="editMode===true && items[ii].isPractice===true" class="ispractise-indicator">
-      <EditModeItemIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="5" />
+    <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
+      <EditModeScreenIsPracticeIndicator label-text="ØVELSES-SKJERM" font-size="5" />
     </div>
 
     <div v-if="editMode===true" class="score-indicator">
-      <div v-if="items[ii].userAnswer===null">
-        <EditModeItemResultIndicator result="unanswered" font-size="2.5" />
+      <div v-if="screens[ii].userAnswer===null">
+        <EditModeScreenResultIndicator result="unanswered" font-size="2.5" />
       </div>
-      <div v-else-if="items[ii].userAnswer==='correct'">
-        <EditModeItemResultIndicator result="correct" font-size="2.5" />
+      <div v-else-if="screens[ii].userAnswer==='correct'">
+        <EditModeScreenResultIndicator result="correct" font-size="2.5" />
       </div>
       <div v-else>
-        <EditModeItemResultIndicator result="wrong" font-size="2.5" />
+        <EditModeScreenResultIndicator result="wrong" font-size="2.5" />
       </div>
     </div>
   </div>
@@ -103,9 +103,9 @@ import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
 import Narrator1Static from "@/components/Narrator1Static.vue";
 import Narrator1Animated from "@/components/Narrator1Animated.vue";
-import EditModeItemOptionLabelCorrect from "@/components/EditModeItemOptionLabelCorrect.vue";
-import EditModeItemResultIndicator from "@/components/EditModeItemResultIndicator.vue";
-import EditModeItemIsPracticeIndicator from "@/components/EditModeItemIsPracticeIndicator.vue";
+import EditModeScreenOptionLabelCorrect from "@/components/EditModeScreenOptionLabelCorrect.vue";
+import EditModeScreenResultIndicator from "@/components/EditModeScreenResultIndicator.vue";
+import EditModeScreenIsPracticeIndicator from "@/components/EditModeScreenIsPracticeIndicator.vue";
 
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
@@ -118,9 +118,9 @@ export default Vue.extend({
     ButtonGotoNext,
     Narrator1Static,
     Narrator1Animated,
-    EditModeItemIsPracticeIndicator,
-    EditModeItemOptionLabelCorrect,
-    EditModeItemResultIndicator,
+    EditModeScreenIsPracticeIndicator,
+    EditModeScreenOptionLabelCorrect,
+    EditModeScreenResultIndicator,
   },
   data() {
     return {
@@ -139,7 +139,7 @@ export default Vue.extend({
   computed: {
     ...mapState([
       "ii",
-      "items",
+      "screens",
       "editMode",
       "epiInflectionalCharImgRight",
       "epiInflectionalCharImgLeft",
@@ -176,7 +176,7 @@ export default Vue.extend({
     buttonShowFeedback: function () {
       if (
         this.deactivateAllButtons === true ||
-        this.items[this.ii].nPlaybackTimes < 1
+        this.screens[this.ii].nPlaybackTimes < 1
       ) {
         return;
       }
@@ -188,7 +188,7 @@ export default Vue.extend({
     buttonShowGotoNext: function () {
       if (
         this.deactivateAllButtons === true ||
-        this.items[this.ii].nPlaybackTimes < 1
+        this.screens[this.ii].nPlaybackTimes < 1
       ) {
         return;
       }
@@ -204,14 +204,14 @@ export default Vue.extend({
       }
       this.deactivateAllButtons = true;
       if (input === "wrong") {
-        this.items[this.ii].userAnswer = "wrong";
+        this.screens[this.ii].userAnswer = "wrong";
         //Return if in editMode. Dont play audio (there is none)
         if (this.editMode === true) {
           this.deactivateAllButtons = false;
           return;
         }
 
-        const audio = new Audio(this.items[this.ii].feedbackWrong);
+        const audio = new Audio(this.screens[this.ii].feedbackWrong);
         //Setup animation start/stop during playback
         audio.addEventListener("ended", () => {
           this.animateNarrator = false;
@@ -224,13 +224,13 @@ export default Vue.extend({
         audio.play();
       }
       if (input === "correct") {
-        this.items[this.ii].userAnswer = "correct";
+        this.screens[this.ii].userAnswer = "correct";
         //Return if in editMode. Dont play audio (there is none)
         if (this.editMode === true) {
           this.deactivateAllButtons = false;
           return;
         }
-        const audio = new Audio(this.items[this.ii].feedbackCorrect);
+        const audio = new Audio(this.screens[this.ii].feedbackCorrect);
         audio.play();
         //Setup animation start/stop during playback
         audio.addEventListener("ended", () => {
@@ -263,10 +263,12 @@ export default Vue.extend({
       }
 
       /*
-      If "isNarratorInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this screen, start by playing 
       narrator audio w/animation.
       */
-      const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
+      const instructionAudio = new Audio(
+        this.screens[this.ii].instructionAudio
+      );
       //Setup animation start/stop during playback
       instructionAudio.addEventListener("ended", () => {
         this.animateNarrator = false;
@@ -278,7 +280,7 @@ export default Vue.extend({
       /*
       Move narrator to left during playback, and animate
       */
-      const audioLeft = new Audio(this.items[this.ii].audioLeft);
+      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
       //Setup animation start/stop during playback
       audioLeft.addEventListener("ended", () => {
         this.animateNarrator = false;
@@ -294,8 +296,8 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isNarratorInstruction === true &&
-        this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
+        this.screens[this.ii].isNarratorInstruction === true &&
+        this.screens[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();
       } else {
@@ -309,7 +311,7 @@ export default Vue.extend({
     playAudioRight: function () {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
-        if (this.items[this.ii].nPlaybackTimes >= 2) {
+        if (this.screens[this.ii].nPlaybackTimes >= 2) {
           return;
         }
       }
@@ -323,8 +325,8 @@ export default Vue.extend({
       //First time, play only right audio.
       //If the child wants to replay again, we playback left + right audio
       //The logic for this is controlled in the "Excecute playback" below
-      const audioRight = new Audio(this.items[this.ii].audioRight);
-      const audioLeft = new Audio(this.items[this.ii].audioLeft);
+      const audioRight = new Audio(this.screens[this.ii].audioRight);
+      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
 
       //Setup animation start/stop during playback
       audioLeft.addEventListener("ended", () => {
@@ -345,7 +347,7 @@ export default Vue.extend({
       });
 
       //Excecute playback
-      if (this.items[this.ii].nPlaybackTimes === 0) {
+      if (this.screens[this.ii].nPlaybackTimes === 0) {
         //First time, play only right audio.
         audioRight.play();
       } else {
@@ -353,7 +355,7 @@ export default Vue.extend({
         audioLeft.play();
       }
 
-      this.items[this.ii].nPlaybackTimes++;
+      this.screens[this.ii].nPlaybackTimes++;
     },
   },
 });

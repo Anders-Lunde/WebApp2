@@ -7,8 +7,8 @@
       <div class="app-area" :class="{wrapper_grid_container: editMode===true}">
         <!-- Test area. Scaled and moved with CSS if editMode, to make room for edit menu-->
         <div :class="{test_area_edit_mode: editMode===true}">
-          <EpiInflectional v-if="items[ii].type === 'EpiInflectional'" />
-          <MetaInflectional v-if="items[ii].type === 'MetaInflectional' " />
+          <EpiInflectional v-if="screens[ii].type === 'EpiInflectional'" />
+          <MetaInflectional v-if="screens[ii].type === 'MetaInflectional' " />
         </div>
 
         <!-- Edit menu. Shown if editMode-->
@@ -58,7 +58,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState(["ii", "items", "editMode"]),
+    ...mapState(["ii", "screens", "editMode"]),
     cssVarsForWrapper(): Record<string, string> {
       return {
         //The following 3 css variables sets up proper
@@ -90,15 +90,15 @@ export default Vue.extend({
     },
   },
   watch: {
-    //Update global store value of 'orientation' according to test item preference  upon ii change.
+    //Update global store value of 'orientation' according to test screen preference  upon ii change.
     ii: function () {
-      this.$store.state.orientation = this.items[this.ii].orientation;
+      this.$store.state.orientation = this.screens[this.ii].orientation;
       //TODO: Lock device screen orientation
     },
   },
   mounted() {
-    //Update global store value of 'orientation' according to test item preference  upon ii change.
-    this.$store.state.orientation = this.items[this.ii].orientation;
+    //Update global store value of 'orientation' according to test screen preference  upon ii change.
+    this.$store.state.orientation = this.screens[this.ii].orientation;
     //TODO: Lock device screen orientation
     window.addEventListener("keydown", (e) => {
       if (e.key === "e") {
@@ -118,9 +118,9 @@ export default Vue.extend({
       }
       if (e.key === "n") {
         //switch to next test type
-        const currentType = this.currentTestState.items[this.ii].type;
-        for (let i = this.ii; i < this.currentTestState.items.length; i++) {
-          if (this.currentTestState.items[i].type !== currentType) {
+        const currentType = this.currentTestState.screens[this.ii].type;
+        for (let i = this.ii; i < this.currentTestState.screens.length; i++) {
+          if (this.currentTestState.screens[i].type !== currentType) {
             this.currentTestState.ii = i;
             break;
           }

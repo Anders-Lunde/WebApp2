@@ -1,11 +1,11 @@
 export default {
   namespaced: true,
   state: {
-    ii: 20, // items array index
+    ii: 20, // screens array index
     editMode: true,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
-    items: [
+    screens: [
       {
         id: 0,
         orientation: "landscape",

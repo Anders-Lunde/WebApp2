@@ -6,7 +6,7 @@
     <div @click="gotoNextSubtest()" class="round-button goto-next-subtest"></div>
     <div @click="setII()" class="round-button set-ii"></div>
 
-    <div class="test-type-label">{{getFormatedItemType()}}</div>
+    <div class="test-type-label">{{getFormatedScreenType()}}</div>
     <div class="screen-index-label">{{getScreenIndexString()}}</div>
   </div>
 </template>
@@ -34,44 +34,44 @@ export default Vue.extend({
      *or "Test 14 / 16"
      */
     getScreenIndexString: function () {
-      const currentType = this.moduleState.items[this.moduleState.ii].type;
-      const itemArray = this.moduleState.items;
-      let nTestItems = 0;
-      let nPracticeItems = 0;
+      const currentType = this.moduleState.screens[this.moduleState.ii].type;
+      const screenArray = this.moduleState.screens;
+      let nTestScreens = 0;
+      let nPracticeScreens = 0;
       let displayString = "";
       let currectScreenIsPractice = false;
       let currectScreenIsTest = false;
       let screenIndex = -1;
-      //Count n practice items and test items, for current test.
+      //Count n practice screens and test screens, for current test.
       //In the middle of the loop, take note of which screen we currently are in:
       //(if (this.moduleState.ii == i)
-      for (let i = 0; i < itemArray.length; i++) {
-        const item = this.moduleState.items[i];
-        if (item.type === currentType) {
-          if (item.isPractice === true) {
-            nPracticeItems++;
-          } else if (item.isScored === true) {
-            nTestItems++;
+      for (let i = 0; i < screenArray.length; i++) {
+        const screen = this.moduleState.screens[i];
+        if (screen.type === currentType) {
+          if (screen.isPractice === true) {
+            nPracticeScreens++;
+          } else if (screen.isScored === true) {
+            nTestScreens++;
           }
         }
         //Find out what the current screen is.
-        //nPracticeItems and nTestItems will at this point in the loop
+        //nPracticeScreens and nTestScreens will at this point in the loop
         //reflect which screenIndex we are on
         if (this.moduleState.ii == i) {
-          if (item.isPractice === true) {
+          if (screen.isPractice === true) {
             currectScreenIsPractice = true;
-            screenIndex = nPracticeItems;
-          } else if (item.isScored === true) {
+            screenIndex = nPracticeScreens;
+          } else if (screen.isScored === true) {
             currectScreenIsTest = true;
-            screenIndex = nTestItems;
+            screenIndex = nTestScreens;
           }
         }
       }
       //Construct info-string
       if (currectScreenIsPractice) {
-        displayString = "Øvelse " + screenIndex + " / " + nPracticeItems;
+        displayString = "Øvelse " + screenIndex + " / " + nPracticeScreens;
       } else if (currectScreenIsTest) {
-        displayString = "Test " + screenIndex + " / " + nTestItems;
+        displayString = "Test " + screenIndex + " / " + nTestScreens;
       } else {
         //It's neither practice nor test
         displayString = "";
@@ -80,10 +80,10 @@ export default Vue.extend({
     },
 
     /*
-     *METHOD START: getFormatedItemType:
+     *METHOD START: getFormatedScreenType:
      */
-    getFormatedItemType: function () {
-      const type = this.moduleState.items[this.moduleState.ii].type;
+    getFormatedScreenType: function () {
+      const type = this.moduleState.screens[this.moduleState.ii].type;
       // 1) insert a space before all caps
       // 2) uppercase the first character
       return type.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
@@ -94,17 +94,17 @@ export default Vue.extend({
      *METHOD START: incrementII:
      */
     incrementII: function () {
-      //Avoid overflowing item array
+      //Avoid overflowing screen array
       this.moduleState.ii = Math.min(
         this.moduleState.ii + 1,
-        this.moduleState.items.length - 1
+        this.moduleState.screens.length - 1
       );
     },
     /*
      *METHOD START: decrementII:
      */
     decrementII: function () {
-      //Avoid undeflowing item array
+      //Avoid undeflowing screen array
       this.moduleState.ii = Math.max(this.moduleState.ii - 1, 0);
     },
     /*

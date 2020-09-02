@@ -1,12 +1,15 @@
 <template>
-  <div :style="userStyle" class="container">{{labelText}}</div>
+  <div :style="userStyle" class="container">
+    <div class="heading">FEIL SVAR:</div>
+    <div>{{labelText}}</div>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeItemIsPracticeIndicator",
+  name: "EditModeScreenOptionLabelWrong",
   computed: {
     userStyle() {
       return {
@@ -33,9 +36,12 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.container {
-  color: #ff9d00;
+.heading {
+  color: #ff0000;
   font-weight: bold;
+}
+
+.container {
   border: calc(var(--vw) * 0.15) solid black;
 }
 </style>

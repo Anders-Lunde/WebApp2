@@ -1,5 +1,5 @@
 <template>
-  <!--  USAGE: <ImageContainer :imageSrc="items[ii].img" />  -->
+  <!--  USAGE: <ImageContainer :imageSrc="screens[ii].img" />  -->
   <div>
     <div id="asd" ref="asd">
       <button @click="calculateHeight()">Calculate Height</button>

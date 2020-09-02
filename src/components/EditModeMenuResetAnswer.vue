@@ -26,7 +26,7 @@ export default Vue.extend({
      *METHOD START: resetAnswer:
      */
     resetAnswer: function () {
-      this.moduleState.items[this.moduleState.ii].userAnswer = null;
+      this.moduleState.screens[this.moduleState.ii].userAnswer = null;
     },
   },
 });

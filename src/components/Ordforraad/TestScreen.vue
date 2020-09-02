@@ -2,7 +2,7 @@
   <div class="question-area">
     <h1 class="vis-øverst">ORDFORRAAD!!!</h1>
     <div class="left-area" :class="{run_animation: animateLeft===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='left' }">
+      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='left' }">
         <div class="char-img left" @click="characterSelected('left')">
           <img :src="imgLeft" />
         </div>
@@ -11,12 +11,12 @@
 
     <div class="middle-area">
       <div class="middle-img">
-        <img :src="items[ii].img" />
+        <img :src="screens[ii].img" />
       </div>
     </div>
 
     <div class="right-area" :class="{run_animation: animateRight===true}">
-      <div class="character-area" :class="{ selectedCharacter: items[ii].userAnswer==='right' }">
+      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='right' }">
         <div class="char-img right" @click="characterSelected('right')">
           <img :src="imgRight" />
         </div>
@@ -24,24 +24,24 @@
     </div>
 
     <div class="answer-key left" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='left'" style="color:#00FF00">RIKTIG SVAR:</div>
+      <div v-if="screens[ii].answerKey==='left'" style="color:#00FF00">RIKTIG SVAR:</div>
       <div v-else style="color:#FF0000">FEIL SVAR:</div>
-      <div>{{items[ii].sentenceLeft}}</div>
+      <div>{{screens[ii].sentenceLeft}}</div>
     </div>
 
     <div class="answer-key right" v-if="editMode===true">
-      <div v-if="items[ii].answerKey==='right'" style="color:#00FF00">RIKTIG SVAR:</div>
+      <div v-if="screens[ii].answerKey==='right'" style="color:#00FF00">RIKTIG SVAR:</div>
       <div v-else style="color:#FF0000">FEIL SVAR:</div>
-      <div>{{items[ii].sentenceRight}}</div>
+      <div>{{screens[ii].sentenceRight}}</div>
     </div>
 
     <div class="score-indicator" v-if="editMode===true">
-      <div class="unanswered" v-if="items[ii].userAnswer===null">UBESVART!</div>
-      <div class="correct" v-else-if="items[ii].answerKey===items[ii].userAnswer">RIKTIG!</div>
+      <div class="unanswered" v-if="screens[ii].userAnswer===null">UBESVART!</div>
+      <div class="correct" v-else-if="screens[ii].answerKey===screens[ii].userAnswer">RIKTIG!</div>
       <div class="wrong" v-else>FEIL!</div>
     </div>
 
-    <div class="narrator-container" v-if="editMode===false && items[ii].isPractice===true">
+    <div class="narrator-container" v-if="editMode===false && screens[ii].isPractice===true">
       <div class="narrator-img still" v-if="animateNarrator===false">
         <img :src="narratorImageStill" />
       </div>
@@ -52,7 +52,11 @@
 
     <div class="button audio-button" @click="playAudio()"></div>
 
-    <div v-if="items[ii].userAnswer!==null" class="button goto-next-button" @click="gotoNextButton"></div>
+    <div
+      v-if="screens[ii].userAnswer!==null"
+      class="button goto-next-button"
+      @click="gotoNextButton"
+    ></div>
   </div>
 </template>
 
@@ -64,7 +68,7 @@ const { mapGetters } = createNamespacedHelpers("ordforraad");
 
 export default Vue.extend({
   name: "TestScreen",
-  computed: mapGetters(["ii", "items", "editMode"]),
+  computed: mapGetters(["ii", "screens", "editMode"]),
   props: {},
   data() {
     return {
@@ -93,7 +97,7 @@ export default Vue.extend({
         return;
       }
       //Abort if instruction audio has not yet played
-      if (this.items[this.ii].nPlaybackTimes === 0) {
+      if (this.screens[this.ii].nPlaybackTimes === 0) {
         return;
       }
       //Temporarily deactivate buttons during playback
@@ -101,12 +105,12 @@ export default Vue.extend({
 
       //Save answer to store ("left" or "right")
       this.$store.commit("recordAnswer", { userAnswer: userAnswer });
-      if (this.items[this.ii].isPractice === false) {
+      if (this.screens[this.ii].isPractice === false) {
         this.deactivateAllButtons = false;
       } else {
         //Practice screen: Audio feedback - correct answer:
-        if (this.items[this.ii].answerKey === userAnswer) {
-          const audio = new Audio(this.items[this.ii].feedbackCorrect);
+        if (this.screens[this.ii].answerKey === userAnswer) {
+          const audio = new Audio(this.screens[this.ii].feedbackCorrect);
           audio.addEventListener("ended", () => {
             this.animateNarrator = false;
             this.deactivateAllButtons = false;
@@ -118,7 +122,7 @@ export default Vue.extend({
         }
         //Practice screen: Audio feedback - wrong answer:
         else {
-          const audio = new Audio(this.items[this.ii].feedbackWrong);
+          const audio = new Audio(this.screens[this.ii].feedbackWrong);
           audio.addEventListener("ended", () => {
             this.animateNarrator = false;
             this.deactivateAllButtons = false;
@@ -133,7 +137,7 @@ export default Vue.extend({
     playAudio: function () {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
-        if (this.items[this.ii].nPlaybackTimes >= 3) {
+        if (this.screens[this.ii].nPlaybackTimes >= 3) {
           return;
         }
       }
@@ -145,12 +149,14 @@ export default Vue.extend({
       this.deactivateAllButtons = true;
 
       /*
-      If "isNarratorInstruction === true" for this item, start by playing 
+      If "isNarratorInstruction === true" for this screen, start by playing 
       narrator audio w/animation.
       Regardless, always play left/right characters audio.
       Characters are animated during playback.
       */
-      const instructionAudio = new Audio(this.items[this.ii].instructionAudio);
+      const instructionAudio = new Audio(
+        this.screens[this.ii].instructionAudio
+      );
       //Setup animation start/stop during playback
       instructionAudio.addEventListener("ended", () => {
         this.animateNarrator = false;
@@ -166,8 +172,8 @@ export default Vue.extend({
       Then left.
       Then right.
       */
-      const audioLeft = new Audio(this.items[this.ii].audioLeft);
-      const audioRight = new Audio(this.items[this.ii].audioRight);
+      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
+      const audioRight = new Audio(this.screens[this.ii].audioRight);
       //Setup animation start/stop during playback
       audioLeft.addEventListener("ended", () => {
         this.animateLeft = false;
@@ -191,14 +197,14 @@ export default Vue.extend({
       });
       //Excecute playback
       if (
-        this.items[this.ii].isNarratorInstruction === true &&
-        this.items[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
+        this.screens[this.ii].isNarratorInstruction === true &&
+        this.screens[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
         instructionAudio.play();
       } else {
         audioLeft.play();
       }
-      this.items[this.ii].nPlaybackTimes++;
+      this.screens[this.ii].nPlaybackTimes++;
     },
   },
 });

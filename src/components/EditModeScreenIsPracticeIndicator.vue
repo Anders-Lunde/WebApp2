@@ -1,47 +1,41 @@
 <template>
-  <div :style="userStyle" class="container">
-    <div class="heading">FEIL SVAR:</div>
-    <div>{{labelText}}</div>
-  </div>
+  <div :style="userStyle" class="container">{{labelText}}</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeItemOptionLabelWrong",
+  name: "EditModeScreenIsPracticeIndicator",
   computed: {
     userStyle() {
       return {
-        fontSize: "calc(var(--vw) * " + this.fontSize + ")"
+        fontSize: "calc(var(--vw) * " + this.fontSize + ")",
       };
-    }
+    },
   },
   props: {
     labelText: {
       type: String,
-      required: false
+      required: false,
     },
     fontSize: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {};
   },
 
-  methods: {}
+  methods: {},
 });
 </script>
 
 <style scoped>
-.heading {
-  color: #ff0000;
-  font-weight: bold;
-}
-
 .container {
+  color: #ff9d00;
+  font-weight: bold;
   border: calc(var(--vw) * 0.15) solid black;
 }
 </style>

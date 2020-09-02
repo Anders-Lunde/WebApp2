@@ -10,33 +10,33 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeItemResultIndicator",
+  name: "EditModeScreenResultIndicator",
   computed: {
     userStyle() {
       return {
-        fontSize: "calc(var(--vw) * " + this.fontSize + ")"
+        fontSize: "calc(var(--vw) * " + this.fontSize + ")",
       };
-    }
+    },
   },
   props: {
     result: {
       type: String,
       required: true,
-      validator: function(value) {
+      validator: function (value) {
         // The value must match one of these strings
         return ["correct", "wrong", "unanswered"].indexOf(value) !== -1;
-      }
+      },
     },
     fontSize: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {};
   },
 
-  methods: {}
+  methods: {},
 });
 </script>
 

@@ -29,37 +29,37 @@ export default Vue.extend({
      *METHOD START: gotoNextNullSubtest:
      */
     gotoNextNullAnswerSubtest: function () {
-      const currentType = this.moduleState.items[this.moduleState.ii].type;
-      const itemArray = this.moduleState.items;
+      const currentType = this.moduleState.screens[this.moduleState.ii].type;
+      const screenArray = this.moduleState.screens;
       //Check if there is at least 1 null answer
       let hasNull = false;
-      for (let i = 0; i < itemArray.length; i++) {
+      for (let i = 0; i < screenArray.length; i++) {
         if (
-          itemArray[i].userAnswer === null &&
-          itemArray[i].isScored === true &&
-          itemArray[i].type === currentType
+          screenArray[i].userAnswer === null &&
+          screenArray[i].isScored === true &&
+          screenArray[i].type === currentType
         ) {
           hasNull = true;
           break;
         }
       }
       //Go to next null (set this.moduleState.ii to next null)
-      let i = this.moduleState.ii; //start in the current item
+      let i = this.moduleState.ii; //start in the current screen
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
         while (true) {
           i++;
           //Start from beginning when end is reached
-          if (i > itemArray.length - 1) {
+          if (i > screenArray.length - 1) {
             i = 0;
           }
 
           if (
-            itemArray[i].userAnswer === null &&
-            itemArray[i].isScored === true &&
-            itemArray[i].type === currentType
+            screenArray[i].userAnswer === null &&
+            screenArray[i].isScored === true &&
+            screenArray[i].type === currentType
           ) {
-            //We found the next null item
+            //We found the next null screen
             this.moduleState.ii = i;
             break;
           }
@@ -70,34 +70,34 @@ export default Vue.extend({
      *METHOD START: gotoNextNullTotal:
      */
     gotoNextNullAnswerTotal: function () {
-      const itemArray = this.moduleState.items;
+      const screenArray = this.moduleState.screens;
       //Check if there is at least 1 null answer
       let hasNull = false;
-      for (let i = 0; i < itemArray.length; i++) {
+      for (let i = 0; i < screenArray.length; i++) {
         if (
-          itemArray[i].userAnswer === null &&
-          itemArray[i].isScored === true
+          screenArray[i].userAnswer === null &&
+          screenArray[i].isScored === true
         ) {
           hasNull = true;
           break;
         }
       }
       //Go to next null (set this.moduleState.ii to next null)
-      let i = this.moduleState.ii; //start in the current item
+      let i = this.moduleState.ii; //start in the current screen
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
         while (true) {
           i++;
           //Start from beginning when end is reached
-          if (i > itemArray.length - 1) {
+          if (i > screenArray.length - 1) {
             i = 0;
           }
 
           if (
-            itemArray[i].userAnswer === null &&
-            itemArray[i].isScored === true
+            screenArray[i].userAnswer === null &&
+            screenArray[i].isScored === true
           ) {
-            //We found the next null item
+            //We found the next null screen
             this.moduleState.ii = i;
             break;
           }

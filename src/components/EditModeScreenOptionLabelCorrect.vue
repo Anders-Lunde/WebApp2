@@ -9,29 +9,29 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "EditModeItemOptionLabelCorrect",
+  name: "EditModeScreenOptionLabelCorrect",
   computed: {
     userStyle() {
       return {
-        fontSize: "calc(var(--vw) * " + this.fontSize + ")"
+        fontSize: "calc(var(--vw) * " + this.fontSize + ")",
       };
-    }
+    },
   },
   props: {
     labelText: {
       type: String,
-      required: false
+      required: false,
     },
     fontSize: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {};
   },
 
-  methods: {}
+  methods: {},
 });
 </script>
 

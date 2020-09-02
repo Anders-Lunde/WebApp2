@@ -7,7 +7,7 @@
     />
 
     <!-- Cycle through the tests:-->
-    <TestScreen v-if="items[ii].type === 'TestScreen'" />
+    <TestScreen v-if="screens[ii].type === 'TestScreen'" />
 
     <!-- Show relevant state by setting :moduleState= to the relevant module namespace here-->
     <DebugFooter
@@ -31,14 +31,14 @@ export default Vue.extend({
   components: {
     DebugHeader,
     DebugFooter,
-    TestScreen
+    TestScreen,
   },
-  computed: mapGetters(["ii", "items", "editMode"]),
+  computed: mapGetters(["ii", "screens", "editMode"]),
   props: {},
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 });
 </script>
 
