@@ -75,7 +75,7 @@
     </div>
 
     <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
-      <EditModeLabelIsPractice label-text="ØVELSES-SKJERM" font-size="4" />
+      <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="4" />
     </div>
   </div>
 </template>
@@ -231,8 +231,8 @@ export default Vue.extend({
 
       /*
       If "isNarratorInstruction === true" for this screen, start by playing 
-      narrator audio w/animation.
-      Regardless, always play left/right characters audio min succession.
+      narrator instruction audio w/animation.
+      Regardless, always play left/right characters audio in succession.
       Characters are animated during playback.
       */
       const instructionAudio = new Audio(

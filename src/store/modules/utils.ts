@@ -66,6 +66,7 @@ export default {
       return n;
     },
   },
+
   mutations: {},
   actions: {},
   modules: {},

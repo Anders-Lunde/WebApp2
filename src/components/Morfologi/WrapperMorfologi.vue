@@ -12,6 +12,7 @@
         <div :class="{test_area_edit_mode: editMode===true}">
           <EpiInflectional v-if="screens[ii].type === 'EpiInflectional'" />
           <MetaInflectional v-if="screens[ii].type === 'MetaInflectional' " />
+          <MetaDerivational v-if="screens[ii].type === 'MetaDerivational' " />
         </div>
 
         <!-- Edit menu. Shown if editMode-->
@@ -35,6 +36,7 @@
 import Vue from "vue";
 import EpiInflectional from "@/components/Morfologi/EpiInflectional.vue";
 import MetaInflectional from "@/components/Morfologi/MetaInflectional.vue";
+import MetaDerivational from "@/components/Morfologi/MetaDerivational.vue";
 import DebugFooter from "@/components/DebugFooter.vue";
 import DebugHeader from "@/components/DebugHeader.vue";
 import EditModeMenuNavigation from "@/components/EditModeMenuNavigation.vue";
@@ -52,6 +54,7 @@ export default Vue.extend({
     DebugFooter,
     EpiInflectional,
     MetaInflectional,
+    MetaDerivational,
     EditModeMenuNavigation,
     EditModeMenuResetAnswer,
     EditModeMenuNullAnswersNavigator,
@@ -123,20 +126,6 @@ export default Vue.extend({
       if (e.key === "ArrowDown") {
         this.$store.state.showDebugFooter = !this.$store.state.showDebugFooter;
       }
-      if (e.key === "n") {
-        //switch to next test type
-        const currentType = this.currentModuleStoreState.screens[this.ii].type;
-        for (
-          let i = this.ii;
-          i < this.currentModuleStoreState.screens.length;
-          i++
-        ) {
-          if (this.currentModuleStoreState.screens[i].type !== currentType) {
-            this.currentModuleStoreState.ii = i;
-            break;
-          }
-        }
-      }
     });
   },
   props: {},
@@ -147,7 +136,8 @@ export default Vue.extend({
 
 <style scoped>
 .viewport-area {
-  /*this will be visible as a thin border around the app-area*/
+  /*the edge of this will be visible as a thin border around the app-area,
+  because of the transform: scale() below*/
   background: rgb(238, 238, 238);
   width: var(--canvasWidth);
   height: var(--canvasHeight);
@@ -155,7 +145,9 @@ export default Vue.extend({
 }
 .app-area {
   background: white;
-  transform: scale(0.99); /*this gives some border around the viewport*/
+  transform: scale(
+    0.99
+  ); /*this gives some border/margin around the viewport, withouth enlarging viewport-area*/
 }
 
 .wrapper_grid_container {
@@ -177,6 +169,7 @@ export default Vue.extend({
 }
 
 .edit-menu {
+  /*Enabled only in editMode*/
   background: rgb(221, 221, 221);
   border: calc(var(--vw) * 0.1) solid black;
   border-bottom: none;

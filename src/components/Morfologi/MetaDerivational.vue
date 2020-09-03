@@ -2,7 +2,7 @@
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
 
-    <div class="narrator" :class="narratorPosition" v-if="editMode===false">
+    <div class="narrator" v-if="editMode===false">
       <div v-show="animateNarrator===false">
         <Narrator1Static />
       </div>
@@ -11,26 +11,11 @@
       </div>
     </div>
 
-    <div class="left-img">
-      <img :src="screens[ii].imgLeft" />
-    </div>
-    <div class="right-img">
-      <img :src="screens[ii].imgRight" />
+    <div class="middle-area">
+      <img :src="screens[ii].img" />
     </div>
 
-    <div
-      v-show="showRightAudioButton === false"
-      class="button audio-button left"
-      @click="playAudioLeft()"
-    >
-      <ButtonAudioPlay />
-    </div>
-
-    <div
-      v-show="showRightAudioButton === true"
-      class="button audio-button right"
-      @click="playAudioRight()"
-    >
+    <div class="button audio-button" @click="playAudio()">
       <ButtonAudioPlay />
     </div>
 
@@ -110,7 +95,7 @@ import EditModeLabelIsPractice from "@/components/EditModeLabelIsPractice.vue";
 const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
-  name: "MetaInflectional",
+  name: "MetaDerivational",
   components: {
     ButtonFeedbackCorrectGentle,
     ButtonFeedbackWrongGentle,
@@ -129,9 +114,6 @@ export default Vue.extend({
       animateNarrator: false,
       showGotoNext: false,
       showFeedbackButtons: false,
-      narratorPosition: "narratorPosMiddle",
-      leftWasPlayed: false,
-      showRightAudioButton: false,
     };
   },
   computed: {
@@ -156,9 +138,6 @@ export default Vue.extend({
         return;
       }
       this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
-      this.narratorPosition = "narratorPosMiddle";
-      this.leftWasPlayed = false;
-      this.showRightAudioButton = false;
       this.showGotoNext = false;
       this.showFeedbackButtons = false;
     },
@@ -237,26 +216,26 @@ export default Vue.extend({
     },
 
     /*
-     *METHOD START: playAudioLeft
+     *METHOD START: playAudio
      */
-    playAudioLeft: function () {
+    playAudio: function () {
+      //Max 1 replays, except during edit mode.
+      if (this.editMode === false) {
+        if (this.screens[this.ii].nPlaybackTimes >= 2) {
+          return;
+        }
+      }
       //Abort if something else is playing/animating
       if (this.deactivateAllButtons) {
         return;
       }
-
-      //Max 1 playback, except during edit mode.
-      if (this.editMode === false) {
-        if (this.leftWasPlayed === true) {
-          return;
-        } else {
-          this.leftWasPlayed = true;
-        }
-      }
+      //Temporarily deactivate buttons during playback
+      this.deactivateAllButtons = true;
 
       /*
       If "isNarratorInstruction === true" for this screen, start by playing 
-      narrator audio w/animation.
+      narrator instruction audio w/animation.
+      Regardless, always task audio, and animate narrator during this also.
       */
       const instructionAudio = new Audio(
         this.screens[this.ii].instructionAudio
@@ -270,21 +249,30 @@ export default Vue.extend({
       });
 
       /*
-      Move narrator to left during playback, and animate
+      Audio and animation. 
       */
-      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
+      const audio1 = new Audio(this.screens[this.ii].audio1);
+      const audio2 = new Audio(this.screens[this.ii].audio2);
       //Setup animation start/stop during playback
-      audioLeft.addEventListener("ended", () => {
+      audio1.addEventListener("ended", () => {
         this.animateNarrator = false;
-        this.showRightAudioButton = true;
       });
-      audioLeft.addEventListener("play", () => {
+      audio2.addEventListener("ended", () => {
+        this.animateNarrator = false;
+        this.deactivateAllButtons = false;
+      });
+      audio1.addEventListener("play", () => {
         this.animateNarrator = true;
-        this.narratorPosition = "narratorPosLeft";
+      });
+      audio2.addEventListener("play", () => {
+        this.animateNarrator = true;
       });
       //Setup playback order
+      audio1.addEventListener("ended", () => {
+        audio2.play(); //Start 2 character sound/animation after 1 ended
+      });
       instructionAudio.addEventListener("ended", () => {
-        audioLeft.play(); //Start left character sound/animation after narrator ended
+        audio1.play(); //Start 1 character sound/animation after narrator ended
       });
       //Excecute playback
       if (
@@ -293,60 +281,8 @@ export default Vue.extend({
       ) {
         instructionAudio.play();
       } else {
-        audioLeft.play();
+        audio1.play();
       }
-    },
-
-    /*
-     *METHOD START: playAudioRight
-     */
-    playAudioRight: function () {
-      //Max 2 replays, except during edit mode.
-      if (this.editMode === false) {
-        if (this.screens[this.ii].nPlaybackTimes >= 2) {
-          return;
-        }
-      }
-      //Abort if something else is playing/animating
-      if (this.deactivateAllButtons) {
-        return;
-      }
-      //Temporarily deactivate buttons during playback
-      this.deactivateAllButtons = true;
-
-      //First time, play only right audio.
-      //If the child wants to replay again, we playback left + right audio
-      //The logic for this is controlled in the "Excecute playback" below
-      const audioRight = new Audio(this.screens[this.ii].audioRight);
-      const audioLeft = new Audio(this.screens[this.ii].audioLeft);
-
-      //Setup animation start/stop during playback
-      audioLeft.addEventListener("ended", () => {
-        this.animateNarrator = false;
-        audioRight.play();
-      });
-      audioLeft.addEventListener("play", () => {
-        this.animateNarrator = true;
-        this.narratorPosition = "narratorPosLeft";
-      });
-      audioRight.addEventListener("ended", () => {
-        this.animateNarrator = false;
-        this.deactivateAllButtons = false;
-      });
-      audioRight.addEventListener("play", () => {
-        this.animateNarrator = true;
-        this.narratorPosition = "narratorPosRight";
-      });
-
-      //Excecute playback
-      if (this.screens[this.ii].nPlaybackTimes === 0) {
-        //First time, play only right audio.
-        audioRight.play();
-      } else {
-        //Else, play both
-        audioLeft.play();
-      }
-
       this.screens[this.ii].nPlaybackTimes++;
     },
   },
@@ -377,33 +313,6 @@ export default Vue.extend({
   grid-column: 1/2;
 }
 
-.narratorPosLeft {
-  animation: moveNarratorLeft 0.75s;
-  animation-fill-mode: forwards;
-}
-.narratorPosRight {
-  animation: moveNarratorRight 1.2s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes moveNarratorLeft {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(var(--vw) * -25));
-  }
-}
-
-@keyframes moveNarratorRight {
-  0% {
-    transform: translateX(calc(var(--vw) * -25));
-  }
-  100% {
-    transform: translateX(calc(var(--vw) * 25));
-  }
-}
-
 .narrator {
   grid-row: 1;
   grid-column: 1/-1;
@@ -419,46 +328,31 @@ export default Vue.extend({
   height: 100%;
 }
 
-.left-img {
+.middle-area {
   grid-row: 2;
-  grid-column: 1/3;
-  margin: 2%;
-}
-.left-img > img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-  border: calc(var(--vw) * 0.3) solid black;
+  grid-column: 1/-1;
+  margin-top: 1%;
+  margin-bottom: 0%;
+  margin-right: 5%;
+  margin-left: 5%;
   border-radius: calc(var(--vw) * 2);
+  border: calc(var(--vw) * 0.3) solid black;
 }
 
-.right-img {
-  grid-row: 2;
-  grid-column: 3/5;
-  margin: 2%;
-}
-.right-img > img {
+.middle-area > img {
   object-fit: contain;
   width: 100%;
   height: 100%;
-  border: calc(var(--vw) * 0.3) solid black;
-  border-radius: calc(var(--vw) * 2);
 }
 
 .audio-button {
   justify-self: center;
   align-self: start;
   grid-row: 3;
+  grid-column: 1/-1;
   margin: calc(var(--vw) * 0.3);
 }
 
-.audio-button.left {
-  grid-column: 1/3;
-}
-
-.audio-button.right {
-  grid-column: 3/5;
-}
 .button-show-goto-next {
   grid-row: 3;
   grid-column: 4/5;

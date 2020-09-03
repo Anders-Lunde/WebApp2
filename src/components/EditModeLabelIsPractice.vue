@@ -17,7 +17,7 @@ export default Vue.extend({
   props: {
     labelText: {
       type: String,
-      required: false,
+      required: true,
     },
     fontSize: {
       type: String,
