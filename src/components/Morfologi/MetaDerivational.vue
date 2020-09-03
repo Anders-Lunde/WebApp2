@@ -61,6 +61,11 @@
       <EditModeLabelCorrectAnswer :label-text="screens[ii].answerKey" font-size="2.5" />
     </div>
 
+    <div
+      v-if="editMode===true"
+      class="label-sentences-stimulus"
+    >{{screens[ii].sentence1}} {{screens[ii].sentence2}}</div>
+
     <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="5" />
     </div>
@@ -432,5 +437,16 @@ export default Vue.extend({
   grid-column: 4/5;
   margin: 2%;
   align-self: start;
+}
+
+.label-sentences-stimulus {
+  color: black;
+  border: calc(var(--vw) * 0.15) solid black;
+  font-size: calc(var(--vw) * 2.5);
+  grid-row: 1;
+  grid-column: 1/-1;
+  margin: 2%;
+  align-self: end;
+  justify-self: left;
 }
 </style>
