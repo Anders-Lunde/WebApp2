@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    ii: 0, // screens array index
+    ii: 5, // screens array index
     editMode: true,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
