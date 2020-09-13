@@ -109,6 +109,16 @@ export default Vue.extend({
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
     this.$store.state.orientation = this.screens[this.ii].orientation;
     //TODO: Lock device screen orientation
+
+    //If click top 10% of screen, toggle edit mode:
+    window.addEventListener("mousedown", (e) => {
+      if (e.pageY < window.innerHeight * 0.1) {
+        this.currentModuleStoreState.editMode = !this.currentModuleStoreState
+          .editMode;
+      }
+    });
+
+    //Keyboard keys:
     window.addEventListener("keydown", (e) => {
       if (e.key === "e") {
         this.currentModuleStoreState.editMode = !this.currentModuleStoreState

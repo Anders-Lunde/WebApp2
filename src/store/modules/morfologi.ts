@@ -1,11 +1,70 @@
 export default {
   namespaced: true,
   state: {
-    ii: 40, // screens array index
+    ii: 5, // screens array index
     editMode: true,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
     screens: [
+      {
+        id: -3,
+        type: "ExaminerInstructions",
+        orientation: "portrait",
+        isPractice: false,
+        isScored: false,
+        isNarratorInstruction: false,
+        heading: "Instruksjoner til eksaminator",
+        body: `Du må skrive ut 4 ark for å bruke denne testen. Dokumentet du må skrive ut kan
+    lastes ned via denne linken (for eksempel på en PC tilkoblet skriver):
+    https://dokumentene.no
+    Example image1
+    Morbi eget ex sit amet velit cursus molestie in ullamcorper urna. Donec in
+    tristique neque. Sed neque urna, accumsan non lorem vitae, ultricies egestas
+    mauris. Vestibulum tristique turpis auctor, malesuada dolor id, sagittis turpis.
+    Example image2
+    …
+    Scrollable down if html is large
+    `,
+      },
+
+      {
+        id: -2,
+        type: "ParticipantRegistration",
+        orientation: "portrait",
+        isPractice: false,
+        isScored: false,
+        isNarratorInstruction: false,
+        heading: "Registrer forsøksdeltaker",
+        body: `Generelt:
+      Dato for testing:
+      Eksaminator navn:
+      Kommentarer og notater:
+      Deltaker:
+      ID:
+      Navn:
+      Fødselsdato:
+      Test-gruppe:
+      Skole:
+      Klassetrinn:
+      • Førskole
+      • 1. klasse
+      • 2. klasse
+      • 3. klasse
+      Kjønn:
+      • Gutt
+      • Jente
+      • Annet
+      `,
+      },
+      {
+        id: -1,
+        type: "ParticipantIntroduction",
+        orientation: "landscape",
+        isPractice: false,
+        isScored: false,
+        isNarratorInstruction: false,
+      },
+
       {
         id: 0,
         orientation: "landscape",
