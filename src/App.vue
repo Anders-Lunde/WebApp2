@@ -2,8 +2,8 @@
   <div id="app" :style="cssVarsForApp">
     <div v-if="$store.state.showNavBar === true" id="nav">
       <router-link to="/">Home</router-link>|
-      <router-link to="/oslospell/morfologi">Morfologi</router-link>|
-      <router-link to="/oslospell/ordforraad">Ordforraad</router-link>
+      <router-link to="/oslospell/#/morfologi">Morfologi</router-link>|
+      <router-link to="/oslospell/#/ordforraad">Ordforraad</router-link>
     </div>
     <router-view />
   </div>

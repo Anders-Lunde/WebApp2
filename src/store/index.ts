@@ -14,6 +14,7 @@ export default new Vuex.Store({
   },
   //state: { showDebugHeader: true, showDebugFooter: true, showNavBar: true },
   state: {
+    logoOsloSpell: require("@/assets/logo-oslo-spell.png"),
     showDebugHeader: false,
     showDebugFooter: false,
     showNavBar: false,

@@ -1,9 +1,13 @@
 <template>
   <div class="home">
-    <h1>Home :)</h1>
+    <div class="heading">Oslo SPeLL digitale tester</div>
+    <div class="button-container">
+      <a href="/oslospell/#/morfologi">Morfo Logi</a>
+      <a href="/oslospell/#/si">Si!</a>
+      <a href="/oslospell/#/tallforstaaelse">Tallforståelse</a>
+    </div>
 
-    <a href="/#/morfologi">Morfologi</a>
-    <a href="/#/tall">Tall</a>
+    <img class="logo" :src="logoImg" />
   </div>
 </template>
 
@@ -17,17 +21,37 @@ export default Vue.extend({
   computed: {},
   props: {},
   data() {
-    return {};
+    return {
+      logoImg: this.$store.state.logoOsloSpell,
+    };
   },
 
   methods: {},
 });
 </script>
 
-
 <style scoped>
+.heading {
+  font-size: 5vw;
+  text-align: center;
+  margin: 3%;
+  margin-bottom: 7%;
+}
+
+.logo {
+  display: block;
+  margin-top: 7%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 a {
-  display: inline-block;
   padding: 1vw 1vw;
   margin: 1vw 1vw;
   border: 0.4vw solid rgba(255, 255, 255, 0);
@@ -35,7 +59,6 @@ a {
   box-sizing: border-box;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
-  font-weight: 100vw;
   font-size: 5vw;
   color: #95e638;
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
@@ -43,4 +66,3 @@ a {
   border-color: rgb(83, 156, 74);
 }
 </style>
-

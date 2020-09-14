@@ -134,7 +134,7 @@ export default Vue.extend({
 }
 
 .heading {
-  font-size: calc(var(--vh) * 8);
+  font-size: calc(var(--vh) * 6);
   grid-row: 1;
   grid-column: 1/-1;
   justify-self: center;
