@@ -4,7 +4,7 @@
 
     <div class="body">{{ screens[ii].body }}</div>
 
-    <img class="logo" :src="imgLogo" />
+    <img class="logo" :src="logoImg" />
 
     <div class="goto-next-button" @click="gotoNextButton()">
       <ButtonGotoNext />
@@ -28,7 +28,7 @@ export default Vue.extend({
     return {
       currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
-      imgLogo: require("@/assets/logo-oslo-spell.png"),
+      logoImg: this.$store.state.logoOsloSpell,
     };
   },
   computed: {
@@ -74,7 +74,7 @@ export default Vue.extend({
 }
 
 .heading {
-  font-size: calc(var(--vh) * 8);
+  font-size: calc(var(--vh) * 6);
   grid-row: 1;
   grid-column: 1/-1;
   justify-self: center;

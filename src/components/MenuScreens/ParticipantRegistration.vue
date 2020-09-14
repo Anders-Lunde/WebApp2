@@ -119,12 +119,10 @@ export default Vue.extend({
   grid-row: 2;
   grid-column: 1/-1;
   justify-self: start;
-  transform: scale(2);
-  transform-origin: top left;
 }
 
 .heading {
-  font-size: calc(var(--vh) * 8);
+  font-size: calc(var(--vh) * 6);
   grid-row: 1;
   grid-column: 1/-1;
   justify-self: center;
