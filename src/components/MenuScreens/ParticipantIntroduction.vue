@@ -11,11 +11,15 @@
       </div>
     </div>
 
-    <div class="button audio-button" @click="playAudio()">
+    <div class="audio-button" @click="playAudio()">
       <ButtonAudioPlay />
     </div>
 
-    <div v-if="showGotoNext === true" :@click="gotoNextButton">
+    <div
+      class="goto-next-button"
+      v-if="showGotoNext === true"
+      @click="gotoNextButton()"
+    >
       <ButtonGotoNext />
     </div>
   </div>
@@ -121,7 +125,7 @@ export default Vue.extend({
     calc(var(--vw) * 25)
     calc(var(--vw) * 25);
 
-  grid-template-rows: calc(var(--vh) * 12) calc(var(--vh) * 60) calc(
+  grid-template-rows: calc(var(--vh) * 12) calc(var(--vh) * 68) calc(
       var(--vh) * 20
     );
 
@@ -143,19 +147,24 @@ export default Vue.extend({
   height: 100%;
 }
 
-.button {
-  grid-row: 3;
-  grid-column: 2/3;
-  margin: calc(var(--vw) * 0.3);
+.narrator > div {
+  height: 100%;
 }
 
-.button.audio-button {
+.narrator > div > img {
+  height: 100%;
+}
+.audio-button {
+  grid-row: 3;
+  grid-column: 1/-1;
   margin: calc(var(--vw) * 0.3);
   justify-self: center;
   align-self: end;
 }
 
-.button.goto-next-button {
+.goto-next-button {
+  grid-row: 3;
+  grid-column: 1/-1;
   justify-self: end;
   align-self: end;
 }
