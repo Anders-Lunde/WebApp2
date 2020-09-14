@@ -7,7 +7,6 @@
 
     <!-- Grid layout if editMode, to make room for edit menu-->
     <div class="viewport-area" :style="cssVarsForWrapper">
-      {{ debugClick }}
       <div
         class="app-area"
         :class="{ wrapper_grid_container: editMode === true }"
@@ -77,7 +76,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      debugClick: 0,
       currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       editMenuWidth: 0.135, //Set width of edit-menu. 0 to 1
       editMenuHeight: 0.135, //Set height of edit-menu. 0 to 1
@@ -129,12 +127,9 @@ export default Vue.extend({
 
     //If click top 10% of screen, toggle edit mode:
     window.addEventListener("mousedown", (e) => {
-      this.debugClick = e.pageY;
-
       if (e.pageY < window.innerHeight * 0.1) {
         this.currentModuleStoreState.editMode = !this.currentModuleStoreState
           .editMode;
-        this.debugClick = 9999999;
       }
     });
 
