@@ -7,20 +7,34 @@
 
     <!-- Grid layout if editMode, to make room for edit menu-->
     <div class="viewport-area" :style="cssVarsForWrapper">
-      <div class="app-area" :class="{wrapper_grid_container: editMode===true}">
+      {{ debugClick }}
+      <div
+        class="app-area"
+        :class="{ wrapper_grid_container: editMode === true }"
+      >
         <!-- Test area. Scaled and moved with CSS if editMode, to make room for edit menu-->
-        <div :class="{test_area_edit_mode: editMode===true}">
+        <div :class="{ test_area_edit_mode: editMode === true }">
+          <ParticipantIntroduction
+            v-if="screens[ii].type === 'ParticipantIntroduction'"
+          />
+
           <EpiInflectional v-if="screens[ii].type === 'EpiInflectional'" />
-          <MetaInflectional v-if="screens[ii].type === 'MetaInflectional' " />
-          <MetaDerivational v-if="screens[ii].type === 'MetaDerivational' " />
+          <MetaInflectional v-if="screens[ii].type === 'MetaInflectional'" />
+          <MetaDerivational v-if="screens[ii].type === 'MetaDerivational'" />
         </div>
 
         <!-- Edit menu. Shown if editMode-->
         <div v-if="editMode" class="edit-menu right"></div>
         <div v-if="editMode" class="edit-menu bottom">
-          <EditModeMenuNavigation :current-module-store-state="currentModuleStoreState" />
-          <EditModeMenuResetAnswer :current-module-store-state="currentModuleStoreState" />
-          <EditModeMenuNullAnswersNavigator :current-module-store-state="currentModuleStoreState" />
+          <EditModeMenuNavigation
+            :current-module-store-state="currentModuleStoreState"
+          />
+          <EditModeMenuResetAnswer
+            :current-module-store-state="currentModuleStoreState"
+          />
+          <EditModeMenuNullAnswersNavigator
+            :current-module-store-state="currentModuleStoreState"
+          />
         </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
@@ -42,6 +56,7 @@ import DebugHeader from "@/components/DebugHeader.vue";
 import EditModeMenuNavigation from "@/components/EditModeMenuNavigation.vue";
 import EditModeMenuResetAnswer from "@/components/EditModeMenuResetAnswer.vue";
 import EditModeMenuNullAnswersNavigator from "@/components/EditModeMenuNullAnswersNavigator.vue";
+import ParticipantIntroduction from "@/components/MenuScreens/ParticipantIntroduction.vue";
 
 import { createNamespacedHelpers } from "vuex";
 
@@ -58,9 +73,11 @@ export default Vue.extend({
     EditModeMenuNavigation,
     EditModeMenuResetAnswer,
     EditModeMenuNullAnswersNavigator,
+    ParticipantIntroduction,
   },
   data() {
     return {
+      debugClick: 0,
       currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       editMenuWidth: 0.135, //Set width of edit-menu. 0 to 1
       editMenuHeight: 0.135, //Set height of edit-menu. 0 to 1
@@ -100,7 +117,7 @@ export default Vue.extend({
   },
   watch: {
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
-    ii: function () {
+    ii: function() {
       this.$store.state.orientation = this.screens[this.ii].orientation;
       //TODO: Lock device screen orientation
     },
@@ -112,6 +129,8 @@ export default Vue.extend({
 
     //If click top 10% of screen, toggle edit mode:
     window.addEventListener("mousedown", (e) => {
+      this.debugClick = e.pageY;
+
       if (e.pageY < window.innerHeight * 0.1) {
         this.currentModuleStoreState.editMode = !this.currentModuleStoreState
           .editMode;

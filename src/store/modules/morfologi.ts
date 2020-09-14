@@ -1,15 +1,15 @@
 export default {
   namespaced: true,
   state: {
-    ii: 5, // screens array index
-    editMode: true,
+    ii: 2, // screens array index
+    editMode: false,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
     screens: [
       {
         id: -3,
         type: "ExaminerInstructions",
-        orientation: "portrait",
+        orientation: "landscape",
         isPractice: false,
         isScored: false,
         isNarratorInstruction: false,
@@ -30,7 +30,7 @@ export default {
       {
         id: -2,
         type: "ParticipantRegistration",
-        orientation: "portrait",
+        orientation: "landscape",
         isPractice: false,
         isScored: false,
         isNarratorInstruction: false,
@@ -60,9 +60,10 @@ export default {
         id: -1,
         type: "ParticipantIntroduction",
         orientation: "landscape",
+        heading: "Introduksjon",
         isPractice: false,
         isScored: false,
-        isNarratorInstruction: false,
+        instructionAudio: require("@/assets/morfologi/introductionAudio.mp3"),
       },
 
       {
