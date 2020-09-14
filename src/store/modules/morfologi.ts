@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    ii: 2, // screens array index
+    ii: 0, // screens array index
     editMode: false,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
@@ -14,16 +14,14 @@ export default {
         isScored: false,
         isNarratorInstruction: false,
         heading: "Instruksjoner til eksaminator",
-        body: `Du må skrive ut 4 ark for å bruke denne testen. Dokumentet du må skrive ut kan
-    lastes ned via denne linken (for eksempel på en PC tilkoblet skriver):
-    https://dokumentene.no
-    Example image1
-    Morbi eget ex sit amet velit cursus molestie in ullamcorper urna. Donec in
-    tristique neque. Sed neque urna, accumsan non lorem vitae, ultricies egestas
-    mauris. Vestibulum tristique turpis auctor, malesuada dolor id, sagittis turpis.
-    Example image2
-    …
-    Scrollable down if html is large
+        body: `Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
+        
+Dokumentet du må skrive ut kan lastes ned lenken under. 
+(for eksempel på en PC tilkoblet skriver):
+
+http://link-til-utskrift.eksempel
+
+Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
     `,
       },
 
