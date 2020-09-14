@@ -134,6 +134,7 @@ export default Vue.extend({
       if (e.pageY < window.innerHeight * 0.1) {
         this.currentModuleStoreState.editMode = !this.currentModuleStoreState
           .editMode;
+        this.debugClick = 9999999;
       }
     });
 
