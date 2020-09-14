@@ -13,6 +13,12 @@
       >
         <!-- Test area. Scaled and moved with CSS if editMode, to make room for edit menu-->
         <div :class="{ test_area_edit_mode: editMode === true }">
+          <ExaminerInstructions
+            v-if="screens[ii].type === 'ExaminerInstructions'"
+          />
+          <ParticipantRegistration
+            v-if="screens[ii].type === 'ParticipantRegistration'"
+          />
           <ParticipantIntroduction
             v-if="screens[ii].type === 'ParticipantIntroduction'"
           />
@@ -56,6 +62,8 @@ import EditModeMenuNavigation from "@/components/EditModeMenuNavigation.vue";
 import EditModeMenuResetAnswer from "@/components/EditModeMenuResetAnswer.vue";
 import EditModeMenuNullAnswersNavigator from "@/components/EditModeMenuNullAnswersNavigator.vue";
 import ParticipantIntroduction from "@/components/MenuScreens/ParticipantIntroduction.vue";
+import ParticipantRegistration from "@/components/MenuScreens/ParticipantRegistration.vue";
+import ExaminerInstructions from "@/components/MenuScreens/ExaminerInstructions.vue";
 
 import { createNamespacedHelpers } from "vuex";
 
@@ -73,6 +81,8 @@ export default Vue.extend({
     EditModeMenuResetAnswer,
     EditModeMenuNullAnswersNavigator,
     ParticipantIntroduction,
+    ParticipantRegistration,
+    ExaminerInstructions,
   },
   data() {
     return {

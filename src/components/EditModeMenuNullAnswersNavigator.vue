@@ -1,10 +1,20 @@
 <template>
   <div class="flex-container">
-    <div class="heading">Ubesv her: {{getNNullAnswersSubtest()}} ({{getNNullAnswersTotal()}} totalt)</div>
-    <div class="next-label">Neste ubesv i:</div>
+    <div class="heading">
+      Ubesv. her: {{ getNNullAnswersSubtest() }} ({{ getNNullAnswersTotal() }}
+      totalt)
+    </div>
+    <div class="next-label">Neste ubesv. i:</div>
 
-    <div class="button goto-next-null-subtest" @click="gotoNextNullAnswerSubtest()">Deltest</div>
-    <div class="button goto-next-null-total" @click="gotoNextNullAnswerTotal()">Totalt</div>
+    <div
+      class="button goto-next-null-subtest"
+      @click="gotoNextNullAnswerSubtest()"
+    >
+      Deltest
+    </div>
+    <div class="button goto-next-null-total" @click="gotoNextNullAnswerTotal()">
+      Totalt
+    </div>
   </div>
 </template>
 
@@ -28,7 +38,7 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextNullSubtest:
      */
-    gotoNextNullAnswerSubtest: function () {
+    gotoNextNullAnswerSubtest: function() {
       const currentType = this.currentModuleStoreState.screens[
         this.currentModuleStoreState.ii
       ].type;
@@ -71,7 +81,7 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextNullTotal:
      */
-    gotoNextNullAnswerTotal: function () {
+    gotoNextNullAnswerTotal: function() {
       const screenArray = this.currentModuleStoreState.screens;
       //Check if there is at least 1 null answer
       let hasNull = false;
@@ -110,7 +120,7 @@ export default Vue.extend({
     /*
      *METHOD START: getNNullAnswersSubtest:
      */
-    getNNullAnswersSubtest: function () {
+    getNNullAnswersSubtest: function() {
       return this.$store.getters["utils/getNNullAnswersSubtest"](
         this.currentModuleStoreState
       );
@@ -119,7 +129,7 @@ export default Vue.extend({
     /*
      *METHOD START: getNNullAnswersTotal:
      */
-    getNNullAnswersTotal: function () {
+    getNNullAnswersTotal: function() {
       return this.$store.getters["utils/getNNullAnswersTotal"](
         this.currentModuleStoreState
       );
@@ -162,7 +172,7 @@ export default Vue.extend({
   padding: 2%;
   border: calc(var(--vw) * 0.4) solid black;
   border-radius: calc(var(--vw) * 1);
-  height: 35%;
+  height: 25%;
 }
 
 .goto-next-null-subtest {
