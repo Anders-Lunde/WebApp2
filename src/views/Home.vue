@@ -4,7 +4,9 @@
     <div class="button-container">
       <a href="/oslospell/#/morfologi">Morfo Logi</a>
       <a href="/oslospell/#/si">Si!</a>
+      <a href="/oslospell/#/les">Les!</a>
       <a href="/oslospell/#/tallforstaaelse">Tallforståelse</a>
+      <a href="/oslospell/#/ordforraad">Ordforråd</a>
     </div>
 
     <img class="logo" :src="logoImg" />
@@ -48,7 +50,9 @@ export default Vue.extend({
 
 .button-container {
   display: flex;
+
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 a {
@@ -59,7 +63,7 @@ a {
   box-sizing: border-box;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
-  font-size: 5vw;
+  font-size: 4vw;
   color: #95e638;
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;

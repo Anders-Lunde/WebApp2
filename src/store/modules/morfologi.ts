@@ -13,7 +13,7 @@ export default {
         isPractice: false,
         isScored: false,
         isNarratorInstruction: false,
-        heading: "Morfologi: Instruksjoner til eksaminator",
+        heading: "Morfo Logi: Instruksjoner til eksaminator",
         body: `Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
         
 Dokumentet du må skrive ut kan lastes ned lenken under. 
