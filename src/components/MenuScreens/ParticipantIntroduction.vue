@@ -125,7 +125,7 @@ export default Vue.extend({
     calc(var(--vw) * 25)
     calc(var(--vw) * 25);
 
-  grid-template-rows: calc(var(--vh) * 12) calc(var(--vh) * 68) calc(
+  grid-template-rows: calc(var(--vh) * 15) calc(var(--vh) * 65) calc(
       var(--vh) * 20
     );
 
