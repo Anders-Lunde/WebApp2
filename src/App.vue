@@ -2,14 +2,12 @@
   <div id="app" :style="cssVarsForApp">
     <div v-if="$store.state.showNavBar === true" id="nav">
       <router-link to="/">Home</router-link>|
-      <router-link to="/morfologi">Morfologi</router-link>|
-      <router-link to="/ordforraad">Ordforraad</router-link>
+      <router-link to="/oslospell/morfologi">Morfologi</router-link>|
+      <router-link to="/oslospell/ordforraad">Ordforraad</router-link>
     </div>
     <router-view />
   </div>
 </template>
-
-
 
 <script lang="ts">
 import Vue from "vue";
@@ -27,16 +25,15 @@ export default Vue.extend({
         "--canvasHeight": this.$store.getters.canvasHeight + "px",
         "--vw": this.$store.getters.canvasWidth / 100 + "px",
         "--vh": this.$store.getters.canvasHeight / 100 + "px",
-        "--testvar": "10px"
+        "--testvar": "10px",
       };
-    }
+    },
   },
   props: {},
 
-  methods: {}
+  methods: {},
 });
 </script>
-
 
 <style>
 html,
