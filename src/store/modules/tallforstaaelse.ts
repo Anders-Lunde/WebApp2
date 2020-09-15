@@ -26,7 +26,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       {
         id: -2,
         type: "ParticipantRegistration",
-        orientation: "landscape",
+        orientation: "portrait",
         isPractice: false,
         isScored: false,
         isNarratorInstruction: false,
@@ -64,7 +64,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
 
       {
         id: 0,
-        orientation: "landscape",
+        orientation: "portrait",
         type: "ReadingNumbers",
         isPractice: true,
         isScored: false,
@@ -102,7 +102,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 2,
-        orientation: "landscape",
+        orientation: "portrait",
         type: "DigitComparision",
         isPractice: true,
         isScored: false,
@@ -140,7 +140,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 4,
-        orientation: "landscape",
+        orientation: "portrait",
         type: "ArithmeticOral",
         isPractice: false,
         isScored: true,
@@ -178,7 +178,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 6,
-        orientation: "landscape",
+        orientation: "portrait",
         type: "EpiInflectional",
         isPractice: false,
         isScored: true,
