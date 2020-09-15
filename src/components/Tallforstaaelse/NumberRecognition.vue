@@ -154,9 +154,6 @@ export default Vue.extend({
      *METHOD START: gotoNextButton:
      */
     gotoNextButton: function() {
-      if (this.deactivateAllButtons) {
-        return;
-      }
       this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.showGotoNext = false;
       this.showFeedbackButtons = false;
@@ -335,7 +332,7 @@ export default Vue.extend({
   margin-left: 5%;
   border-radius: calc(var(--vw) * 2);
   border: calc(var(--vw) * 0.3) solid black;
-  font-size: calc(var(--vw) * 9);
+  font-size: calc(var(--vw) * 7);
 }
 
 .number-stimulus {
