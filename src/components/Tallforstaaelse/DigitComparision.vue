@@ -153,9 +153,6 @@ export default Vue.extend({
      *METHOD START: gotoNextButton:
      */
     gotoNextButton: function() {
-      if (this.deactivateAllButtons) {
-        return;
-      }
       this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.showGotoNext = false;
       this.showFeedbackButtons = false;
