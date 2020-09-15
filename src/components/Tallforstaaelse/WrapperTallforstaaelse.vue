@@ -136,6 +136,12 @@ export default Vue.extend({
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
     ii: function() {
       this.$store.state.orientation = this.screens[this.ii].orientation;
+      if (this.$store.state.orientation === "portrait") {
+        screen.orientation.lock("portrait");
+      } else {
+        screen.orientation.lock("landscape");
+      }
+
       //TODO: Lock device screen orientation
     },
   },
