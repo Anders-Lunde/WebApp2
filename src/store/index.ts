@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import morfologi from "./modules/morfologi";
 import ordforraad from "./modules/ordforraad";
+import tallforstaaelse from "./modules/tallforstaaelse";
 import utils from "./modules/utils";
 
 Vue.use(Vuex);
@@ -10,6 +11,7 @@ export default new Vuex.Store({
   modules: {
     morfologi,
     ordforraad,
+    tallforstaaelse,
     utils,
   },
   //state: { showDebugHeader: true, showDebugFooter: true, showNavBar: true },
