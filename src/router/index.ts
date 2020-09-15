@@ -24,6 +24,11 @@ const routes: Array<RouteConfig> = [
     name: "Ordforraad",
     component: () => import("../views/Ordforraad.vue"),
   },
+  {
+    path: "/tallforstaaelse",
+    name: "Tallforstaaelse",
+    component: () => import("../views/Tallforstaaelse.vue"),
+  },
 ];
 
 const router = new VueRouter({
