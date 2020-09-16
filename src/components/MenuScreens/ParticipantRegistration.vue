@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <div class="heading">{{ screens[ii].heading }}</div>
+    <div class="heading">{{ screenDataReadOnly.heading }}</div>
 
     <FormulateForm v-model="formValues">
       <FormulateInput
@@ -49,10 +49,7 @@
 import Vue from "vue";
 import VueFormulate from "@braid/vue-formulate";
 Vue.use(VueFormulate);
-import { createNamespacedHelpers } from "vuex";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
-
-const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
   name: "ParticipantRegistration",
@@ -61,27 +58,21 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      screenDataReadOnly: this.currentModuleStoreState.screens[
+        this.currentModuleStoreState.ii
+      ],
       deactivateAllButtons: false,
       formValues: null,
     };
   },
-  computed: {
-    ...mapState(["ii", "screens", "editMode"]),
-  },
-  props: {},
+  props: ["currentModuleStoreState"],
 
   methods: {
-    /*
-     *METHOD START: Map mutations:
-     */
-    ...mapMutations([""]),
-
     /*
      *METHOD START: registerParticipant:
      */
     registerParticipant: function() {
-      console.log(this.formValues);
+      //console.log(this.formValues);
     },
 
     /*

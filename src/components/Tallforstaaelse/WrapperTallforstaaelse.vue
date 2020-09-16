@@ -15,12 +15,15 @@
         <div :class="{ test_area_edit_mode: editMode === true }">
           <ExaminerInstructions
             v-if="screens[ii].type === 'ExaminerInstructions'"
+            :current-module-store-state="currentModuleStoreState"
           />
           <ParticipantRegistration
             v-if="screens[ii].type === 'ParticipantRegistration'"
+            :current-module-store-state="currentModuleStoreState"
           />
           <ParticipantIntroduction
             v-if="screens[ii].type === 'ParticipantIntroduction'"
+            :current-module-store-state="currentModuleStoreState"
           />
 
           <ReadingNumbers v-if="screens[ii].type === 'ReadingNumbers'" />
@@ -136,11 +139,13 @@ export default Vue.extend({
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
     ii: function() {
       this.$store.state.orientation = this.screens[this.ii].orientation;
+      /*
       if (this.$store.state.orientation === "portrait") {
         screen.orientation.lock("portrait");
       } else {
         screen.orientation.lock("landscape");
       }
+      */
 
       //TODO: Lock device screen orientation
     },

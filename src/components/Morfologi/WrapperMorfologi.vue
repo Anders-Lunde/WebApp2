@@ -15,12 +15,15 @@
         <div :class="{ test_area_edit_mode: editMode === true }">
           <ExaminerInstructions
             v-if="screens[ii].type === 'ExaminerInstructions'"
+            :current-module-store-state="currentModuleStoreState"
           />
           <ParticipantRegistration
             v-if="screens[ii].type === 'ParticipantRegistration'"
+            :current-module-store-state="currentModuleStoreState"
           />
           <ParticipantIntroduction
             v-if="screens[ii].type === 'ParticipantIntroduction'"
+            :current-module-store-state="currentModuleStoreState"
           />
 
           <EpiInflectional v-if="screens[ii].type === 'EpiInflectional'" />

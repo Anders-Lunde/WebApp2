@@ -1,8 +1,12 @@
 <template>
   <div class="grid-container">
-    <div class="heading">{{ screens[ii].heading }}</div>
+    <div class="heading">
+      {{ screenDataReadOnly.heading }}
+    </div>
 
-    <div class="body">{{ screens[ii].body }}</div>
+    <div class="body">
+      {{ screenDataReadOnly.body }}
+    </div>
 
     <img class="logo" :src="logoImg" />
 
@@ -14,34 +18,28 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { createNamespacedHelpers } from "vuex";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
-
-const { mapMutations, mapState } = createNamespacedHelpers("morfologi"); //Set module namespace here
 
 export default Vue.extend({
   name: "ExaminerInstructions",
+
   components: {
     ButtonGotoNext,
   },
+
   data() {
     return {
-      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      screenDataReadOnly: this.currentModuleStoreState.screens[
+        this.currentModuleStoreState.ii
+      ],
       deactivateAllButtons: false,
       logoImg: this.$store.state.logoOsloSpell,
     };
   },
-  computed: {
-    ...mapState(["ii", "screens", "editMode"]),
-  },
-  props: {},
+  computed: {},
+  props: ["currentModuleStoreState"],
 
   methods: {
-    /*
-     *METHOD START: Map mutations:
-     */
-    ...mapMutations([""]),
-
     /*
      *METHOD START: gotoNextButton:
      */
