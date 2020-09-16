@@ -2,7 +2,11 @@
   <div class="container">
     <div>
       Toggle edit mode
-      <input class="edit-mode-checkbox" type="checkbox" @click="toggleEditMode" />
+      <input
+        class="edit-mode-checkbox"
+        type="checkbox"
+        @click="toggleEditMode"
+      />
       Toggle header
       <input
         type="checkbox"
@@ -39,24 +43,23 @@ export default Vue.extend({
   name: "DebugFooter",
   computed: {},
 
-  props: ["currentModuleStoreState"],
+  props: ["tStore"],
   data() {
     return {};
   },
 
   methods: {
-    incrementII: function () {
-      this.currentModuleStoreState.ii++;
+    incrementII: function() {
+      this.tStore.ii++;
     },
-    decrementII: function () {
-      this.currentModuleStoreState.ii--;
+    decrementII: function() {
+      this.tStore.ii--;
     },
-    toggleEditMode: function () {
-      this.currentModuleStoreState.editMode = !this.currentModuleStoreState
-        .editMode;
+    toggleEditMode: function() {
+      this.tStore.editMode = !this.tStore.editMode;
     },
-    productionView: function () {
-      this.currentModuleStoreState.editMode = false;
+    productionView: function() {
+      this.tStore.editMode = false;
       this.$store.state.showDebugHeader = false;
       this.$store.state.showDebugFooter = false;
       this.$store.state.showNavBar = false;

@@ -42,16 +42,14 @@ export default Vue.extend({
   },
   data() {
     return {
-      screenDataReadOnly: this.currentModuleStoreState.screens[
-        this.currentModuleStoreState.ii
-      ],
+      screenDataReadOnly: this.tStore.screens[this.tStore.ii],
       showGotoNext: false,
       deactivateAllButtons: false,
       animateNarrator: false,
     };
   },
   computed: {},
-  props: ["currentModuleStoreState"],
+  props: ["tStore"],
 
   methods: {
     /*
@@ -61,7 +59,7 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentModuleStoreState.ii++;
+      this.tStore.ii++;
     },
 
     /*
@@ -69,11 +67,8 @@ export default Vue.extend({
      */
     playAudio: function() {
       //Max 2 replays, except during edit mode.
-      if (this.currentModuleStoreState.editMode === false) {
-        if (
-          this.currentModuleStoreState.screens[this.currentModuleStoreState.ii]
-            .nPlaybackTimes >= 3
-        ) {
+      if (this.tStore.editMode === false) {
+        if (this.tStore.screens[this.tStore.ii].nPlaybackTimes >= 3) {
           return;
         }
       }
@@ -90,9 +85,7 @@ export default Vue.extend({
 
       */
       const instructionAudio = new Audio(
-        this.currentModuleStoreState.screens[
-          this.currentModuleStoreState.ii
-        ].instructionAudio
+        this.tStore.screens[this.tStore.ii].instructionAudio
       );
       //Setup animation start/stop during playback
       instructionAudio.addEventListener("ended", () => {
@@ -106,8 +99,7 @@ export default Vue.extend({
 
       //Excecute playback
       instructionAudio.play();
-      this.currentModuleStoreState.screens[this.currentModuleStoreState.ii]
-        .nPlaybackTimes++;
+      this.tStore.screens[this.tStore.ii].nPlaybackTimes++;
     },
   },
 });

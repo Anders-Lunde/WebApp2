@@ -58,14 +58,12 @@ export default Vue.extend({
   },
   data() {
     return {
-      screenDataReadOnly: this.currentModuleStoreState.screens[
-        this.currentModuleStoreState.ii
-      ],
+      screenDataReadOnly: this.tStore.screens[this.tStore.ii],
       deactivateAllButtons: false,
       formValues: null,
     };
   },
-  props: ["currentModuleStoreState"],
+  props: ["tStore"],
 
   methods: {
     /*
@@ -82,7 +80,7 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentModuleStoreState.ii++;
+      this.tStore.ii++;
     },
   },
 });

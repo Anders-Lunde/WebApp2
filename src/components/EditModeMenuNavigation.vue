@@ -2,12 +2,18 @@
   <div class="flex-container">
     <div @click="decrementII()" class="round-button decrement-ii"></div>
     <div @click="incrementII()" class="round-button increment-ii"></div>
-    <div @click="gotoPrevSubtest()" class="round-button goto-prev-subtest"></div>
-    <div @click="gotoNextSubtest()" class="round-button goto-next-subtest"></div>
+    <div
+      @click="gotoPrevSubtest()"
+      class="round-button goto-prev-subtest"
+    ></div>
+    <div
+      @click="gotoNextSubtest()"
+      class="round-button goto-next-subtest"
+    ></div>
     <div @click="setII()" class="round-button set-ii"></div>
 
-    <div class="test-type-label">{{getFormatedScreenType()}}</div>
-    <div class="screen-index-label">{{getScreenIndexString()}}</div>
+    <div class="test-type-label">{{ getFormatedScreenType() }}</div>
+    <div class="screen-index-label">{{ getScreenIndexString() }}</div>
   </div>
 </template>
 
@@ -18,7 +24,7 @@ export default Vue.extend({
   name: "EditModeMenuNavigation",
   computed: {},
   props: {
-    currentModuleStoreState: {
+    tStore: {
       type: Object,
       required: true,
     },
@@ -33,11 +39,9 @@ export default Vue.extend({
      *Returns e.g. "Øvelse 1 / 4"
      *or "Test 14 / 16"
      */
-    getScreenIndexString: function () {
-      const currentType = this.currentModuleStoreState.screens[
-        this.currentModuleStoreState.ii
-      ].type;
-      const screenArray = this.currentModuleStoreState.screens;
+    getScreenIndexString: function() {
+      const currentType = this.tStore.screens[this.tStore.ii].type;
+      const screenArray = this.tStore.screens;
       let nTestScreens = 0;
       let nPracticeScreens = 0;
       let displayString = "";
@@ -46,9 +50,9 @@ export default Vue.extend({
       let screenIndex = -1;
       //Count n practice screens and test screens, for current test.
       //In the middle of the loop, take note of which screen we currently are in:
-      //(if (this.currentModuleStoreState.ii == i)
+      //(if (this.tStore.ii == i)
       for (let i = 0; i < screenArray.length; i++) {
-        const screen = this.currentModuleStoreState.screens[i];
+        const screen = this.tStore.screens[i];
         if (screen.type === currentType) {
           if (screen.isPractice === true) {
             nPracticeScreens++;
@@ -59,7 +63,7 @@ export default Vue.extend({
         //Find out what the current screen is.
         //nPracticeScreens and nTestScreens will at this point in the loop
         //reflect which screenIndex we are on
-        if (this.currentModuleStoreState.ii == i) {
+        if (this.tStore.ii == i) {
           if (screen.isPractice === true) {
             currectScreenIsPractice = true;
             screenIndex = nPracticeScreens;
@@ -84,56 +88,51 @@ export default Vue.extend({
     /*
      *METHOD START: getFormatedScreenType:
      */
-    getFormatedScreenType: function () {
-      const type = this.currentModuleStoreState.screens[
-        this.currentModuleStoreState.ii
-      ].type;
+    getFormatedScreenType: function() {
+      const type = this.tStore.screens[this.tStore.ii].type;
       // 1) insert a space before all caps
       // 2) uppercase the first character
-      return type.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+      return type.replace(/([A-Z])/g, " $1").replace(/^./, function(str) {
         return str.toUpperCase();
       });
     },
     /*
      *METHOD START: incrementII:
      */
-    incrementII: function () {
+    incrementII: function() {
       //Avoid overflowing screen array
-      this.currentModuleStoreState.ii = Math.min(
-        this.currentModuleStoreState.ii + 1,
-        this.currentModuleStoreState.screens.length - 1
+      this.tStore.ii = Math.min(
+        this.tStore.ii + 1,
+        this.tStore.screens.length - 1
       );
     },
     /*
      *METHOD START: decrementII:
      */
-    decrementII: function () {
+    decrementII: function() {
       //Avoid undeflowing screen array
-      this.currentModuleStoreState.ii = Math.max(
-        this.currentModuleStoreState.ii - 1,
-        0
-      );
+      this.tStore.ii = Math.max(this.tStore.ii - 1, 0);
     },
     /*
      *METHOD START: setII:
      */
-    setII: function () {
+    setII: function() {
       //TODO: popup
       console.log("Not implemented yet");
     },
     /*
      *METHOD START: gotoPrevSubtest:
      */
-    gotoPrevSubtest: function () {
+    gotoPrevSubtest: function() {
       const screenChangeIndexes = this.$store.getters[
         "utils/getScreenChangeIndexes"
-      ](this.currentModuleStoreState);
+      ](this.tStore);
       //Looping backwards, set new global ii to the first change point with a lower index than
       //the current global ii (i.e. the previous screen change)
       for (let i = screenChangeIndexes.length - 1; i >= 0; i--) {
         const changeIndex = screenChangeIndexes[i];
-        if (changeIndex < this.currentModuleStoreState.ii) {
-          this.currentModuleStoreState.ii = changeIndex;
+        if (changeIndex < this.tStore.ii) {
+          this.tStore.ii = changeIndex;
           break;
         }
       }
@@ -141,15 +140,15 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextSubtest:
      */
-    gotoNextSubtest: function () {
+    gotoNextSubtest: function() {
       const screenChangeIndexes = this.$store.getters[
         "utils/getScreenChangeIndexes"
-      ](this.currentModuleStoreState);
+      ](this.tStore);
       //Set new global ii to the first change point with a higher index than
       //the current global ii (i.e. the next screen change)
       for (let i = 0; i < screenChangeIndexes.length; i++) {
-        if (screenChangeIndexes[i] > this.currentModuleStoreState.ii) {
-          this.currentModuleStoreState.ii = screenChangeIndexes[i];
+        if (screenChangeIndexes[i] > this.tStore.ii) {
+          this.tStore.ii = screenChangeIndexes[i];
           break;
         }
       }

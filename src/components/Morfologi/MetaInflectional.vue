@@ -2,11 +2,11 @@
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
 
-    <div class="narrator" :class="narratorPosition" v-if="editMode===false">
-      <div v-show="animateNarrator===false">
+    <div class="narrator" :class="narratorPosition" v-if="editMode === false">
+      <div v-show="animateNarrator === false">
         <Narrator1Static />
       </div>
-      <div v-show="animateNarrator===true">
+      <div v-show="animateNarrator === true">
         <Narrator1Animated />
       </div>
     </div>
@@ -36,14 +36,17 @@
 
     <!-- Button that hides feedback buttons: -->
     <div
-      v-show="showFeedbackButtons === false && screens[ii].isPractice===true"
+      v-show="showFeedbackButtons === false && screens[ii].isPractice === true"
       class="button-show-feedback"
       @click="buttonShowFeedback()"
     />
 
     <!-- Feedback button wrong: -->
     <div
-      v-show="(showFeedbackButtons === true && screens[ii].isPractice===true) || editMode===true"
+      v-show="
+        (showFeedbackButtons === true && screens[ii].isPractice === true) ||
+          editMode === true
+      "
       class="feedback-button wrong"
       @click="feedbackAudio('wrong')"
     >
@@ -51,7 +54,10 @@
     </div>
     <!-- Feedback button correct: -->
     <div
-      v-show="(showFeedbackButtons === true && screens[ii].isPractice===true) || editMode===true"
+      v-show="
+        (showFeedbackButtons === true && screens[ii].isPractice === true) ||
+          editMode === true
+      "
       class="feedback-button correct"
       @click="feedbackAudio('correct')"
     >
@@ -60,34 +66,44 @@
 
     <!-- Button that hides Goto next button in non-practice screens: -->
     <div
-      v-show="showGotoNext === false && screens[ii].isPractice===false"
+      v-show="showGotoNext === false && screens[ii].isPractice === false"
       class="button-show-goto-next"
       @click="buttonShowGotoNext()"
     />
 
-    <div v-show="showGotoNext===true" class="goto-next-button">
+    <div v-show="showGotoNext === true" class="goto-next-button">
       <div @click="gotoNextButton">
         <ButtonGotoNext />
       </div>
     </div>
 
     <!-- Edit mode stuff: -->
-    <div v-if="editMode===true" class="answer-key">
-      <EditModeLabelCorrectAnswer :label-text="screens[ii].answerKey" font-size="2.5" />
+    <div v-if="editMode === true" class="answer-key">
+      <EditModeLabelCorrectAnswer
+        :label-text="screens[ii].answerKey"
+        font-size="2.5"
+      />
     </div>
 
-    <div v-if="editMode===true" class="label-sentences-stimulus left">{{screens[ii].sentenceLeft}}</div>
-    <div v-if="editMode===true" class="label-sentences-stimulus right">{{screens[ii].sentenceRight}}</div>
+    <div v-if="editMode === true" class="label-sentences-stimulus left">
+      {{ screens[ii].sentenceLeft }}
+    </div>
+    <div v-if="editMode === true" class="label-sentences-stimulus right">
+      {{ screens[ii].sentenceRight }}
+    </div>
 
-    <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
+    <div
+      v-if="editMode === true && screens[ii].isPractice === true"
+      class="ispractise-indicator"
+    >
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="5" />
     </div>
 
-    <div v-if="editMode===true" class="score-indicator">
-      <div v-if="screens[ii].userAnswer===null">
+    <div v-if="editMode === true" class="score-indicator">
+      <div v-if="screens[ii].userAnswer === null">
         <EditModeLabelBinaryScore result="unanswered" font-size="2.5" />
       </div>
-      <div v-else-if="screens[ii].userAnswer==='correct'">
+      <div v-else-if="screens[ii].userAnswer === 'correct'">
         <EditModeLabelBinaryScore result="correct" font-size="2.5" />
       </div>
       <div v-else>
@@ -127,7 +143,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      tStore: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateNarrator: false,
       showGotoNext: false,
@@ -154,11 +170,11 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextButton:
      */
-    gotoNextButton: function () {
+    gotoNextButton: function() {
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
+      this.tStore.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.narratorPosition = "narratorPosMiddle";
       this.leftWasPlayed = false;
       this.showRightAudioButton = false;
@@ -168,7 +184,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowFeedback:
      */
-    buttonShowFeedback: function () {
+    buttonShowFeedback: function() {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -180,7 +196,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowGotoNext:
      */
-    buttonShowGotoNext: function () {
+    buttonShowGotoNext: function() {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -193,7 +209,7 @@ export default Vue.extend({
     /*
      *METHOD START: feedbackAudio:
      */
-    feedbackAudio: function (input: string) {
+    feedbackAudio: function(input: string) {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -242,7 +258,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudioLeft
      */
-    playAudioLeft: function () {
+    playAudioLeft: function() {
       //Abort if something else is playing/animating
       if (this.deactivateAllButtons) {
         return;
@@ -303,7 +319,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudioRight
      */
-    playAudioRight: function () {
+    playAudioRight: function() {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.screens[this.ii].nPlaybackTimes >= 2) {
@@ -355,7 +371,6 @@ export default Vue.extend({
   },
 });
 </script>
-
 
 <style scoped>
 .grid-container-test {

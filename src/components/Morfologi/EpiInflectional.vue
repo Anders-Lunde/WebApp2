@@ -1,8 +1,11 @@
 <template>
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
-    <div class="left-area" :class="{run_animation: animateLeft===true}">
-      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='left' }">
+    <div class="left-area" :class="{ run_animation: animateLeft === true }">
+      <div
+        class="character-area"
+        :class="{ selectedCharacter: screens[ii].userAnswer === 'left' }"
+      >
         <div class="char-img left" @click="characterSelected('left')">
           <img :src="epiInflectionalCharImgLeft" />
         </div>
@@ -13,19 +16,25 @@
       <img :src="screens[ii].img" />
     </div>
 
-    <div class="right-area" :class="{run_animation: animateRight===true}">
-      <div class="character-area" :class="{ selectedCharacter: screens[ii].userAnswer==='right' }">
+    <div class="right-area" :class="{ run_animation: animateRight === true }">
+      <div
+        class="character-area"
+        :class="{ selectedCharacter: screens[ii].userAnswer === 'right' }"
+      >
         <div class="char-img right" @click="characterSelected('right')">
           <img :src="epiInflectionalCharImgRight" />
         </div>
       </div>
     </div>
 
-    <div class="narrator" v-if="editMode===false && screens[ii].isPractice===true">
-      <div v-show="animateNarrator===false">
+    <div
+      class="narrator"
+      v-if="editMode === false && screens[ii].isPractice === true"
+    >
+      <div v-show="animateNarrator === false">
         <Narrator1Static />
       </div>
-      <div v-show="animateNarrator===true">
+      <div v-show="animateNarrator === true">
         <Narrator1Animated />
       </div>
     </div>
@@ -35,7 +44,7 @@
     </div>
 
     <div
-      v-show="screens[ii].userAnswer!==null && deactivateAllButtons===false"
+      v-show="screens[ii].userAnswer !== null && deactivateAllButtons === false"
       class="button goto-next-button"
     >
       <div @click="gotoNextButton">
@@ -44,29 +53,41 @@
     </div>
 
     <!-- Edit mode stuff: -->
-    <div v-if="editMode===true" class="option-label-left">
-      <div v-if="screens[ii].answerKey==='left'">
-        <EditModeLabelCorrectAnswer :label-text="screens[ii].sentenceLeft" font-size="2.5" />
+    <div v-if="editMode === true" class="option-label-left">
+      <div v-if="screens[ii].answerKey === 'left'">
+        <EditModeLabelCorrectAnswer
+          :label-text="screens[ii].sentenceLeft"
+          font-size="2.5"
+        />
       </div>
       <div v-else>
-        <EditModeLabelWrongAnswer :label-text="screens[ii].sentenceLeft" font-size="2.5" />
+        <EditModeLabelWrongAnswer
+          :label-text="screens[ii].sentenceLeft"
+          font-size="2.5"
+        />
       </div>
     </div>
 
-    <div v-if="editMode===true" class="option-label-right">
-      <div v-if="screens[ii].answerKey==='right'">
-        <EditModeLabelCorrectAnswer :label-text="screens[ii].sentenceRight" font-size="2.5" />
+    <div v-if="editMode === true" class="option-label-right">
+      <div v-if="screens[ii].answerKey === 'right'">
+        <EditModeLabelCorrectAnswer
+          :label-text="screens[ii].sentenceRight"
+          font-size="2.5"
+        />
       </div>
       <div v-else>
-        <EditModeLabelWrongAnswer :label-text="screens[ii].sentenceRight" font-size="2.5" />
+        <EditModeLabelWrongAnswer
+          :label-text="screens[ii].sentenceRight"
+          font-size="2.5"
+        />
       </div>
     </div>
 
-    <div v-if="editMode===true" class="score-indicator">
-      <div v-if="screens[ii].userAnswer===null">
+    <div v-if="editMode === true" class="score-indicator">
+      <div v-if="screens[ii].userAnswer === null">
         <EditModeLabelBinaryScore result="unanswered" font-size="2.5" />
       </div>
-      <div v-else-if="screens[ii].userAnswer===screens[ii].answerKey">
+      <div v-else-if="screens[ii].userAnswer === screens[ii].answerKey">
         <EditModeLabelBinaryScore result="correct" font-size="2.5" />
       </div>
       <div v-else>
@@ -74,7 +95,10 @@
       </div>
     </div>
 
-    <div v-if="editMode===true && screens[ii].isPractice===true" class="ispractise-indicator">
+    <div
+      v-if="editMode === true && screens[ii].isPractice === true"
+      class="ispractise-indicator"
+    >
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="4" />
     </div>
   </div>
@@ -108,7 +132,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentModuleStoreState: this.$store.state.morfologi, //When repurposing test: Set module namespace here
+      tStore: this.$store.state.morfologi, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
@@ -154,17 +178,17 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextButton:
      */
-    gotoNextButton: function () {
+    gotoNextButton: function() {
       if (this.deactivateAllButtons) {
         return;
       }
-      this.currentModuleStoreState.ii++;
+      this.tStore.ii++;
     },
 
     /*
      *METHOD START: characterSelected:
      */
-    characterSelected: function (userAnswer: object) {
+    characterSelected: function(userAnswer: object) {
       //Abort if something else is playing/animating, except in editMode
       if (this.deactivateAllButtons && this.editMode === false) {
         return;
@@ -215,7 +239,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudio
      */
-    playAudio: function () {
+    playAudio: function() {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.screens[this.ii].nPlaybackTimes >= 3) {
@@ -290,7 +314,6 @@ export default Vue.extend({
   },
 });
 </script>
-
 
 <style scoped>
 .grid-container-test {
