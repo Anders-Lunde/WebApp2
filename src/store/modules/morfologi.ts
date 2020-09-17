@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    ii: 0, // screens array index
+    ii: 25, // screens array index
     editMode: false,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
@@ -14,7 +14,9 @@ export default {
         isScored: false,
         isNarratorInstruction: false,
         heading: "Morfo Logi: Instruksjoner til eksaminator",
-        body: `Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
+        body: `Morfo Logi
+
+Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
         
 Dokumentet du må skrive ut kan lastes ned lenken under. 
 (for eksempel på en PC tilkoblet skriver):

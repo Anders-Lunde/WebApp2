@@ -25,7 +25,7 @@ export default Vue.extend({
   name: "EditModeMenuNullAnswersNavigator",
   computed: {},
   props: {
-    currentModuleStoreState: {
+    tStore: {
       type: Object,
       required: true,
     },
@@ -39,10 +39,8 @@ export default Vue.extend({
      *METHOD START: gotoNextNullSubtest:
      */
     gotoNextNullAnswerSubtest: function() {
-      const currentType = this.currentModuleStoreState.screens[
-        this.currentModuleStoreState.ii
-      ].type;
-      const screenArray = this.currentModuleStoreState.screens;
+      const currentType = this.tStore.screens[this.tStore.ii].type;
+      const screenArray = this.tStore.screens;
       //Check if there is at least 1 null answer
       let hasNull = false;
       for (let i = 0; i < screenArray.length; i++) {
@@ -55,8 +53,8 @@ export default Vue.extend({
           break;
         }
       }
-      //Go to next null (set this.currentModuleStoreState.ii to next null)
-      let i = this.currentModuleStoreState.ii; //start in the current screen
+      //Go to next null (set this.tStore.ii to next null)
+      let i = this.tStore.ii; //start in the current screen
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
         while (true) {
@@ -72,7 +70,7 @@ export default Vue.extend({
             screenArray[i].type === currentType
           ) {
             //We found the next null screen
-            this.currentModuleStoreState.ii = i;
+            this.tStore.ii = i;
             break;
           }
         }
@@ -82,7 +80,7 @@ export default Vue.extend({
      *METHOD START: gotoNextNullTotal:
      */
     gotoNextNullAnswerTotal: function() {
-      const screenArray = this.currentModuleStoreState.screens;
+      const screenArray = this.tStore.screens;
       //Check if there is at least 1 null answer
       let hasNull = false;
       for (let i = 0; i < screenArray.length; i++) {
@@ -94,8 +92,8 @@ export default Vue.extend({
           break;
         }
       }
-      //Go to next null (set this.currentModuleStoreState.ii to next null)
-      let i = this.currentModuleStoreState.ii; //start in the current screen
+      //Go to next null (set this.tStore.ii to next null)
+      let i = this.tStore.ii; //start in the current screen
       if (hasNull === true) {
         /*eslint-disable no-constant-condition*/ //NB! Do not remove this!!!
         while (true) {
@@ -110,7 +108,7 @@ export default Vue.extend({
             screenArray[i].isScored === true
           ) {
             //We found the next null screen
-            this.currentModuleStoreState.ii = i;
+            this.tStore.ii = i;
             break;
           }
         }
@@ -121,18 +119,14 @@ export default Vue.extend({
      *METHOD START: getNNullAnswersSubtest:
      */
     getNNullAnswersSubtest: function() {
-      return this.$store.getters["utils/getNNullAnswersSubtest"](
-        this.currentModuleStoreState
-      );
+      return this.$store.getters["utils/getNNullAnswersSubtest"](this.tStore);
     },
 
     /*
      *METHOD START: getNNullAnswersTotal:
      */
     getNNullAnswersTotal: function() {
-      return this.$store.getters["utils/getNNullAnswersTotal"](
-        this.currentModuleStoreState
-      );
+      return this.$store.getters["utils/getNNullAnswersTotal"](this.tStore);
     },
   },
 });

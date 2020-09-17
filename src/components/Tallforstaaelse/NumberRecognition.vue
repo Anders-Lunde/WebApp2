@@ -129,7 +129,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentModuleStoreState: this.$store.state.tallforstaaelse, //When repurposing test: Set module namespace here
+      tStore: this.$store.state.tallforstaaelse, //When repurposing test: Set module namespace here
       deactivateAllButtons: false,
       animateNarrator: false,
       showGotoNext: true,
@@ -154,7 +154,7 @@ export default Vue.extend({
      *METHOD START: gotoNextButton:
      */
     gotoNextButton: function() {
-      this.currentModuleStoreState.ii++; //Not sure why this.ii++ from mapState doesnt work
+      this.tStore.ii++; //Not sure why this.ii++ from mapState doesnt work
       this.showGotoNext = false;
       this.showFeedbackButtons = false;
     },

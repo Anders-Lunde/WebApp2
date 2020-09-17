@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    ii: 3, // screens array index
+    ii: 0, // screens array index
     editMode: false,
     screens: [
       {
@@ -12,7 +12,9 @@ export default {
         isScored: false,
         isNarratorInstruction: false,
         heading: "Tallforståelse: Instruksjoner til eksaminator",
-        body: `Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
+        body: `Tallforståelse
+
+Før du begynner: Du må skrive ut 4 ark for å bruke denne testen. 
         
 Dokumentet du må skrive ut kan lastes ned lenken under. 
 (for eksempel på en PC tilkoblet skriver):
@@ -26,7 +28,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       {
         id: -2,
         type: "ParticipantRegistration",
-        orientation: "portrait",
+        orientation: "landscape",
         isPractice: false,
         isScored: false,
         isNarratorInstruction: false,
@@ -64,7 +66,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
 
       {
         id: 0,
-        orientation: "portrait",
+        orientation: "landscape",
         type: "ReadingNumbers",
         isPractice: true,
         isScored: false,
@@ -102,7 +104,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 2,
-        orientation: "portrait",
+        orientation: "landscape",
         type: "DigitComparision",
         isPractice: true,
         isScored: false,
@@ -140,7 +142,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 4,
-        orientation: "portrait",
+        orientation: "landscape",
         type: "ArithmeticOral",
         isPractice: false,
         isScored: true,
@@ -178,7 +180,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
       },
       {
         id: 6,
-        orientation: "portrait",
+        orientation: "landscape",
         type: "EpiInflectional",
         isPractice: false,
         isScored: true,

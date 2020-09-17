@@ -1,18 +1,18 @@
 <template>
   <div>
-    <!-- Show relevant state by setting :currentModuleStoreState= to the relevant module namespace here-->
+    <!-- Show relevant state by setting :tStore= to the relevant module namespace here-->
     <DebugHeader
       v-if="$store.state.showDebugHeader === true"
-      v-bind:current-module-store-state="this.$store.state.ordforraad"
+      v-bind:t-store="this.$store.state.ordforraad"
     />
 
     <!-- Cycle through the tests:-->
     <TestScreen v-if="screens[ii].type === 'TestScreen'" />
 
-    <!-- Show relevant state by setting :currentModuleStoreState= to the relevant module namespace here-->
+    <!-- Show relevant state by setting :tStore= to the relevant module namespace here-->
     <DebugFooter
       v-if="$store.state.showDebugFooter === true"
-      v-bind:current-module-store-state="this.$store.state.ordforraad"
+      v-bind:t-store="this.$store.state.ordforraad"
     />
   </div>
 </template>
@@ -42,5 +42,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

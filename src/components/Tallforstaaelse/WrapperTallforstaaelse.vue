@@ -2,7 +2,7 @@
   <div>
     <DebugHeader
       v-if="$store.state.showDebugHeader === true"
-      :current-module-store-state="currentModuleStoreState"
+      :t-store="tStore"
     />
 
     <!-- Grid layout if editMode, to make room for edit menu-->
@@ -15,12 +15,15 @@
         <div :class="{ test_area_edit_mode: editMode === true }">
           <ExaminerInstructions
             v-if="screens[ii].type === 'ExaminerInstructions'"
+            :t-store="tStore"
           />
           <ParticipantRegistration
             v-if="screens[ii].type === 'ParticipantRegistration'"
+            :t-store="tStore"
           />
           <ParticipantIntroduction
             v-if="screens[ii].type === 'ParticipantIntroduction'"
+            :t-store="tStore"
           />
 
           <ReadingNumbers v-if="screens[ii].type === 'ReadingNumbers'" />
@@ -34,22 +37,16 @@
         <!-- Edit menu. Shown if editMode-->
         <div v-if="editMode" class="edit-menu right"></div>
         <div v-if="editMode" class="edit-menu bottom">
-          <EditModeMenuNavigation
-            :current-module-store-state="currentModuleStoreState"
-          />
-          <EditModeMenuResetAnswer
-            :current-module-store-state="currentModuleStoreState"
-          />
-          <EditModeMenuNullAnswersNavigator
-            :current-module-store-state="currentModuleStoreState"
-          />
+          <EditModeMenuNavigation :t-store="tStore" />
+          <EditModeMenuResetAnswer :t-store="tStore" />
+          <EditModeMenuNullAnswersNavigator :t-store="tStore" />
         </div>
         <div v-if="editMode" class="edit-menu corner"></div>
       </div>
     </div>
     <DebugFooter
       v-if="$store.state.showDebugFooter === true"
-      :current-module-store-state="currentModuleStoreState"
+      :t-store="tStore"
     />
   </div>
 </template>
@@ -95,7 +92,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      currentModuleStoreState: this.$store.state.tallforstaaelse, //When repurposing test: Set module namespace here
+      tStore: this.$store.state.tallforstaaelse, //When repurposing test: Set module namespace here
       editMenuWidth: 0.135, //Set width of edit-menu. 0 to 1
       editMenuHeight: 0.135, //Set height of edit-menu. 0 to 1
     };
@@ -136,11 +133,13 @@ export default Vue.extend({
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
     ii: function() {
       this.$store.state.orientation = this.screens[this.ii].orientation;
+      /*
       if (this.$store.state.orientation === "portrait") {
         screen.orientation.lock("portrait");
       } else {
         screen.orientation.lock("landscape");
       }
+      */
 
       //TODO: Lock device screen orientation
     },
@@ -153,22 +152,20 @@ export default Vue.extend({
     //If click top 10% of screen, toggle edit mode:
     window.addEventListener("mousedown", (e) => {
       if (e.pageY < window.innerHeight * 0.1) {
-        this.currentModuleStoreState.editMode = !this.currentModuleStoreState
-          .editMode;
+        this.tStore.editMode = !this.tStore.editMode;
       }
     });
 
     //Keyboard keys:
     window.addEventListener("keydown", (e) => {
       if (e.key === "e") {
-        this.currentModuleStoreState.editMode = !this.currentModuleStoreState
-          .editMode;
+        this.tStore.editMode = !this.tStore.editMode;
       }
       if (e.key === "ArrowLeft") {
-        this.currentModuleStoreState.ii--;
+        this.tStore.ii--;
       }
       if (e.key === "ArrowRight") {
-        this.currentModuleStoreState.ii++;
+        this.tStore.ii++;
       }
       if (e.key === "ArrowUp") {
         this.$store.state.showDebugHeader = !this.$store.state.showDebugHeader;
