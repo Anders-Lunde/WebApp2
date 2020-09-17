@@ -1,6 +1,9 @@
 <template>
   <div class="grid-container-test" :style="cssVarsForTest">
     <!-- Test stuff: -->
+    <div class="button record-audio" @click="recordAudio()">
+      <ButtonAudioPlay />
+    </div>
 
     <div class="narrator" :class="narratorPosition" v-if="editMode === false">
       <div v-show="animateNarrator === false">
@@ -79,23 +82,19 @@
 
     <!-- Edit mode stuff: -->
     <div v-if="editMode === true" class="answer-key">
-      <EditModeLabelCorrectAnswer
-        :label-text="screens[ii].answerKey"
-        font-size="2.5"
-      />
-    </div>
-
-    <div v-if="editMode === true" class="label-sentences-stimulus left">
-      {{ screens[ii].sentenceLeft }}
-    </div>
-    <div v-if="editMode === true" class="label-sentences-stimulus right">
-      {{ screens[ii].sentenceRight }}
+      <EditModeLabelCorrectAnswer :label-text="screens[ii].answerKey" font-size="2.5" />
     </div>
 
     <div
-      v-if="editMode === true && screens[ii].isPractice === true"
-      class="ispractise-indicator"
-    >
+      v-if="editMode === true"
+      class="label-sentences-stimulus left"
+    >{{ screens[ii].sentenceLeft }}</div>
+    <div
+      v-if="editMode === true"
+      class="label-sentences-stimulus right"
+    >{{ screens[ii].sentenceRight }}</div>
+
+    <div v-if="editMode === true && screens[ii].isPractice === true" class="ispractise-indicator">
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="5" />
     </div>
 
@@ -168,9 +167,16 @@ export default Vue.extend({
     ...mapMutations([""]),
 
     /*
+     *METHOD START: Record audio:
+     */
+    recordAudio: function () {
+      console.log("asd");
+    },
+
+    /*
      *METHOD START: gotoNextButton:
      */
-    gotoNextButton: function() {
+    gotoNextButton: function () {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -184,7 +190,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowFeedback:
      */
-    buttonShowFeedback: function() {
+    buttonShowFeedback: function () {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -196,7 +202,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowGotoNext:
      */
-    buttonShowGotoNext: function() {
+    buttonShowGotoNext: function () {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -209,7 +215,7 @@ export default Vue.extend({
     /*
      *METHOD START: feedbackAudio:
      */
-    feedbackAudio: function(input: string) {
+    feedbackAudio: function (input: string) {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -258,7 +264,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudioLeft
      */
-    playAudioLeft: function() {
+    playAudioLeft: function () {
       //Abort if something else is playing/animating
       if (this.deactivateAllButtons) {
         return;
@@ -319,7 +325,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudioRight
      */
-    playAudioRight: function() {
+    playAudioRight: function () {
       //Max 2 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.screens[this.ii].nPlaybackTimes >= 2) {
@@ -571,5 +577,11 @@ export default Vue.extend({
 }
 .label-sentences-stimulus.left {
   justify-self: left;
+}
+
+.record-audio {
+  grid-row: 1;
+  grid-column: 1;
+  transform: translateY(calc(var(--vw) * 15));
 }
 </style>
