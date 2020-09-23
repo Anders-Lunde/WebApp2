@@ -113,7 +113,7 @@ a {
   font-family: "Roboto", sans-serif;
   font-size: 2.5vw;
   color: #95e638;
-  text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+  text-shadow: 0 0.03em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;
   border-color: rgb(83, 156, 74);
 }
