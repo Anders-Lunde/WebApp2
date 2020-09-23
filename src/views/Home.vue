@@ -66,6 +66,17 @@ export default Vue.extend({
       });
     },
   },
+  mounted() {
+    const constraints = { audio: true, video: false };
+
+    try {
+      const stream = navigator.mediaDevices.getUserMedia(constraints);
+      console.log("getUserMedia ok");
+    } catch (err) {
+      console.log("getUserMedia failed:");
+      console.log(err);
+    }
+  },
 });
 </script>
 
