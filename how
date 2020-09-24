@@ -1,0 +1,273 @@
+[33mcommit 68c85a36251928b8c06c8339345922bf88adf4ad[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mrelease/testing/master[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 23 18:33:45 2020 +0200
+
+    testing push to release/testing
+
+[33mcommit c75f5d90d8a879fd4323bdfdba7ba8fc01c81ce9[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 23 18:25:48 2020 +0200
+
+    testing push to release/testing
+
+[33mcommit 01b0bed8b22f49761a3489678697a1a93ce44b92[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 23 18:03:45 2020 +0200
+
+    Testing microphone prompt
+
+[33mcommit 7a5dd9c3539f8879ef8df6efe935c1b22ca35a72[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 23 17:09:54 2020 +0200
+
+    Updating home page
+
+[33mcommit cdd6f88b7765661aff4caf777238c9985b0dc361[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Sep 17 16:41:59 2020 +0200
+
+    for showing to upwork
+
+[33mcommit 8d807ec74946c8346e80994f4148460402f4b549[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 16 15:30:41 2020 +0200
+
+    renamed currentModuleStoreState to tStore (test-store), and current-module-store-state to t-store
+
+[33mcommit a259f254aa8c6129b0a9f3706bb6697c463f4482[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 16 15:19:45 2020 +0200
+
+    Made introduction screens reusable across tests
+
+[33mcommit 5f9cb2a22e2343e9483c522e1777446182402b52[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Sep 15 16:47:14 2020 +0200
+
+    testing screen.orientation.lock();
+
+[33mcommit b6423cd6c436a2f0d3f84ba4431bff573ab295b0[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Sep 15 12:28:35 2020 +0200
+
+    fixes before demo
+
+[33mcommit 10706c39763fb452df5f47af10269374b1b17ab9[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Sep 15 11:23:42 2020 +0200
+
+    Tallforstaaelse demo tester ferdig
+
+[33mcommit 31a7fc124344b6ccc8c6d1c6cb8b032d2db65fb9[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 16:42:07 2020 +0200
+
+    added 5 tests to home
+
+[33mcommit f5451384653f0e62e391e92371e90c562247ae71[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 16:08:31 2020 +0200
+
+    Home screen updated
+
+[33mcommit db144db3ea3c4d72985b6b7d41e53eaff90e3fe3[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 15:11:32 2020 +0200
+
+    All 3 menu/intro screens completed (first versions)
+
+[33mcommit 453b727fac9cd822192af93641d6445cab8be886[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 13:23:23 2020 +0200
+
+    test
+
+[33mcommit 5da2b61c0aa7e3086dd45917d1f7d9a0869d7b16[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 13:06:18 2020 +0200
+
+    Done ParticipantIntroduction
+
+[33mcommit afb65b3e06d4e5a3559bb5c5c04bf786a5693bb1[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 12:42:07 2020 +0200
+
+    test
+
+[33mcommit b95ae1cfa82e53889ff87da6d8e4947c5d95e93f[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Sep 14 12:33:58 2020 +0200
+
+    Tablet full screen, and touch event registering experimentation
+
+[33mcommit 407627dd524ab6fad61627f27c8424ef4bf77517[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Sun Sep 13 19:44:32 2020 +0200
+
+    Clickable toggle edit mode top 10% of all screens
+
+[33mcommit be29f2433c8c1787c6c785272760a0650b2644bb[m
+Merge: 39db09f 9a75082
+Author: Anders Lunde <andelu@uio.no>
+Date:   Sun Sep 13 18:44:44 2020 +0200
+
+    Merge branch 'master' of https://bitbucket.usit.uio.no/scm/engagelab/oslospell
+
+[33mcommit 39db09fe96ab77baf50ca451f87fa3a1f85bbd89[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Sun Sep 13 18:43:54 2020 +0200
+
+    sync with my repo
+
+[33mcommit 9a750821be933a4336a2d8e21a665ca260fc434b[m
+Merge: bebb5d3 0a47de8
+Author: richarne <richarne@uio.no>
+Date:   Wed Sep 9 09:19:52 2020 +0200
+
+    Merge branch 'remotes/origin/release/testing' of ssh://bitbucket.usit.uio.no:7999/engagelab/oslospell into release/testing
+
+[33mcommit 0a47de8bc2a6bda8a2698407b0d085a6284f2539[m
+Author: richarne <richarne@uio.no>
+Date:   Wed Sep 9 09:18:29 2020 +0200
+
+    update publicPath
+
+[33mcommit bebb5d3e910968507c2cf13edb5fe3123550b813[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Sep 3 15:57:45 2020 +0200
+
+    added sentences in edit mode
+
+[33mcommit 91b1a6398774463080aec732c16be1d7fcb9a7ab[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Sep 3 14:32:48 2020 +0200
+
+    Completed all 3 MA tasks
+
+[33mcommit d233ef60a7bc683a80e06ef5d9483c480845b71b[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 2 16:49:41 2020 +0200
+
+    moduleState and currentTestState -> currentModuleStoreState
+
+[33mcommit 4254e6ae12047f9064caf0ab1da1f09cd7cfb7d0[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 2 16:12:13 2020 +0200
+
+    Improved naming of EditMode components
+
+[33mcommit 9d6a8150c9a0064a8f38f2b613fe6e88001215c6[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 2 16:04:37 2020 +0200
+
+    Changed _all_ variables from item(s) to screen(s)
+
+[33mcommit 730b86b3259fe132ea9aedcb700c63eb00030233[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Sep 2 15:35:33 2020 +0200
+
+    Renamed some variables (e.g. added isScored)
+
+[33mcommit 5629bc2734b88b6d240e65161eacabb9d6a1a100[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Sep 1 16:47:18 2020 +0200
+
+    Completed EditModeMenuNullAnswersNavigator
+
+[33mcommit 3e80c2b09415f758dbffcbc4cc33fea534a5a62d[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Sep 1 15:18:31 2020 +0200
+
+    Added edit menu panel: EditModeMenuNullAnswersNavigator
+
+[33mcommit 48345c1cbdd8c82763f5324e34901b80c2d44f90[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Aug 31 13:48:37 2020 +0200
+
+    Edit menu updates
+
+[33mcommit 8e83e6c904945383c6fb6b73b8090e39c11fc54e[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Fri Aug 28 17:57:52 2020 +0200
+
+    work on edit menu
+
+[33mcommit 2edd027facd4447294eb0bd9a6a7e80335e2d94b[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Aug 25 16:35:19 2020 +0200
+
+    Completed MetaInflectional and started on editMenu
+
+[33mcommit c4afd71232c5e55240ece09b57ddef20714a1956[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Aug 25 14:47:00 2020 +0200
+
+    progress on metaInflectional
+
+[33mcommit ce7bba0edd397f8e1f2956138cfc05bc08cae979[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Fri Aug 21 12:03:33 2020 +0200
+
+    Progress on MetaInflectional
+
+[33mcommit 47caadb22bc1f4cf4a9b458671d6d8b0e9795161[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Aug 18 17:26:56 2020 +0200
+
+    Reassigned all size units in custom --vh/vw
+
+[33mcommit f989ca79257a3293062d254514a44dac0698a440[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Mon Aug 17 15:10:59 2020 +0200
+
+    Pre-cordova commit
+
+[33mcommit f4acbe08684355329561d1e57f71f025bf3ace4c[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Fri Aug 14 20:10:45 2020 +0200
+
+    more work on layout, wrapper, and edit-menu system
+
+[33mcommit 28f5301a2e39593564e4829eeee9a0dfbbf7df57[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Wed Aug 12 18:34:42 2020 +0200
+
+    started working on edit-mode menu
+
+[33mcommit 2f414b7312f99b3e76bfb5f7aeec15f0a658ede6[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Aug 11 13:56:20 2020 +0200
+
+    Milestone: EpiInflectional test done w/common components extracted
+
+[33mcommit f7062a39d0e1c440082bb0b6b626ef20a6efe557[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Tue Aug 11 09:53:16 2020 +0200
+
+    Restruturing components for re-use
+
+[33mcommit 23838b9d8319ad762e9b26b4d0705b973e6e6687[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Aug 6 17:11:03 2020 +0200
+
+    Extracted buttons as components
+
+[33mcommit 78345117949b2f03368c02ff3fa90b3d0ed5fcb3[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Aug 6 15:27:31 2020 +0200
+
+    Restructured architecture to allow for all apps into one codebase. Separate modules for each test.
+
+[33mcommit 4794536c139afaceba5b5c0aed07d0362441953f[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Jun 25 14:44:55 2020 +0200
+
+    Added animated narrator to practice screens (morphology)
+
+[33mcommit eabfdc39094e387a31fbcd61909e306cc24d0436[m
+Author: Anders Lunde <andelu@uio.no>
+Date:   Thu Jun 11 13:59:11 2020 +0200
+
+    deleted vue.config.js
+
+[33mcommit 51380539b0
