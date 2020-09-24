@@ -50,7 +50,7 @@ export default Vue.extend({
     /*
      *METHOD START: playVideo:
      */
-    playVideo: function () {
+    playVideo: function() {
       const video = document.querySelector(".narrator-video");
       const source = document.querySelector(".narrator-video > source");
 
@@ -86,7 +86,7 @@ export default Vue.extend({
   text-align: center;
   margin: 3%;
   margin-bottom: 1%;
-  color: rgb(177, 105, 72);
+  color: rgb(200, 55, 169);
 }
 
 .logo {
