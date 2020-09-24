@@ -86,7 +86,7 @@ export default Vue.extend({
   text-align: center;
   margin: 3%;
   margin-bottom: 1%;
-  color: rgb(21, 217, 231);
+  color: #5a5656;
 }
 
 .logo {
