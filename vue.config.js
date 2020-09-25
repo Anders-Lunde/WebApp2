@@ -11,11 +11,11 @@ module.exports = {
   },
   // ...other vue-cli plugin options...
   pwa: {
-    themeColor: "#4DBA87",
-    msTileColor: "#000000",
+    themeColor: "#FFFFFF",
+    msTileColor: "#FFFFFF",
     appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
-    manifestOptions: { display: "standalone" },
+    appleMobileWebAppStatusBarStyle: "black-translucent",
+    manifestOptions: { display: "fullscreen" },
 
     // configure the workbox plugin
     workboxPluginMode: "InjectManifest",
