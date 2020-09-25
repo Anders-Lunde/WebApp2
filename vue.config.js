@@ -11,8 +11,8 @@ module.exports = {
   },
   // ...other vue-cli plugin options...
   pwa: {
-    themeColor: "#FFFFFF",
-    msTileColor: "#FFFFFF",
+    themeColor: "#FF0000",
+    msTileColor: "#FF0000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: { display: "fullscreen" },
