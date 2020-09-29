@@ -1,10 +1,11 @@
 export default {
   namespaced: true,
   state: {
-    ii: 25, // screens array index
+    ii: 3, // screens array index
     editMode: false,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
+    narratorStillImg: require("@/assets/morfologi/narratorStillImg.png"),
     screens: [
       {
         id: -3,
@@ -74,8 +75,11 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         isScored: false,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp3"),
         feedbackWrong: require("@/assets/morfologi/epi_inflectional/feedback1_wrong.mp3"),
+        feedbackCorrectVideo: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp4"),
+        feedbackWrongVideo: require("@/assets/morfologi/epi_inflectional/feedback1_wrong.mp4"),
         isNarratorInstruction: true,
         instructionAudio: require("@/assets/morfologi/epi_inflectional/instructionAudio.mp3"),
+        instructionVideo: require("@/assets/morfologi/epi_inflectional/instructionVideo.mp4"),
         img: require("@/assets/morfologi/epi_inflectional/example1.png"),
         audioRight: require("@/assets/morfologi/epi_inflectional/example1_right.mp3"),
         audioLeft: require("@/assets/morfologi/epi_inflectional/example1_left.mp3"),
@@ -93,6 +97,9 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         isScored: false,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback2_correct.mp3"),
         feedbackWrong: require("@/assets/morfologi/epi_inflectional/feedback2_wrong.mp3"),
+        feedbackCorrectVideo: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp4"),
+        feedbackWrongVideo: require("@/assets/morfologi/epi_inflectional/feedback1_wrong.mp4"),
+
         isNarratorInstruction: false,
         instructionAudio: null,
         img: require("@/assets/morfologi/epi_inflectional/example2.png"),
@@ -112,6 +119,9 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         isScored: false,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback3_correct.mp3"),
         feedbackWrong: require("@/assets/morfologi/epi_inflectional/feedback3_wrong.mp3"),
+        feedbackCorrectVideo: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp4"),
+        feedbackWrongVideo: require("@/assets/morfologi/epi_inflectional/feedback1_wrong.mp4"),
+
         isNarratorInstruction: false,
         instructionAudio: null,
         img: require("@/assets/morfologi/epi_inflectional/example3.png"),
@@ -131,6 +141,9 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         isScored: false,
         feedbackCorrect: require("@/assets/morfologi/epi_inflectional/feedback4_correct.mp3"),
         feedbackWrong: require("@/assets/morfologi/epi_inflectional/feedback4_wrong.mp3"),
+        feedbackCorrectVideo: require("@/assets/morfologi/epi_inflectional/feedback1_correct.mp4"),
+        feedbackWrongVideo: require("@/assets/morfologi/epi_inflectional/feedback1_wrong.mp4"),
+
         isNarratorInstruction: false,
         instructionAudio: null,
         img: require("@/assets/morfologi/epi_inflectional/example4.png"),
