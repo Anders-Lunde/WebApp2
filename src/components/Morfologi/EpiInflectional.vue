@@ -1,13 +1,46 @@
 <template>
   <div class="grid-container-test" :style="cssVarsForTest">
-    <!-- Test stuff: -->
+    <!-- Narrator video/img container: -->
+    <div
+      class="narrator-container"
+      v-show="editMode === false && screens[ii].isPractice === true"
+    >
+      <img v-show="showNarratorStillImg" :src="tStore.narratorStillImg" />
+      <!-- Conditionally rendered videos. 
+      Src loaded in script when ii changes (watcher) for smooth playback: -->
+      <video
+        v-show="showInstructionVideo"
+        ref="instructionVideo"
+        preload="auto"
+      >
+        <source :src="screens[ii].instructionVideo" />
+      </video>
+
+      <video
+        v-show="showFeedbackVideoCorrect"
+        ref="feedbackVideoCorrect"
+        preload="auto"
+      >
+        <source :src="screens[ii].feedbackVideoCorrect" />
+      </video>
+
+      <video
+        v-show="showFeedbackVideoWrong"
+        ref="feedbackVideoWrong"
+        preload="auto"
+      >
+        <source :src="screens[ii].feedbackVideoWrong" />
+      </video>
+    </div>
+    <!-- End of narrator video/img container: -->
+
     <div class="left-area" :class="{ run_animation: animateLeft === true }">
       <div
         class="character-area"
         :class="{ selectedCharacter: screens[ii].userAnswer === 'left' }"
       >
         <div class="char-img left" @click="characterSelected('left')">
-          <img :src="epiInflectionalCharImgLeft" />
+          <img :src="tStore.epiInflectionalCharImgLeft" />
         </div>
       </div>
     </div>
@@ -22,35 +55,9 @@
         :class="{ selectedCharacter: screens[ii].userAnswer === 'right' }"
       >
         <div class="char-img right" @click="characterSelected('right')">
-          <img :src="epiInflectionalCharImgRight" />
+          <img :src="tStore.epiInflectionalCharImgRight" />
         </div>
       </div>
-    </div>
-
-    <!--
-    <div
-      class="narrator"
-      v-if="editMode === false && screens[ii].isPractice === true"
-    >
-
-      <div v-show="animateNarrator === false">
-        <Narrator1Static />
-      </div>
-      <div v-show="animateNarrator === true">
-        <video class="narrator-video">
-          <source />
-        </video>
-      </div>
-    </div>
--->
-    <div
-      class="narrator"
-      v-show="editMode === false && screens[ii].isPractice === true"
-    >
-      <img v-show="!animateNarrator" :src="tStore.narratorStillImg" />
-      <video v-show="animateNarrator" class="narrator-video" ref="video">
-        <source ref="source" />
-      </video>
     </div>
 
     <div class="button audio-button" @click="playAudio()">
@@ -146,17 +153,14 @@ export default Vue.extend({
       deactivateAllButtons: false,
       animateRight: false,
       animateLeft: false,
-      animateNarrator: false,
+      showNarratorStillImg: true,
+      showInstructionVideo: false,
+      showFeedbackVideoCorrect: false,
+      showFeedbackVideoWrong: false,
     };
   },
   computed: {
-    ...mapState([
-      "ii",
-      "screens",
-      "editMode",
-      "epiInflectionalCharImgRight",
-      "epiInflectionalCharImgLeft",
-    ]),
+    ...mapState(["ii", "screens", "editMode"]),
     cssVarsForTest(): Record<string, string> {
       return {
         "--grid-colums2":
@@ -197,54 +201,74 @@ export default Vue.extend({
 
     /*
      *METHOD START: characterSelected:
+     Record answer, and playback feedback if in practice.
      */
     characterSelected: function (userAnswer: object) {
       //Abort if something else is playing/animating, except in editMode
       if (this.deactivateAllButtons && this.editMode === false) {
         return;
       }
-      //Abort if instruction audio has not yet played, except in editMode
+      //Abort if characters audio has not yet played, except in editMode
       if (
         this.screens[this.ii].nPlaybackTimes === 0 &&
         this.editMode === false
       ) {
         return;
       }
+      //Save answer to store ("left" or "right")
+      this.screens[this.ii].userAnswer = userAnswer;
+
       //Temporarily deactivate buttons during playback
       this.deactivateAllButtons = true;
 
-      const video = this.$refs.video as HTMLVideoElement;
-      const source = this.$refs.video as HTMLSourceElement;
-
-      //Save answer to store ("left" or "right")
-      this.screens[this.ii].userAnswer = userAnswer;
+      const feedbackVideoCorrect = this.$refs
+        .feedbackVideoCorrect as HTMLVideoElement;
+      const feedbackVideoWrong = this.$refs
+        .feedbackVideoWrong as HTMLVideoElement;
+      let feedbackVideo: HTMLVideoElement;
 
       //Scored screens, no feedback:
       if (this.screens[this.ii].isPractice === false) {
         this.deactivateAllButtons = false; //Do this before exiting funciton
+        return;
       }
       //Practice screen: Feedback:
       else {
         //Correct answer:
         if (this.screens[this.ii].answerKey === userAnswer) {
-          source.setAttribute(
-            "src",
-            this.screens[this.ii].feedbackCorrectVideo
-          );
+          feedbackVideo = feedbackVideoCorrect;
+          this.showFeedbackVideoCorrect = true;
         }
         //Wrong answer:
         else {
-          source.setAttribute("src", this.screens[this.ii].feedbackWrongVideo);
+          feedbackVideo = feedbackVideoWrong;
+          this.showFeedbackVideoWrong = true;
         }
-
-        video.addEventListener("ended", () => {
-          this.animateNarrator = false;
-          this.deactivateAllButtons = false;
-        });
-        this.animateNarrator = true;
-        video.load();
-        video.play();
       }
+      //Setup playback logic, and excecute playing video
+      feedbackVideo.addEventListener(
+        "play",
+        () => {
+          this.showNarratorStillImg = false;
+        },
+        { once: true }
+      );
+      feedbackVideo.addEventListener(
+        "ended",
+        () => {
+          this.showNarratorStillImg = true;
+          this.showFeedbackVideoWrong = false;
+          this.showFeedbackVideoCorrect = false;
+          this.deactivateAllButtons = false;
+        },
+        { once: true }
+      );
+      feedbackVideo.play();
+      /*
+      console.log(feedbackVideoWrong);
+      feedbackVideoWrong.load();
+      feedbackVideoWrong.play();
+      */
     },
 
     /*
@@ -252,13 +276,13 @@ export default Vue.extend({
      */
     playAudio: function () {
       /*
-      If "isNarratorInstruction === true" for this screen, start by playing 
-      narrator instruction audio w/animation.
-      Regardless, always play left/right characters audio in succession.
+      If "isNarratorInstruction === true" for this screen, playback
+      narrator video (max once).
+      Regardless, always play left/right characters audio in succession (max 3 times).
       Characters are animated during playback.
       */
 
-      //Max 2 replays, except during edit mode.
+      //Max 3 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.screens[this.ii].nPlaybackTimes >= 3) {
           return;
@@ -268,55 +292,94 @@ export default Vue.extend({
       if (this.deactivateAllButtons) {
         return;
       }
-      //Temporarily deactivate buttons during playback
+      //Deactivate other buttons during playback.
       this.deactivateAllButtons = true;
 
-      const video = this.$refs.video as HTMLVideoElement;
-      const source = this.$refs.video as HTMLSourceElement;
-
-      /*
-      Narrator first (if isNarratorInstruction === true).
-      Then left.
-      Then right.
-      */
+      //SET PLAYBACK ORDER LOGIC (Instruction -> left char -> right char):
+      const instructionVideo = this.$refs.instructionVideo as HTMLVideoElement;
       const audioLeft = new Audio(this.screens[this.ii].audioLeft);
       const audioRight = new Audio(this.screens[this.ii].audioRight);
-      //Setup animation start/stop during playback
-      audioLeft.addEventListener("ended", () => {
-        this.animateLeft = false;
-      });
-      audioRight.addEventListener("ended", () => {
-        this.animateRight = false;
-        this.deactivateAllButtons = false;
-      });
-      audioLeft.addEventListener("play", () => {
-        this.animateLeft = true;
-      });
-      audioRight.addEventListener("play", () => {
-        this.animateRight = true;
-      });
-      //Setup playback order
-      audioLeft.addEventListener("ended", () => {
-        audioRight.play(); //Start right character sound/animation after left ended
-      });
-      video.addEventListener("ended", () => {
-        this.animateNarrator = false;
-        audioLeft.play();
-      });
 
-      //Excecute playback
+      //Instruction video - possible entry point 1
+      instructionVideo.addEventListener(
+        "play",
+        () => {
+          this.showNarratorStillImg = false; //turn off narrator img
+          this.showInstructionVideo = true;
+        },
+        { once: true }
+      );
+      instructionVideo.addEventListener(
+        "ended",
+        () => {
+          this.showNarratorStillImg = true; //turn on narrator img
+          this.showInstructionVideo = false;
+          audioLeft.play();
+        },
+        { once: true }
+      );
+
+      //Audio+animation left - possible entry point 2
+      audioLeft.addEventListener(
+        "play",
+        () => {
+          this.animateLeft = true;
+        },
+        { once: true }
+      );
+      audioLeft.addEventListener(
+        "ended",
+        () => {
+          this.animateLeft = false;
+          audioRight.play();
+        },
+        { once: true }
+      );
+
+      //Audio+animation
+      audioRight.addEventListener(
+        "play",
+        () => {
+          this.animateRight = true;
+        },
+        { once: true }
+      );
+      audioRight.addEventListener(
+        "ended",
+        () => {
+          this.animateRight = false;
+          this.deactivateAllButtons = false; //Cleanup
+        },
+        { once: true }
+      );
+
+      //EXCECUTE PLAYBACK
+      //Narrator playback only on intro-screen:
       if (
-        this.screens[this.ii].isNarratorInstruction === true &&
+        this.screens[this.ii].isNarratorInstruction &&
         this.screens[this.ii].nPlaybackTimes === 0 //Only play the narrator 1 time.
       ) {
-        this.animateNarrator = true;
-        source.setAttribute("src", this.screens[this.ii].instructionVideo);
-        video.load();
-        video.play();
-      } else {
+        instructionVideo.play();
+      }
+      //Otherwise: playback+animate characters directly
+      else {
         audioLeft.play();
       }
       this.screens[this.ii].nPlaybackTimes++;
+    },
+  },
+  watch: {
+    //Important! Neccesary to update source of videos on screen change (ii change).
+    //Loading videos also ensures smooth experience on button clicks.
+    ii: function () {
+      const instructionVideo = this.$refs.instructionVideo as HTMLVideoElement;
+      const feedbackVideoCorrect = this.$refs
+        .feedbackVideoCorrect as HTMLVideoElement;
+      const feedbackVideoWrong = this.$refs
+        .feedbackVideoWrong as HTMLVideoElement;
+      instructionVideo.load();
+      feedbackVideoCorrect.load();
+      feedbackVideoWrong.load();
     },
   },
 });
@@ -377,14 +440,15 @@ export default Vue.extend({
   height: 100%;
 }
 
-.narrator {
+.narrator-container {
   grid-row: 1/1;
   grid-column: 3/4;
   width: 100%;
   height: 100%;
 }
 
-.narrator > * {
+.narrator-container > * {
+  /* videos and image tages inside narrator */
   width: 100%;
   transform: scale(1.2);
   transform-origin: right top;
