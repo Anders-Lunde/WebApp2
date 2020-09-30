@@ -218,8 +218,9 @@ export default Vue.extend({
       //Save answer to store ("left" or "right")
       this.screens[this.ii].userAnswer = userAnswer;
 
-      //Temporarily deactivate buttons during playback
+      //Set booleans
       this.deactivateAllButtons = true;
+      this.showNarratorStillImg = false;
 
       const feedbackVideoCorrect = this.$refs
         .feedbackVideoCorrect as HTMLVideoElement;
@@ -247,28 +248,16 @@ export default Vue.extend({
       }
       //Setup playback logic, and excecute playing video
       feedbackVideo.addEventListener(
-        "play",
-        () => {
-          this.showNarratorStillImg = false;
-        },
-        { once: true }
-      );
-      feedbackVideo.addEventListener(
         "ended",
         () => {
-          this.showNarratorStillImg = true;
           this.showFeedbackVideoWrong = false;
           this.showFeedbackVideoCorrect = false;
+          this.showNarratorStillImg = true;
           this.deactivateAllButtons = false;
         },
         { once: true }
       );
       feedbackVideo.play();
-      /*
-      console.log(feedbackVideoWrong);
-      feedbackVideoWrong.load();
-      feedbackVideoWrong.play();
-      */
     },
 
     /*
@@ -304,7 +293,7 @@ export default Vue.extend({
       instructionVideo.addEventListener(
         "play",
         () => {
-          this.showNarratorStillImg = false; //turn off narrator img
+          this.showNarratorStillImg = false;
           this.showInstructionVideo = true;
         },
         { once: true }
@@ -312,8 +301,8 @@ export default Vue.extend({
       instructionVideo.addEventListener(
         "ended",
         () => {
-          this.showNarratorStillImg = true; //turn on narrator img
           this.showInstructionVideo = false;
+          this.showNarratorStillImg = true;
           audioLeft.play();
         },
         { once: true }
