@@ -12,6 +12,7 @@
         v-show="showInstructionVideo"
         ref="instructionVideo"
         preload="auto"
+        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].instructionVideo" />
       </video>
@@ -20,6 +21,7 @@
         v-show="showFeedbackVideoCorrect"
         ref="feedbackVideoCorrect"
         preload="auto"
+        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].feedbackVideoCorrect" />
       </video>
@@ -28,6 +30,7 @@
         v-show="showFeedbackVideoWrong"
         ref="feedbackVideoWrong"
         preload="auto"
+        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].feedbackVideoWrong" />
       </video>
