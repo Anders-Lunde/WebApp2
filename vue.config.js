@@ -15,7 +15,7 @@ module.exports = {
     msTileColor: "#FF0000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
-    manifestOptions: { display: "browser" },
+    manifestOptions: { display: "fullscreen" },
 
     // configure the workbox plugin
     workboxPluginMode: "InjectManifest",
