@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container-test" :style="cssVarsForTest">
+  <div class="grid-container-test">
     <!-- Narrator video/img container: -->
     <div
       class="narrator-container"
@@ -12,7 +12,6 @@
         v-show="showInstructionVideo"
         ref="instructionVideo"
         preload="auto"
-        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].instructionVideo" />
       </video>
@@ -21,7 +20,6 @@
         v-show="showFeedbackVideoCorrect"
         ref="feedbackVideoCorrect"
         preload="auto"
-        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].feedbackVideoCorrect" />
       </video>
@@ -30,7 +28,6 @@
         v-show="showFeedbackVideoWrong"
         ref="feedbackVideoWrong"
         preload="auto"
-        :poster="tStore.narratorStillImg"
       >
         <source :src="screens[ii].feedbackVideoWrong" />
       </video>
@@ -164,25 +161,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(["ii", "screens", "editMode"]),
-    cssVarsForTest(): Record<string, string> {
-      return {
-        "--grid-colums2":
-          Math.round(this.$store.getters.canvasWidth * (1 / 6)) +
-          "px " +
-          Math.round(this.$store.getters.canvasWidth * (4 / 6)) +
-          "px " +
-          Math.round(this.$store.getters.canvasWidth * (1 / 6)) +
-          "px ",
-
-        "--grid-rows2":
-          Math.round(this.$store.getters.canvasHeight * (5 / 11)) +
-          "px " +
-          Math.round(this.$store.getters.canvasHeight * (5 / 11)) +
-          "px " +
-          Math.round(this.$store.getters.canvasHeight * (1 / 11)) +
-          "px ",
-      };
-    },
   },
   props: {},
 
@@ -372,6 +350,10 @@ export default Vue.extend({
       instructionVideo.load();
       feedbackVideoCorrect.load();
       feedbackVideoWrong.load();
+
+      for (const entry of this.tStore.screens) {
+        console.log(entry); // 1, "string", false
+      }
     },
   },
 });
@@ -380,8 +362,15 @@ export default Vue.extend({
 <style scoped>
 .grid-container-test {
   display: grid;
-  grid-template-columns: var(--grid-colums2);
-  grid-template-rows: var(--grid-rows2);
+  grid-template-columns:
+    calc(var(--vw) * 17)
+    calc(var(--vw) * 66)
+    calc(var(--vw) * 17);
+
+  grid-template-rows: calc(var(--vh) * 45) calc(var(--vh) * 45) calc(
+      var(--vh) * 10
+    );
+
   margin: 0;
   padding: 0;
 }
@@ -418,10 +407,10 @@ export default Vue.extend({
 .middle-area {
   grid-row: 1/3;
   grid-column: 2/3;
-  margin-top: 15%;
-  margin-bottom: 5%;
-  margin-right: 5%;
-  margin-left: 5%;
+  margin-top: calc(var(--vw) * 18);
+  margin-bottom: calc(var(--vw) * 3);
+  margin-right: calc(var(--vw) * 3);
+  margin-left: calc(var(--vw) * 3);
   border-radius: calc(var(--vw) * 2);
   border: calc(var(--vw) * 0.3) solid black;
 }
@@ -434,16 +423,14 @@ export default Vue.extend({
 
 .narrator-container {
   grid-row: 1/1;
-  grid-column: 3/4;
-  width: 100%;
-  height: 100%;
+  grid-column: 1/-1;
+  width: calc(var(--vw) * 25);
+  justify-self: center;
 }
 
 .narrator-container > * {
   /* videos and image tages inside narrator */
   width: 100%;
-  transform: scale(1.2);
-  transform-origin: right top;
 }
 
 .ispractise-indicator {

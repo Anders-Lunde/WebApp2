@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container-test" :style="cssVarsForTest">
+  <div class="grid-container-test">
     <!-- Test stuff: -->
     <div class="button record-audio" @click="recordAudio()">
       <ButtonAudioPlay />
@@ -48,7 +48,7 @@
     <div
       v-show="
         (showFeedbackButtons === true && screens[ii].isPractice === true) ||
-          editMode === true
+        editMode === true
       "
       class="feedback-button wrong"
       @click="feedbackAudio('wrong')"
@@ -59,7 +59,7 @@
     <div
       v-show="
         (showFeedbackButtons === true && screens[ii].isPractice === true) ||
-          editMode === true
+        editMode === true
       "
       class="feedback-button correct"
       @click="feedbackAudio('correct')"
@@ -82,19 +82,23 @@
 
     <!-- Edit mode stuff: -->
     <div v-if="editMode === true" class="answer-key">
-      <EditModeLabelCorrectAnswer :label-text="screens[ii].answerKey" font-size="2.5" />
+      <EditModeLabelCorrectAnswer
+        :label-text="screens[ii].answerKey"
+        font-size="2.5"
+      />
+    </div>
+
+    <div v-if="editMode === true" class="label-sentences-stimulus left">
+      {{ screens[ii].sentenceLeft }}
+    </div>
+    <div v-if="editMode === true" class="label-sentences-stimulus right">
+      {{ screens[ii].sentenceRight }}
     </div>
 
     <div
-      v-if="editMode === true"
-      class="label-sentences-stimulus left"
-    >{{ screens[ii].sentenceLeft }}</div>
-    <div
-      v-if="editMode === true"
-      class="label-sentences-stimulus right"
-    >{{ screens[ii].sentenceRight }}</div>
-
-    <div v-if="editMode === true && screens[ii].isPractice === true" class="ispractise-indicator">
+      v-if="editMode === true && screens[ii].isPractice === true"
+      class="ispractise-indicator"
+    >
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="5" />
     </div>
 
@@ -154,9 +158,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(["ii", "screens", "editMode"]),
-    cssVarsForTest(): Record<string, string> {
-      return {};
-    },
   },
   props: {},
 

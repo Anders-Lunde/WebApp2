@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container-test" :style="cssVarsForTest">
+  <div class="grid-container-test">
     <!-- Test stuff: -->
 
     <div class="narrator" v-if="editMode === false">
@@ -30,7 +30,7 @@
     <div
       v-show="
         (showFeedbackButtons === true && screens[ii].isPractice === true) ||
-          editMode === true
+        editMode === true
       "
       class="feedback-button wrong"
       @click="feedbackAudio('wrong')"
@@ -41,7 +41,7 @@
     <div
       v-show="
         (showFeedbackButtons === true && screens[ii].isPractice === true) ||
-          editMode === true
+        editMode === true
       "
       class="feedback-button correct"
       @click="feedbackAudio('correct')"
@@ -134,9 +134,6 @@ export default Vue.extend({
   },
   computed: {
     ...mapState(["ii", "screens", "editMode"]),
-    cssVarsForTest(): Record<string, string> {
-      return {};
-    },
   },
   props: {},
 
@@ -149,7 +146,7 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextButton:
      */
-    gotoNextButton: function() {
+    gotoNextButton: function () {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -160,7 +157,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowFeedback:
      */
-    buttonShowFeedback: function() {
+    buttonShowFeedback: function () {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -172,7 +169,7 @@ export default Vue.extend({
     /*
      *METHOD START: buttonShowGotoNext:
      */
-    buttonShowGotoNext: function() {
+    buttonShowGotoNext: function () {
       if (
         this.deactivateAllButtons === true ||
         this.screens[this.ii].nPlaybackTimes < 1
@@ -185,7 +182,7 @@ export default Vue.extend({
     /*
      *METHOD START: feedbackAudio:
      */
-    feedbackAudio: function(input: string) {
+    feedbackAudio: function (input: string) {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -234,7 +231,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudio
      */
-    playAudio: function() {
+    playAudio: function () {
       //Max 1 replays, except during edit mode.
       if (this.editMode === false) {
         if (this.screens[this.ii].nPlaybackTimes >= 2) {
