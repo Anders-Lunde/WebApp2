@@ -2,14 +2,9 @@
   <div class="grid-container">
     <div class="heading">{{ screenDataReadOnly.heading }}</div>
 
-    <div class="narrator">
-      <div v-show="animateNarrator === false">
-        <Narrator1Static />
-      </div>
-      <div v-show="animateNarrator === true">
-        <Narrator1Animated />
-      </div>
-    </div>
+    <video ref="instructionVideo" preload="auto">
+      <source :src="screenDataReadOnly.introductionVideo" />
+    </video>
 
     <div class="audio-button" @click="playAudio()">
       <ButtonAudioPlay />
@@ -29,23 +24,18 @@
 import Vue from "vue";
 import ButtonAudioPlay from "@/components/ButtonAudioPlay.vue";
 import ButtonGotoNext from "@/components/ButtonGotoNext.vue";
-import Narrator1Static from "@/components/Narrator1Static.vue";
-import Narrator1Animated from "@/components/Narrator1Animated.vue";
 
 export default Vue.extend({
   name: "ParticipantIntroduction",
   components: {
     ButtonAudioPlay,
     ButtonGotoNext,
-    Narrator1Static,
-    Narrator1Animated,
   },
   data() {
     return {
       screenDataReadOnly: this.tStore.screens[this.tStore.ii],
       showGotoNext: false,
       deactivateAllButtons: false,
-      animateNarrator: false,
     };
   },
   computed: {},
@@ -55,7 +45,7 @@ export default Vue.extend({
     /*
      *METHOD START: gotoNextButton:
      */
-    gotoNextButton: function() {
+    gotoNextButton: function () {
       if (this.deactivateAllButtons) {
         return;
       }
@@ -65,13 +55,7 @@ export default Vue.extend({
     /*
      *METHOD START: playAudio
      */
-    playAudio: function() {
-      //Max 2 replays, except during edit mode.
-      if (this.tStore.editMode === false) {
-        if (this.tStore.screens[this.tStore.ii].nPlaybackTimes >= 3) {
-          return;
-        }
-      }
+    playAudio: function () {
       //Abort if something else is playing/animating
       if (this.deactivateAllButtons) {
         return;
@@ -79,27 +63,15 @@ export default Vue.extend({
       //Temporarily deactivate buttons during playback
       this.deactivateAllButtons = true;
 
-      /*
-      If "isNarratorInstruction === true" for this screen, start by playing
-      narrator instruction audio w/animation.
+      const instructionVideo = this.$refs.instructionVideo as HTMLVideoElement;
 
-      */
-      const instructionAudio = new Audio(
-        this.tStore.screens[this.tStore.ii].instructionAudio
-      );
-      //Setup animation start/stop during playback
-      instructionAudio.addEventListener("ended", () => {
-        this.animateNarrator = false;
+      instructionVideo.addEventListener("ended", () => {
         this.deactivateAllButtons = false;
         this.showGotoNext = true;
       });
-      instructionAudio.addEventListener("play", () => {
-        this.animateNarrator = true;
-      });
 
       //Excecute playback
-      instructionAudio.play();
-      this.tStore.screens[this.tStore.ii].nPlaybackTimes++;
+      instructionVideo.play();
     },
   },
 });
@@ -130,20 +102,13 @@ export default Vue.extend({
   justify-self: center;
 }
 
-.narrator {
+video {
   grid-row: 2;
   grid-column: 1/-1;
   justify-self: center;
   height: 100%;
 }
 
-.narrator > div {
-  height: 100%;
-}
-
-.narrator > div > img {
-  height: 100%;
-}
 .audio-button {
   grid-row: 3;
   grid-column: 1/-1;

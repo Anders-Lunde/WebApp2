@@ -1,10 +1,6 @@
 <template>
   <div class="grid-container-test">
     <!-- Test stuff: -->
-    <div class="button record-audio" @click="recordAudio()">
-      <ButtonAudioPlay />
-    </div>
-
     <div class="narrator" :class="narratorPosition" v-if="editMode === false">
       <div v-show="animateNarrator === false">
         <Narrator1Static />
@@ -166,13 +162,6 @@ export default Vue.extend({
      *METHOD START: Map mutations:
      */
     ...mapMutations([""]),
-
-    /*
-     *METHOD START: Record audio:
-     */
-    recordAudio: function () {
-      console.log("asd");
-    },
 
     /*
      *METHOD START: gotoNextButton:

@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    ii: 3, // screens array index
+    ii: 2, // screens array index
     editMode: false,
     epiInflectionalCharImgRight: require("@/assets/morfologi/epi_inflectional/rev.png"),
     epiInflectionalCharImgLeft: require("@/assets/morfologi/epi_inflectional/elg.png"),
@@ -64,7 +64,7 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         heading: "Introduksjon",
         isPractice: false,
         isScored: false,
-        instructionAudio: require("@/assets/morfologi/introductionAudio.mp3"),
+        introductionVideo: require("@/assets/morfologi/topIntroduction.mp4"),
       },
 
       {
