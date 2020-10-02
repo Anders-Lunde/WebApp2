@@ -86,9 +86,8 @@ export default Vue.extend({
       const stop = this.$refs.audioStop as HTMLButtonElement;
       const download = this.$refs.audioDownload as HTMLAnchorElement;
 
-      this.debug = "START OF FUNC...";
       const vm = this; // eslint-disable-line
-
+      vm.debug = "START OF FUNC...";
       //const constraints = { audio: true, video: false };
 
       const handleSuccess = function (stream) {
