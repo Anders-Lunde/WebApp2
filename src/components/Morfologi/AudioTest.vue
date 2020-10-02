@@ -96,7 +96,13 @@ export default Vue.extend({
       const handleSuccess = function (stream) {
         vm.dd = vm.dd + 1; //1
         vm.debug = "SUCCESS...";
+        //const context = new AudioContext();
+        const AudioContext =
+          window.AudioContext || // Default
+          (window as any).webkitAudioContext; // Safari and old versions of Chrome
+
         const context = new AudioContext();
+
         vm.debug = "const context = new AudioContext();";
         vm.dd = vm.dd + 1; //2
         const mediaStream = context.createMediaStreamSource(stream);
@@ -127,7 +133,6 @@ export default Vue.extend({
             mediaStream.disconnect(recorder);
 
             vm.debug = "stopped recording";
-            /*
 
             // we flat the left and right channels down
             // Float32Array[] => Float32Array
@@ -178,7 +183,6 @@ export default Vue.extend({
             a.href = url;
             a.download = "sample.wav";
             a.click();
-            */
 
             /*RECORDING COMPLETED - CODE END */
           }
