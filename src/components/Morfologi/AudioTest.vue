@@ -97,6 +97,7 @@ export default Vue.extend({
         vm.dd = vm.dd + 1; //1
         vm.debug = "SUCCESS...";
         const context = new AudioContext();
+        vm.debug = "const context = new AudioContext();";
         vm.dd = vm.dd + 1; //2
         const mediaStream = context.createMediaStreamSource(stream);
         vm.dd = vm.dd + 1; //3
