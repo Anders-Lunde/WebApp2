@@ -109,12 +109,16 @@ export default Vue.extend({
         let recordingLength = 0;
 
         recorder.onaudioprocess = (e) => {
+          vm.debug = "recording...";
           /*START RECORDING */
           if (vm.isPaused) {
             /*RECORDING COMPLETED - CODE START */
             // stop recording
             recorder.disconnect(context.destination);
             mediaStream.disconnect(recorder);
+
+            vm.debug = "stopped recording";
+            /*
 
             // we flat the left and right channels down
             // Float32Array[] => Float32Array
@@ -165,6 +169,7 @@ export default Vue.extend({
             a.href = url;
             a.download = "sample.wav";
             a.click();
+            */
 
             /*RECORDING COMPLETED - CODE END */
           }

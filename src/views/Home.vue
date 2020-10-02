@@ -67,6 +67,7 @@ export default Vue.extend({
     },
   },
   mounted() {
+    /*
     const constraints = { audio: true, video: false };
 
     try {
@@ -76,6 +77,7 @@ export default Vue.extend({
       console.log("getUserMedia failed:");
       console.log(err);
     }
+  */
   },
 });
 </script>
