@@ -66,7 +66,15 @@ Instruksjoner for gjennomføring av denne testen er som følger: bla bla bla...
         isScored: false,
         introductionVideo: require("@/assets/morfologi/topIntroduction.mp4"),
       },
-
+      {
+        id: -1,
+        type: "AudioTest",
+        orientation: "landscape",
+        heading: "Introduksjon",
+        isPractice: false,
+        isScored: false,
+        introductionVideo: require("@/assets/morfologi/topIntroduction.mp4"),
+      },
       {
         id: 0,
         orientation: "landscape",

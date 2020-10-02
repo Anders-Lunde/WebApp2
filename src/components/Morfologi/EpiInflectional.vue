@@ -124,8 +124,17 @@
     </div>
 
     <div class="recorded-audio-panel">
+      <button id="btn-start-recording">Start Recording</button>
+      <button id="btn-stop-recording" disabled>Stop Recording</button>
+      <br />
+      <button id="btn-play-recording" disabled>Play Recording</button>
+      <button id="btn-play-file">Play File</button>
+      <button id="btn-play-both" disabled>Play Both</button>
+      <!---
       <audio ref="audioPlayer" controls></audio>
-    </div>
+      <a ref="audioDownload">Download</a>
+      <button ref="audioStop">Stop</button>
+    --></div>
   </div>
 </template>
 
@@ -361,15 +370,29 @@ export default Vue.extend({
     },
   },
   mounted() {
+    /*
     const player = this.$refs.audioPlayer as HTMLAudioElement;
+    const stop = this.$refs.audioStop as HTMLButtonElement;
+    const download = this.$refs.audioDownload as HTMLElement;
+
     const constraints = { audio: true, video: false };
 
     const handleSuccess = function (stream) {
-      if (window.URL) {
-        player.srcObject = stream;
-      } else {
-        player.src = stream;
-      }
+    
+      const context = new AudioContext();
+      const source = context.createMediaStreamSource(stream);
+      const processor = context.createScriptProcessor(1024, 1, 1);
+
+      source.connect(processor);
+      processor.connect(context.destination);
+
+
+      processor.onaudioprocess = function (e) {
+        // Do something with the data, e.g. convert it to WAV
+        console.log(e.inputBuffer);
+        e.
+      };
+
     };
 
     navigator.mediaDevices
@@ -379,6 +402,8 @@ export default Vue.extend({
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       devices = devices.filter((d) => d.kind === "audioinput");
     });
+
+          */
   },
 });
 </script>

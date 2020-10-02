@@ -25,7 +25,7 @@
             v-if="screens[ii].type === 'ParticipantIntroduction'"
             :t-store="tStore"
           />
-
+          <AudioTest v-if="screens[ii].type === 'AudioTest'" />
           <EpiInflectional v-if="screens[ii].type === 'EpiInflectional'" />
           <MetaInflectional v-if="screens[ii].type === 'MetaInflectional'" />
           <MetaDerivational v-if="screens[ii].type === 'MetaDerivational'" />
@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import AudioTest from "@/components/Morfologi/AudioTest.vue";
 import EpiInflectional from "@/components/Morfologi/EpiInflectional.vue";
 import MetaInflectional from "@/components/Morfologi/MetaInflectional.vue";
 import MetaDerivational from "@/components/Morfologi/MetaDerivational.vue";
@@ -71,6 +72,7 @@ export default Vue.extend({
   components: {
     DebugHeader,
     DebugFooter,
+    AudioTest,
     EpiInflectional,
     MetaInflectional,
     MetaDerivational,
@@ -122,7 +124,7 @@ export default Vue.extend({
   },
   watch: {
     //Update global store value of 'orientation' according to test screen preference  upon ii change.
-    ii: function() {
+    ii: function () {
       this.$store.state.orientation = this.screens[this.ii].orientation;
       //TODO: Lock device screen orientation
     },
