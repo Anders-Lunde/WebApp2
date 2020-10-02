@@ -122,6 +122,10 @@
     >
       <EditModeLabelIsPractice label-text="ØVELSESSKJERM" font-size="4" />
     </div>
+
+    <div class="recorded-audio-panel">
+      <audio ref="audioPlayer" controls></audio>
+    </div>
   </div>
 </template>
 
@@ -355,6 +359,26 @@ export default Vue.extend({
         console.log(entry); // 1, "string", false
       }
     },
+  },
+  mounted() {
+    const player = this.$refs.audioPlayer as HTMLAudioElement;
+    const constraints = { audio: true, video: false };
+
+    const handleSuccess = function (stream) {
+      if (window.URL) {
+        player.srcObject = stream;
+      } else {
+        player.src = stream;
+      }
+    };
+
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then(handleSuccess);
+    //If you want to choose a particular microphone, you can first enumerate the available microphones.
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      devices = devices.filter((d) => d.kind === "audioinput");
+    });
   },
 });
 </script>
