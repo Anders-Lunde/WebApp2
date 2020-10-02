@@ -3,7 +3,7 @@
     <div class="heading">{{ screenDataReadOnly.heading }}</div>
 
     <video ref="instructionVideo" preload="auto">
-      <source :src="screenDataReadOnly.introductionVideo" />
+      <source :src="screenDataReadOnly.introductionVideo + '#t=0.2'" />
     </video>
 
     <div class="audio-button" @click="playAudio()">
