@@ -1,7 +1,7 @@
 <template>
   <div class="grid-container-test">
     <!-- End of narrator video/img container: -->
-
+    {{ debug }}
     <div class="middle-area">
       <div class="recorded-audio-panel">
         <button @click="startRecord()" id="btn-start-recording">
@@ -35,6 +35,7 @@ export default Vue.extend({
   data() {
     return {
       isPaused: false,
+      debug: "initial",
       tStore: this.$store.state.morfologi, //When repurposing test: Set module namespace here
     };
   },
@@ -156,6 +157,7 @@ export default Vue.extend({
             blob = new Blob([view], { type: "audio/wav" });
             const url = window.URL.createObjectURL(blob);
             const audio = new Audio(url);
+            vm.debug = url;
             audio.play();
             /*RECORDING COMPLETED - CODE END */
           }
