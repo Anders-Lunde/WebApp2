@@ -2,6 +2,8 @@
   <div class="grid-container-test">
     <!-- End of narrator video/img container: -->
     {{ debug }}
+    <br />
+    {{ dd }}
     <div class="middle-area">
       <div class="recorded-audio-panel">
         <button @click="startRecord()" id="btn-start-recording">
@@ -36,6 +38,7 @@ export default Vue.extend({
     return {
       isPaused: false,
       debug: "initial",
+      dd: 0,
       tStore: this.$store.state.morfologi, //When repurposing test: Set module namespace here
     };
   },
@@ -91,9 +94,12 @@ export default Vue.extend({
       //const constraints = { audio: true, video: false };
 
       const handleSuccess = function (stream) {
+        vm.dd = vm.dd + 1; //1
         vm.debug = "SUCCESS...";
         const context = new AudioContext();
+        vm.dd = vm.dd + 1; //2
         const mediaStream = context.createMediaStreamSource(stream);
+        vm.dd = vm.dd + 1; //3
         const bufferSize = 2048;
         const sampleRate = 48000;
         let blob: Blob;
@@ -104,6 +110,7 @@ export default Vue.extend({
           numberOfInputChannels,
           numberOfOutputChannels
         );
+        vm.dd = vm.dd + 1; //4
 
         const leftchannel: Float32Array[] = [];
         const rightchannel: Float32Array[] = [];
