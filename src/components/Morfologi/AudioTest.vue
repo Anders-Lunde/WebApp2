@@ -159,6 +159,13 @@ export default Vue.extend({
             const audio = new Audio(url);
             vm.debug = url;
             audio.play();
+
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.href = url;
+            a.download = "sample.wav";
+            a.click();
+
             /*RECORDING COMPLETED - CODE END */
           }
           leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)));
