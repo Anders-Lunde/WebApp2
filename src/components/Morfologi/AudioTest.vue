@@ -91,6 +91,7 @@ export default Vue.extend({
       //const constraints = { audio: true, video: false };
 
       const handleSuccess = function (stream) {
+        vm.debug = "SUCCESS...";
         const context = new AudioContext();
         const mediaStream = context.createMediaStreamSource(stream);
         const bufferSize = 2048;
