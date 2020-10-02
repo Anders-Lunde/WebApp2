@@ -88,7 +88,7 @@ export default Vue.extend({
 
       const vm = this; // eslint-disable-line
 
-      const constraints = { audio: true, video: false };
+      //const constraints = { audio: true, video: false };
 
       const handleSuccess = function (stream) {
         const context = new AudioContext();
