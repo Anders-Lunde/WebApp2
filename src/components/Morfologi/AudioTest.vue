@@ -13,7 +13,9 @@
           Stop Recording
         </button>
         <br />
-        <button id="btn-play-recording" disabled>Play Recording</button>
+        <button @click="playRecording" id="btn-play-recording">
+          Play Recording
+        </button>
         <button id="btn-play-file">Play File</button>
         <button id="btn-play-both" disabled>Play Both</button>
         <br />
@@ -38,6 +40,7 @@ export default Vue.extend({
     return {
       isPaused: false,
       debug: "initial",
+      clipUrl: "",
       dd: 0,
       tStore: this.$store.state.morfologi, //When repurposing test: Set module namespace here
     };
@@ -48,6 +51,11 @@ export default Vue.extend({
   props: {},
 
   methods: {
+    playRecording: function () {
+      const audio = new Audio(this.clipUrl);
+      audio.play();
+    },
+
     /*
      *METHOD START: playAudio
      */
@@ -174,15 +182,19 @@ export default Vue.extend({
             // our final blob
             blob = new Blob([view], { type: "audio/wav" });
             const url = window.URL.createObjectURL(blob);
-            const audio = new Audio(url);
-            vm.debug = url;
-            audio.play();
 
+            vm.debug = url;
+            vm.clipUrl = url;
+            //const audio = new Audio(url);
+            //audio.play();
+
+            /*
             const a = document.createElement("a");
             document.body.appendChild(a);
             a.href = url;
             a.download = "sample.wav";
             a.click();
+*/
 
             /*RECORDING COMPLETED - CODE END */
           }
