@@ -16,12 +16,5 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: { display: "fullscreen" },
-
-    // configure the workbox plugin
-    workboxPluginMode: "InjectManifest",
-    workboxOptions: {
-      // swSrc is required in InjectManifest mode.
-      swSrc: "src/registerServiceWorker.ts",
-    },
   },
 };
