@@ -16,5 +16,9 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black-translucent",
     manifestOptions: { display: "fullscreen" },
+    workboxPluginMode: "InjectManifest",
+    workboxOptions: {
+      swSrc: "src/service-worker.js",
+    },
   },
 };
