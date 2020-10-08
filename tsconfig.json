@@ -17,7 +17,7 @@
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "files": ["./declarations.d.ts"],
+  "files": ["./src/declarations.d.ts"],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
